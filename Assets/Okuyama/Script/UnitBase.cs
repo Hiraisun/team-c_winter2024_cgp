@@ -11,16 +11,17 @@ public class UnitBase : MonoBehaviour
         Enemy,
         None
     }
-    public UnitType unitType;  //敵か味方か
+    private UnitType unitType;  //敵か味方か
 
     public enum Lane{
-        Sky,
         Ground,
+        Sky,
     }
-    public Lane lane;  //レーン
-
+    private Lane lane;  //レーン
     
-    
+    private int hp; //体力
+    private int atk; //攻撃力
+    private float speed; //移動速度
     
     
     public void Update()

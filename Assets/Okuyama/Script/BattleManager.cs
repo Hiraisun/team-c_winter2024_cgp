@@ -21,15 +21,27 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-
-
-    // 盤面に存在するユニットのリスト
-    public List<UnitBase> unitList = new List<UnitBase>();
+    [SerializeField] SerializedDictionary<UnitBase.Lane, float> LaneY;
 
     void Update()
     {
-        unitList[0].unitType = UnitBase.UnitType.Ally;
+        
     }
 
+    //デバッグ用
+    void OnDrawGizmos()
+    {
+        //レーンの描画
+        Gizmos.color = Color.red;
+        GUIStyle style = new GUIStyle();
+        style.normal.textColor = Color.red;
+        foreach (var lane in LaneY)
+        {
+            //横線
+            Gizmos.DrawLine(new Vector3(-10, lane.Value, 0), new Vector3(10, lane.Value, 0));
+            //ラベル
+            UnityEditor.Handles.Label(new Vector3(-10, lane.Value, 0), lane.Key.ToString(),style);
+        }
+    }
 
 }
