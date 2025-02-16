@@ -21,7 +21,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    [SerializeField] SerializedDictionary<UnitBase.Lane, float> LaneY;
+    [SerializeField] public SerializedDictionary<UnitBase.Lane, float> LaneY;
 
     void Update()
     {
