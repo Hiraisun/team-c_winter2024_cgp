@@ -28,6 +28,12 @@ public class BattleManager : MonoBehaviour
         
     }
 
+
+    public void SummonUnit()
+    {
+        Debug.Log("Summon");
+    }
+
     //デバッグ用
     void OnDrawGizmos()
     {
