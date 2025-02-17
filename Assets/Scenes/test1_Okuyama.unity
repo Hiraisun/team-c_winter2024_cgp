@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 297676287}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 0.090999976, z: -0.01}
+  m_LocalPosition: {x: -0.4, y: 0.090999976, z: -0.2}
   m_LocalScale: {x: 0.07697015, y: 0.17128281, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -713,10 +713,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262e295ddafb1c49b0530d015a6d8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HandCenter: {x: 0, y: -23.6, z: 0}
-  HandRadius: 20.7
-  HandAngle: 17
-  CardSize: {x: 2.79, y: 3.97, z: 0}
+  HandCenter: {x: 0, y: -23.1, z: 0}
+  HandRadius: 20.6
+  HandAngle: 14.9
+  CardStartPos: {x: 0, y: 0, z: 0}
+  CardPrefab: {fileID: 7115455977825383167, guid: 20bf9c65156fd1d4d8087b568e49218d, type: 3}
 --- !u!4 &1535896324
 Transform:
   m_ObjectHideFlags: 0
@@ -860,7 +861,7 @@ Transform:
   m_GameObject: {fileID: 1586003107}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0.090999976, z: -0.01}
+  m_LocalPosition: {x: 0.4, y: 0.090999976, z: -0.2}
   m_LocalScale: {x: 0.07697015, y: 0.17128281, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -996,7 +997,7 @@ Transform:
   m_GameObject: {fileID: 1628559847}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0263, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0263, y: 0, z: 1}
   m_LocalScale: {x: 19.712982, y: 12.082392, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
