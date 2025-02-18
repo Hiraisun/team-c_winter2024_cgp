@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
 // 基本的なユニットオブジェクトを扱うクラス
-public class UnitBase : MonoBehaviour
+public class UnitBaseTest : MonoBehaviour
 {
     public enum UnitType{
         Ally,

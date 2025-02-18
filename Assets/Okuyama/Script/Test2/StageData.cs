@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// ステージに関する、スクリプトに影響を与える情報を扱う
+/// </summary>
 [CreateAssetMenu(fileName = "StageData", menuName = "ScriptableObjects/EnumData")]
 public class StageData : ScriptableObject
 {
-    public enum Lane
-    {
-        Ground,
-        Sky,
-    }
 
     [Serializable]
     public class LaneParam
@@ -23,4 +21,9 @@ public class StageData : ScriptableObject
 
     // ユニットの出現X座標 (正負反転で敵の出現位置)
     public float SpawnPosX;
+}
+public enum Lane
+{
+    Ground,
+    Sky,
 }
