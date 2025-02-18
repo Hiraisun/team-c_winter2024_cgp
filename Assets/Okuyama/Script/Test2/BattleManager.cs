@@ -6,6 +6,48 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField] private StageData stageData;
 
+    // (攻撃などの対象となる)ユニットのリスト
+    private List<UnitBase> playerUnitList = new List<UnitBase>();
+    private List<UnitBase> enemyUnitList = new List<UnitBase>();
+
+    /// <summary>
+    /// 敵対するユニットリストを取得
+    /// </summary>
+    public List<UnitBase> getEnemyUnitList(UnitTYPE type)
+    {
+        return type == UnitTYPE.PLAYER ? enemyUnitList : playerUnitList;
+    }
+
+    /// <summary>
+    /// ユニットリストに追加
+    /// </summary>
+    public void addUnitList(UnitBase unit)
+    {
+        if(unit.unitType == UnitTYPE.PLAYER)
+        {
+            playerUnitList.Add(unit);
+        }
+        else
+        {
+            enemyUnitList.Add(unit);
+        }
+    }
+
+    /// <summary>
+    /// ユニットリストから削除
+    /// </summary>
+    public void removeUnitList(UnitBase unit)
+    {
+        if (unit.unitType == UnitTYPE.PLAYER)
+        {
+            playerUnitList.Remove(unit);
+        }
+        else
+        {
+            enemyUnitList.Remove(unit);
+        }
+    }
+
     //デバッグ用
     void OnDrawGizmos()
     {

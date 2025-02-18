@@ -131,7 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  battleManager: {fileID: 0}
+  stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
+  unitType: 0
+  lane: 0
   isBusy: 0
   MaxHP: 100
 --- !u!114 &4678205637200721549
@@ -160,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb227ebc40332c4cb6f55e399106474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitBase: {fileID: 6495303854027191389}
   attackRangeList:
   - lane: 0
-    range: 0
+    range: 1.04

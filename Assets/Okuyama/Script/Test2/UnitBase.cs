@@ -10,14 +10,11 @@ using UnityEngine;
 /// //TODO:イベント管理
 public class UnitBase : MonoBehaviour
 {
-    public enum TYPE
-    {
-        PLAYER,
-        ENEMY,
-    }
+    [SerializeField] public BattleManager battleManager;
+    [SerializeField] public StageData stageData;
 
-    // 敵か味方か
-    public TYPE type = TYPE.PLAYER;
+    public UnitTYPE unitType = UnitTYPE.PLAYER; // 敵か味方か
+    public Lane lane = Lane.Ground; // レーン
 
     // 何らかのアクション中か
     public bool isBusy = false;
@@ -30,13 +27,14 @@ public class UnitBase : MonoBehaviour
     // (PLAYERは1, ENEMYは-1)
     public float direction{
         get{
-            return type == TYPE.PLAYER ? 1 : -1;
+            return unitType == UnitTYPE.PLAYER ? 1 : -1;
         }
     }
 
     void Start()
     {
         HP = MaxHP;
+        battleManager.addUnitList(this);
     }
 
     // ダメージを受ける
@@ -46,6 +44,12 @@ public class UnitBase : MonoBehaviour
         if (HP <= 0)
         {
             Destroy(gameObject);
+            battleManager.removeUnitList(this);
         }
     }
+}
+public enum UnitTYPE
+{
+    PLAYER,
+    ENEMY,
 }
