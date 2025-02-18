@@ -6,6 +6,7 @@ using System;
 /// <summary>
 /// 基本的な攻撃処理
 /// </summary>
+[RequireComponent(typeof(UnitBase))] // UnitBase必須やで
 public class UnitAttackNormal : MonoBehaviour
 {
     [Serializable]
@@ -18,6 +19,7 @@ public class UnitAttackNormal : MonoBehaviour
     // 攻撃範囲リスト (各レーン)
     [SerializeField] private List<LaneRange> attackRangeList;
 
+    //TODO:攻撃クールダウン
 
     
 }

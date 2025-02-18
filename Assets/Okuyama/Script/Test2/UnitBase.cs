@@ -7,6 +7,7 @@ using UnityEngine;
 /// イベントの受け渡しなどを行う。
 /// 各種耐性など、受け身な情報はここに実装？
 /// </summary>
+/// //TODO:イベント管理
 public class UnitBase : MonoBehaviour
 {
     public enum TYPE
@@ -29,7 +30,7 @@ public class UnitBase : MonoBehaviour
     // (PLAYERは1, ENEMYは-1)
     public float direction{
         get{
-            return type == TYPE.PLAYER ? -1 : 1;
+            return type == TYPE.PLAYER ? 1 : -1;
         }
     }
 
