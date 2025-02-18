@@ -5,10 +5,10 @@ using UnityEngine;
 
 // ユニットの制御、戦闘関連を扱うマネージャークラス
 // ひとまずリアルタイム制を採用。
-public class BattleManager : MonoBehaviour
+public class BattleManager1 : MonoBehaviour
 {
     // シングルトン(簡易)
-    public static BattleManager instance;
+    public static BattleManager1 instance;
     private void Awake()
     {
         if (instance == null)

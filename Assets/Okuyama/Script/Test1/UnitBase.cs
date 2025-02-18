@@ -98,7 +98,7 @@ public class UnitBase : MonoBehaviour
         if (attackRangeGround.Available)
         {
             Vector3 Center = new Vector3(transform.position.x - (attackRangeGround.start + attackRangeGround.end) * 0.5f * direction, 
-                                            BattleManager.instance.LaneY[Lane.Ground], 0);
+                                            BattleManager1.instance.LaneY[Lane.Ground], 0);
             Vector3 Size = new Vector3(attackRangeGround.end - attackRangeGround.start, 0.3f, 0.1f);
             Gizmos.DrawCube(Center, Size);
         }
@@ -106,7 +106,7 @@ public class UnitBase : MonoBehaviour
         if (attackRangeSky.Available)
         {
             Vector3 Center = new Vector3(transform.position.x - (attackRangeSky.start + attackRangeSky.end) * 0.5f * direction, 
-                                            BattleManager.instance.LaneY[Lane.Sky], 0);
+                                            BattleManager1.instance.LaneY[Lane.Sky], 0);
             Vector3 Size = new Vector3(attackRangeSky.end - attackRangeSky.start, 0.3f, 0.1f);
             Gizmos.DrawCube(Center, Size);
         }
