@@ -66,7 +66,7 @@ public abstract class UnitAttackBase : MonoBehaviour
     IEnumerator AttackAction()
     {
         unitBase.isBusy = true;
-        animator.SetTrigger("Attack");
+        if (animator != null) animator.SetTrigger("Attack");
         yield return new WaitForSeconds(attackDuration);
         Attack();
         yield return new WaitForSeconds(attackMotionDuration-attackDuration);
