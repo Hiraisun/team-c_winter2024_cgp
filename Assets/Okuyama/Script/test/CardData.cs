@@ -11,4 +11,5 @@ public class CardData : ScriptableObject
 {
 
     public IActivatable activatable;
+    public string cardName;
 }
