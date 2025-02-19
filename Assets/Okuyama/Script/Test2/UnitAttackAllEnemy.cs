@@ -10,6 +10,7 @@ using System;
 public class UnitAttackAllEnemy : MonoBehaviour
 {
     [SerializeField] private UnitBase unitBase;
+    [SerializeField] private Animator animator;
 
     [Serializable]
     public class LaneRange
@@ -21,6 +22,11 @@ public class UnitAttackAllEnemy : MonoBehaviour
     // 攻撃範囲リスト (各レーン)
     [SerializeField] private List<LaneRange> attackRangeList;
 
+    // 攻撃間隔(秒)
+    [SerializeField] private float attackDuration = 2.0f;
+
+    
+
     void OnValidate()
     {
         // 自動アタッチ
@@ -30,7 +36,6 @@ public class UnitAttackAllEnemy : MonoBehaviour
         }
     }
 
-    //TODO:攻撃クールダウン
 
     void Update()
     {
@@ -38,14 +43,21 @@ public class UnitAttackAllEnemy : MonoBehaviour
         {
             if (IsInRange())
             {
-                unitBase.isBusy = true;
-                //TODO:実際の攻撃処理
-                //TODO:攻撃アニメーション
+                StartCoroutine(AttackAction());
             }
         }
     }
 
-    // 攻撃対象が範囲内に存在するか
+    // 攻撃処理コルーチン
+    IEnumerator AttackAction()
+    {
+        unitBase.isBusy = true;
+        animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(attackDuration);
+        unitBase.isBusy = false;
+    }
+
+    // 攻撃開始条件
     private bool IsInRange()
     {
         //ターゲット候補
