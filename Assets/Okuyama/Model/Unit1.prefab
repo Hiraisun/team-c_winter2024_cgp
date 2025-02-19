@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 5241466414610463414}
   - component: {fileID: 6495303854027191389}
   - component: {fileID: 4678205637200721549}
-  - component: {fileID: 7231537356169627014}
+  - component: {fileID: 2945202411155734566}
   m_Layer: 0
   m_Name: Unit1
   m_TagString: Untagged
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   speed: 1
---- !u!114 &7231537356169627014
+--- !u!114 &2945202411155734566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,12 +182,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5595941037245212814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb227ebc40332c4cb6f55e399106474, type: 3}
+  m_Script: {fileID: 11500000, guid: a311b4be311d1d74b8f000f9770617c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   animator: {fileID: 5850544880172349102}
   attackRangeList:
   - lane: 0
-    range: 1.04
-  attackDuration: 2
+    range: 0.37
+  attackDuration: 1
+  attackMotionDuration: 2
+  damage: 10

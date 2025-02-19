@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 915757687585373929}
   - component: {fileID: 933506233445904033}
   - component: {fileID: 1680774027292231591}
-  - component: {fileID: 3708790583505315658}
+  - component: {fileID: 1584823490700510357}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   unitType: 1
   lane: 0
   isBusy: 0
-  MaxHP: 100
+  MaxHP: 50
 --- !u!114 &1680774027292231591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 933506233445904033}
   speed: 1
---- !u!114 &3708790583505315658
+--- !u!114 &1584823490700510357
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,12 +160,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4592819920525232684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb227ebc40332c4cb6f55e399106474, type: 3}
+  m_Script: {fileID: 11500000, guid: a311b4be311d1d74b8f000f9770617c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 933506233445904033}
   animator: {fileID: 0}
   attackRangeList:
   - lane: 0
-    range: 0.2
+    range: 0.59
+  - lane: 1
+    range: 1.11
   attackDuration: 2
+  attackMotionDuration: 2
+  damage: 1
