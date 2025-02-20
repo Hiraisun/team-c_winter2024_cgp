@@ -349,6 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223059202}
   - component: {fileID: 223059203}
+  - component: {fileID: 223059204}
   m_Layer: 0
   m_Name: PlayerCastle
   m_TagString: Untagged
@@ -390,6 +391,19 @@ MonoBehaviour:
   lane: 0
   isBusy: 0
   MaxHP: 100
+--- !u!114 &223059204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223059201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d45462e775668e4db5ee6c3d9aaa798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 223059203}
 --- !u!1 &229567584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1598504169}
   - component: {fileID: 1598504170}
+  - component: {fileID: 1598504171}
   m_Layer: 0
   m_Name: EnemyCastle
   m_TagString: Untagged
@@ -1772,6 +1787,19 @@ MonoBehaviour:
   lane: 0
   isBusy: 0
   MaxHP: 100
+--- !u!114 &1598504171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598504168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d45462e775668e4db5ee6c3d9aaa798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 1598504170}
 --- !u!1 &1609628221
 GameObject:
   m_ObjectHideFlags: 0
