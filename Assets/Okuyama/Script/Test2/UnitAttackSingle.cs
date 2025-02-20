@@ -18,24 +18,9 @@ public class UnitAttackSingle : UnitAttackBase
         //各候補について
         foreach (var target in targetList)
         {
-            //レーンごとにチェック
-            foreach (var laneRange in attackRangeList)
+            if (isInRange(target))
             {
-                if (target.lane == laneRange.lane)
-                {
-                    float fromX = transform.position.x;
-                    float toX = fromX + laneRange.range * unitBase.direction * -1;
-                    float targetX = target.transform.position.x;
-
-                    fromX *= unitBase.direction;
-                    toX *= unitBase.direction;
-                    targetX *= unitBase.direction;
-
-                    if (toX <= targetX && targetX <= fromX)
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
         }
         return false;
@@ -51,29 +36,15 @@ public class UnitAttackSingle : UnitAttackBase
         //各候補について
         foreach (var target in targetList)
         {
-            //レーンごとにチェック
-            foreach (var laneRange in attackRangeList)
+            if (isInRange(target))
             {
-                if (target.lane == laneRange.lane)
+                float targetDistance = Mathf.Abs(transform.position.x - target.transform.position.x);
+
+                //最も近い敵を更新
+                if (targetDistance < distance)
                 {
-                    float fromX = transform.position.x;
-                    float toX = fromX + laneRange.range * unitBase.direction * -1;
-                    float targetX = target.transform.position.x;
-
-                    fromX *= unitBase.direction;
-                    toX *= unitBase.direction;
-                    targetX *= unitBase.direction;
-
-                    if (toX <= targetX && targetX <= fromX)
-                    {
-                        //ターゲット更新
-                        float d = Mathf.Abs(targetX - transform.position.x);
-                        if (d < distance)
-                        {
-                            distance = d;
-                            nearestTarget = target;
-                        }
-                    }
+                    nearestTarget = target;
+                    distance = targetDistance;
                 }
             }
         }
@@ -85,4 +56,5 @@ public class UnitAttackSingle : UnitAttackBase
         }
     }
 
+    
 }

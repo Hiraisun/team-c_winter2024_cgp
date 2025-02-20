@@ -12,23 +12,13 @@ public abstract class UnitAttackBase : MonoBehaviour
     [SerializeField] protected UnitBase unitBase;
     [SerializeField] protected Animator animator;
 
-    [Serializable]
-    public class LaneRange
-    {
-        public Lane lane;
-        public float range;
-    }
-
-    // 攻撃範囲リスト (各レーン)
-    [SerializeField] protected List<LaneRange> attackRangeList;
+    [SerializeField] protected List<Lane> attackableLaneList; // 攻撃可能レーン
+    [SerializeField] protected float range = 1f; // 射程
 
     [SerializeField, Header("攻撃判定発生までの時間(秒)")] 
     protected float attackDuration = 1f;
     [SerializeField, Header("攻撃モーションの長さ(秒)")]
     protected float attackMotionDuration = 2f;
-
-
-    
 
     void OnValidate()
     {
@@ -38,7 +28,6 @@ public abstract class UnitAttackBase : MonoBehaviour
             unitBase = GetComponent<UnitBase>();
         }
     }
-
 
     void Update()
     {
@@ -77,12 +66,40 @@ public abstract class UnitAttackBase : MonoBehaviour
     {
         //攻撃範囲の描画
         Gizmos.color = Color.red;
-        foreach (var laneRange in attackRangeList)
+
+        Vector3 Center = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Size = new Vector3(range, 1, 1);
+        Gizmos.DrawWireCube(Center, Size);
+        
+    }
+
+    /// <summary>
+    /// 対象が攻撃可能位置にいるか
+    /// </summary>
+    protected bool isInRange(UnitBase target)
+    {
+        //attackLaneListに入っているかチェック
+        if(!attackableLaneList.Contains(target.lane)) return false;
+
+        //射程内にいるか
+        float fromX = transform.position.x;                     //自分の位置
+        float toX = fromX + range * unitBase.direction * -1;    //射程の先
+        float targetX = target.transform.position.x;            //相手の位置
+
+        if (unitBase.direction == 1) //左向き(味方)
         {
-            float Y = unitBase.stageData.LaneParams.Find(x => x.lane == laneRange.lane).PosY + 0.55f;
-            Vector3 Center = new Vector3(transform.position.x + laneRange.range * unitBase.direction * -0.5f, Y, 0);
-            Vector3 Size = new Vector3(laneRange.range, 1, 1);
-            Gizmos.DrawWireCube(Center, Size);
+            if (toX <= targetX && targetX <= fromX)
+            {
+                return true;
+            }
         }
+        else //右向き(敵)
+        {
+            if (fromX <= targetX && targetX <= toX)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

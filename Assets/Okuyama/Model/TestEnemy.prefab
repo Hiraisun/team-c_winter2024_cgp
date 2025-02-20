@@ -165,11 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 933506233445904033}
   animator: {fileID: 0}
-  attackRangeList:
-  - lane: 0
-    range: 0.59
-  - lane: 1
-    range: 1.11
+  attackableLaneList: 00000000
+  range: 0.31
   attackDuration: 1
   attackMotionDuration: 2
   damage: 1

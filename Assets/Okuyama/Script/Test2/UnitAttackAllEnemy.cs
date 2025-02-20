@@ -15,24 +15,9 @@ public class UnitAttackAllEnemy : UnitAttackBase
         //各候補について
         foreach (var target in targetList)
         {
-            //レーンごとにチェック
-            foreach (var laneRange in attackRangeList)
+            if(isInRange(target))
             {
-                if (target.lane == laneRange.lane)
-                {
-                    float fromX = transform.position.x;
-                    float toX = fromX + laneRange.range * unitBase.direction * -1;
-                    float targetX = target.transform.position.x;
-
-                    fromX *= unitBase.direction;
-                    toX *= unitBase.direction;
-                    targetX *= unitBase.direction;
-
-                    if (toX <= targetX && targetX <= fromX)
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
         }
         return false;
@@ -42,36 +27,15 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected override void Attack()
     {
         List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.unitType);
-        List<UnitBase> targetListInAttackRange = new List<UnitBase>();
         
         //各候補について
         foreach (var target in targetList)
         {
-            //レーンごとにチェック
-            foreach (var laneRange in attackRangeList)
+            if(isInRange(target))
             {
-                if (target.lane == laneRange.lane)
-                {
-                    float fromX = transform.position.x;
-                    float toX = fromX + laneRange.range * unitBase.direction * -1;
-                    float targetX = target.transform.position.x;
-
-                    fromX *= unitBase.direction;
-                    toX *= unitBase.direction;
-                    targetX *= unitBase.direction;
-
-                    if (toX <= targetX && targetX <= fromX)
-                    {
-                        targetListInAttackRange.Add(target);
-                    }
-                }
+                // 対象全員にダメージ
+                target.Damage(damage);
             }
-        }
-        
-        //攻撃
-        foreach (var target in targetListInAttackRange)
-        {
-            target.Damage(damage);
         }
     }
 }

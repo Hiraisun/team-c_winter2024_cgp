@@ -15,7 +15,8 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public List<UnitBase> getEnemyUnitList(UnitTYPE type)
     {
-        return type == UnitTYPE.PLAYER ? enemyUnitList : playerUnitList;
+        // コピーを返す
+        return type == UnitTYPE.PLAYER ? new List<UnitBase>(enemyUnitList) : new List<UnitBase>(playerUnitList);
     }
 
     /// <summary>
