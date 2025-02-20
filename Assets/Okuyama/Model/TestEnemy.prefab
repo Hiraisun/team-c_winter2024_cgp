@@ -170,6 +170,6 @@ MonoBehaviour:
     range: 0.59
   - lane: 1
     range: 1.11
-  attackDuration: 2
+  attackDuration: 1
   attackMotionDuration: 2
   damage: 1
