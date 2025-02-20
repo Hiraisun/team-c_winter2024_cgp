@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,12 @@ public class UnitBase : MonoBehaviour
 
     // 何らかのアクション中か
     public bool isBusy = false;
+
+    // 各種イベント
+    public Action OnDeath;                  //死亡時
+    public Action OnAttackStart;            //攻撃開始時
+    public Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
+    public Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
 
     // HP
     [SerializeField] private float MaxHP = 100;
@@ -41,11 +48,16 @@ public class UnitBase : MonoBehaviour
     public void Damage(float damage)
     {
         HP -= damage;
+
         if (HP <= 0)
         {
-            Destroy(gameObject);
+            //死亡時処理
             battleManager.removeUnitList(this);
+            OnDeath?.Invoke();
+            Destroy(gameObject);
         }
+
+        OnDamageReceived?.Invoke(damage);
     }
 }
 public enum UnitTYPE
