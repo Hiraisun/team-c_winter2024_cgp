@@ -1,17 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
+    [Header("カード番号")]
+    public int cardNum;
     // CardManagerがSymbolを決定
     [HideInInspector]
-    public List<SymbolData> symbols = new List<SymbolData>();
+    public List<SymbolData> symbols;
 
-    [SerializeField, Header("シンボルを表示するImage")]
-    private Image[] symbolImages;
+    [SerializeField, Header("シンボルを表示するSpriteRenderer")]
+    private SpriteRenderer[] sr;
 
     private CardManager cm;
+
+    public List<int> symbolIndices = new();
+
+    [HideInInspector]
+    public bool isSelected = false;
 
     private void OnEnable()
     {
@@ -24,14 +34,19 @@ public class Card : MonoBehaviour
     {
         for (int i = 0; i < symbols.Count; i++)
         {
-            symbolImages[i].sprite = symbols[i].symbolSprite;
+            sr[i].sprite = symbols[i].symbolSprite;
         }
     }
 
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()
     {
-        cm.selectedCardCount++;
+        if (isSelected) return;
+
+        isSelected = true;
+
+        cm.selectedCards.Add(this.GetComponent<Card>());
+        cm.UseCard();
     }
 }
 

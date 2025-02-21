@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81500dc1a85da8749bb9c20e9973923a, type: 3}
-  m_Name: Symbol7
+  m_Name: Symbol1
   m_EditorClassIdentifier: 
-  symbolName: 7
-  symbolSprite: {fileID: 0}
+  symbolName: 1
+  description: 
+  action: {fileID: 11400000, guid: 94a7cb58385caa749a7f66e25d9d9abe, type: 2}
+  symbolSprite: {fileID: 21300000, guid: f2845e761cef43c40b06cca3ea0ee75b, type: 3}

@@ -1,14 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    // 手札のカードが格納されているリスト
-    private List<Card> cards = new();
-
     // 使用するすべてのカード
-    private List<Card> deck = new();
+    [SerializeField]
+    private List<List<int>> deck;
+
+    // 手札
+    [SerializeField]
+    private List<int> hand;
+
+    // 手札のゲームオブジェクト
+    [SerializeField]
+    private List<GameObject> cards;
+
+    [SerializeField, Header("カードのPrefab")]
+    private GameObject cardPrefab;
 
     [SerializeField, Header("最初にドローするカードの枚数")]
     int initialDrawCount = 5;
@@ -17,14 +28,24 @@ public class CardManager : MonoBehaviour
     int symbolCountPerCard = 4;
 
     [SerializeField, Header("シンボルのデータを格納するリスト")]
-    private List<SymbolData> allSymbols;
+    private List<SymbolData> allSymbols = new();
 
-    // 選択中のカードの枚数
-    public int selectedCardCount = 0;
+    // 選択中のカード
+    [SerializeField]
+    public List<Card> selectedCards;
 
     private void Start()
     {
+        // デッキを初期化(デッキを生成)
+        InitializeDeck();
 
+        for(int i = 0; i <= initialDrawCount - 1; i++)
+        {
+            GameObject card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            cards.Add(card);
+            hand.Add(-1);
+            Draw(i);
+        }
     }
 
     /// <summary>
@@ -34,14 +55,7 @@ public class CardManager : MonoBehaviour
     {
         int n = symbolCountPerCard - 1;
 
-        List<List<int>> cardLists = GenerateDobbleCards(n);
-
-        deck.Clear(); // デッキをクリア
-
-        foreach (var symbols in cardLists)
-        {
-            deck.Add(CreateCard(symbols));
-        }
+        deck = GenerateDobbleCards(n);
     }
 
     /// <summary>
@@ -92,20 +106,96 @@ public class CardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 引数に対応するシンボルをカードに対応させる
+    /// カードが選択されたときに実行されるスクリプト. ２枚選ばれた状態の時に作用する.
     /// </summary>
-    /// <param name="_symbolIndices">付与するシンボルのインデックス</param>
-    /// <returns></returns>
-    private Card CreateCard(List<int> _symbolIndices)
+    public void UseCard()
     {
-        Card card = new();
-        card.symbols = new List<SymbolData>();
+        // 選択されたカードが2枚以下なら実行しない
+        if (selectedCards.Count != 2) return;
 
-        foreach(int i in _symbolIndices)
+        // 選択されたカードのシンボルのインデックスのリスト
+        List<int> combinedSymbolIndices = new();
+
+        // 結合されたリストから２回登場するシンボルを特定
+        foreach(Card card in selectedCards)
         {
-            card.symbols.Add(allSymbols[i]);
+            card.isSelected = false;
+            foreach(int index in card.symbolIndices)
+            {
+                // indexがすでにリストに含まれていたら処理を中断
+                if (combinedSymbolIndices.Contains(index))
+                {
+                    // デバッグ用
+                    Debug.Log(allSymbols[index].symbolSprite.name + "が呼び出されました！");
+
+                    // indexに対応するシンボルに対応するアクションを実行
+                    //allSymbols[index].action.Execute();
+
+                    // ループを終了
+                    break;
+                }
+                // indexが初めて出てきたものならリストに追加
+                combinedSymbolIndices.Add(index);
+            }
         }
 
-        return card;
+        // 2枚のカードのトラッシュ
+        List<int> selectedCardIndices = Trash();
+
+        // 2枚ドロー
+        Draw(selectedCardIndices[0]);
+        Draw(selectedCardIndices[1]);
+    }
+
+    /// <summary>
+    /// 選択されたカードを記録しトラッシュする
+    /// </summary>
+    List<int> Trash()
+    {
+        List<int> cardsToRemove = new();
+        List<int> selectedCardIndices = new();
+
+        foreach (var _card in selectedCards)
+        {
+            cardsToRemove.Add(_card.cardNum);
+        }
+
+        foreach (var card in cardsToRemove)
+        {
+            selectedCardIndices.Add(hand.IndexOf(card));
+            hand.Remove(card);
+        }
+
+        selectedCards.Clear();
+
+        return selectedCardIndices;
+    }
+
+
+    /// <summary>
+    /// デッキからカードを1枚ドローする
+    /// </summary>
+    private void Draw(int index)
+    {
+        int randomIndex;
+
+        while (true)
+        {
+            randomIndex = Random.Range(0, deck.Count);
+            if (!hand.Contains(randomIndex)) break;
+        }
+
+        hand[index] = randomIndex;
+
+        Card card = cards[index].GetComponent<Card>();
+        card.symbolIndices = deck[hand[index]];
+        card.cardNum = hand[index];
+        card.symbols.Clear();
+
+        for (int j = 0; j <= deck[hand[index]].Count - 1; j++)
+        {
+            card.symbols.Add(allSymbols[deck[hand[index]][j]]);
+        }
+        card.ApplySymbols();
     }
 }

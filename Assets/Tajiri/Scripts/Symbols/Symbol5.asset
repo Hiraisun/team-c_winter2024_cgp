@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Symbol5
   m_EditorClassIdentifier: 
   symbolName: 5
-  symbolSprite: {fileID: 0}
+  description: 
+  action: {fileID: 0}
+  symbolSprite: {fileID: 21300000, guid: a273520f86070bb40881c435ad4fe66e, type: 3}
