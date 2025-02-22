@@ -9,7 +9,7 @@ public class BattleManager : MonoBehaviour
     // (攻撃などの対象となる)ユニットのリスト
     private List<UnitBase> playerUnitList = new List<UnitBase>();
     private List<UnitBase> enemyUnitList = new List<UnitBase>();
-
+    
     /// <summary>
     /// 敵対するユニットリストを取得
     /// </summary>

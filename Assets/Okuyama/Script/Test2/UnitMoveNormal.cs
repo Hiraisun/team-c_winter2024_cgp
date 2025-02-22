@@ -5,19 +5,16 @@ using UnityEngine;
 /// <summary>
 /// 基本的な移動処理
 /// </summary>
-[RequireComponent(typeof(UnitBase))] // UnitBase必須やで
+[RequireComponent(typeof(UnitBase))]
 public class UnitMoveNormal : MonoBehaviour
 {
     [SerializeField] private UnitBase unitBase;
     [SerializeField] private float speed = 1.0f;
 
-    void OnValidate()
+    // 自動アタッチ
+    void Reset()
     {
-        // 自動アタッチ
-        if(!Application.isPlaying)
-        {
-            unitBase = GetComponent<UnitBase>();
-        }
+        unitBase = GetComponent<UnitBase>();
     }
 
     void Update()

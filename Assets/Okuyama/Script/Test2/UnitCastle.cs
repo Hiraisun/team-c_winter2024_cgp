@@ -6,17 +6,15 @@ using UnityEngine;
 /// 本拠地(城)の処理
 /// 勝利/敗北判定
 /// </summary>
+[RequireComponent(typeof(UnitBase))]
 public class UnitCastle : MonoBehaviour
 {
     [SerializeField] private UnitBase unitBase;
 
-    void OnValidate()
+    // 自動アタッチ
+    void Reset()
     {
-        // 自動アタッチ
-        if(!Application.isPlaying)
-        {
-            unitBase = GetComponent<UnitBase>();
-        }
+        unitBase = GetComponent<UnitBase>();
     }
 
     void Awake()

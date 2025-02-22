@@ -20,13 +20,10 @@ public abstract class UnitAttackBase : MonoBehaviour
     [SerializeField, Header("攻撃モーションの長さ(秒)")]
     protected float attackMotionDuration = 2f;
 
-    void OnValidate()
+    // 自動アタッチ
+    void Reset()
     {
-        // 自動アタッチ
-        if(!Application.isPlaying)
-        {
-            unitBase = GetComponent<UnitBase>();
-        }
+        unitBase = GetComponent<UnitBase>();
     }
 
     void Update()
