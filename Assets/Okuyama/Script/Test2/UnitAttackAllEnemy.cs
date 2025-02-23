@@ -2,25 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 射程内の敵全体に攻撃するコンポーネント
-/// </summary>
 public class UnitAttackAllEnemy : UnitAttackBase
 {
     [SerializeField] private int damage = 10;
 
-    /// <summary>
-    /// 攻撃開始条件: 射程内に敵が一体でも存在すれば攻撃開始
-    /// </summary>
+    // 射程内に敵が一体でも存在すれば攻撃開始
     protected override bool CanStartAttack()
     {
-        //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
+        //ターゲット候補
+        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.unitType);
         
-        //各候補について確認
+        //各候補について
         foreach (var target in targetList)
         {
-            if(isInRange(target)) //射程内?
+            if(isInRange(target))
             {
                 return true;
             }
@@ -28,20 +23,18 @@ public class UnitAttackAllEnemy : UnitAttackBase
         return false;
     }
 
-    /// <summary>
-    /// 攻撃判定処理: 射程内の敵全員にダメージ
-    /// </summary>
+    // 射程内の敵全員に定数ダメージ
     protected override void Attack()
     {
-        //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
+        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.unitType);
         
         //各候補について
         foreach (var target in targetList)
         {
-            if(isInRange(target)) //射程内なら
+            if(isInRange(target))
             {
-                target.Damage(damage); //ダメージ
+                // 対象全員にダメージ
+                target.Damage(damage);
             }
         }
     }
