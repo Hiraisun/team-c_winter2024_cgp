@@ -2,61 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.ComponentModel;
 
 /// <summary>
-/// 敵への範囲攻撃処理
+/// 敵への攻撃行動を扱うコンポーネントの基底クラス
 /// </summary>
-[RequireComponent(typeof(UnitBase))] // UnitBase必須やで
-public abstract class UnitAttackBase : MonoBehaviour
+public abstract class UnitAttackBase : UnitActionBase
 {
-    [SerializeField] protected UnitBase unitBase;
-    [SerializeField] protected Animator animator;
+    [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
 
     [SerializeField] protected List<Lane> attackableLaneList; // 攻撃可能レーン
     [SerializeField] protected float range = 1f; // 射程
 
-    [SerializeField, Header("攻撃判定発生までの時間(秒)")] 
-    protected float attackDuration = 1f;
+    [SerializeField, Description("攻撃モーション開始から判定発生までの遅延(秒)")] 
+    protected float attackDelay = 1f;
     [SerializeField, Header("攻撃モーションの長さ(秒)")]
     protected float attackMotionDuration = 2f;
 
-    // 自動アタッチ
-    void Reset()
-    {
-        unitBase = GetComponent<UnitBase>();
-    }
-
     void Update()
     {
-        if(!unitBase.isBusy)
+        if(!unitBase.IsBusy) // 他のアクション中でない場合
         {
-            if (CanStartAttack())
+            if (CanStartAttack()) // 攻撃開始条件を満たしている場合
             {
+                // 攻撃処理コルーチンを開始
                 StartCoroutine(AttackAction());
             }
         }
     }
 
     /// <summary>
-    /// 攻撃開始条件
+    /// 攻撃開始条件 継承先で記述する
     /// </summary>
     protected abstract bool CanStartAttack();
 
     /// <summary>
-    /// 攻撃処理
+    /// 攻撃判定処理 継承先で記述する
     /// </summary>
     protected abstract void Attack();
 
 
-    // 攻撃処理コルーチン
+    /// <summary>
+    /// 攻撃処理コルーチン
+    /// </summary>
     IEnumerator AttackAction()
     {
-        unitBase.isBusy = true;
-        if (animator != null) animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(attackDuration);
-        Attack();
-        yield return new WaitForSeconds(attackMotionDuration-attackDuration);
-        unitBase.isBusy = false;
+        unitBase.StartAction(this); //アクション開始を宣言
+
+        if (animator != null) animator.SetTrigger("Attack"); //攻撃開始アニメーション TODO:要検討
+        yield return new WaitForSeconds(attackDelay); //攻撃判定まで待機
+        Attack(); // 攻撃判定処理
+        yield return new WaitForSeconds(attackMotionDuration-attackDelay); //モーション終了待機
+        unitBase.FinishAction(this);
     }
 
     void OnDrawGizmosSelected()
@@ -71,16 +68,16 @@ public abstract class UnitAttackBase : MonoBehaviour
     }
 
     /// <summary>
-    /// 対象が攻撃可能位置にいるか
+    /// 対象が攻撃可能位置にいるかを判定する
     /// </summary>
     protected bool isInRange(UnitBase target)
     {
-        //attackLaneListに入っているかチェック
-        if(!attackableLaneList.Contains(target.lane)) return false;
+        //対象のレーンが攻撃可能レーンか確認
+        if(!attackableLaneList.Contains(target.Lane)) return false;
 
         //射程内にいるか
         float fromX = transform.position.x;                     //自分の位置
-        float toX = fromX + range * unitBase.direction * -1;    //射程の先
+        float toX = fromX + range * unitBase.direction * -1;    //射程の先の地点
         float targetX = target.transform.position.x;            //相手の位置
 
         if (unitBase.direction == 1) //左向き(味方)

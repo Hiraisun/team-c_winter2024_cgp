@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 最も近い敵に単体攻撃する機能
+/// 最も近くにいる敵単体に攻撃するコンポーネント
 /// </summary>
 public class UnitAttackSingle : UnitAttackBase
 {
     [SerializeField] private int damage = 10;
 
-    // 射程内に敵が一体でも存在すれば攻撃開始
+    /// <summary>
+    /// 攻撃開始条件: 射程内に敵が一体でも存在すれば攻撃開始
+    /// </summary>
     protected override bool CanStartAttack()
     {
         //ターゲット候補
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.unitType);
+        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
         
-        //各候補について
+        //各候補について確認
         foreach (var target in targetList)
         {
-            if (isInRange(target))
+            if (isInRange(target)) //射程内?
             {
                 return true;
             }
@@ -26,18 +28,23 @@ public class UnitAttackSingle : UnitAttackBase
         return false;
     }
 
-    // 最も近い敵に定数ダメージ
+    /// <summary>
+    /// 攻撃判定処理: 最も近い敵一体にダメージ
+    /// </summary>
     protected override void Attack()
     {
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.unitType);
+        //ターゲット候補
+        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
+
         UnitBase nearestTarget = null;
         float distance = float.MaxValue;
         
-        //各候補について
+        //各候補について確認し、最も近い敵を調べる
         foreach (var target in targetList)
         {
-            if (isInRange(target))
+            if (isInRange(target)) //射程内
             {
+                // 敵との距離
                 float targetDistance = Mathf.Abs(transform.position.x - target.transform.position.x);
 
                 //最も近い敵を更新
@@ -49,7 +56,7 @@ public class UnitAttackSingle : UnitAttackBase
             }
         }
         
-        //攻撃
+        //見つかったやつに攻撃
         if (nearestTarget != null)
         {
             nearestTarget.Damage(damage);

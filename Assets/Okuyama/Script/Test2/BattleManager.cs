@@ -8,44 +8,52 @@ public class BattleManager : MonoBehaviour
 
     // (攻撃などの対象となる)ユニットのリスト
     private List<UnitBase> playerUnitList = new List<UnitBase>();
-    private List<UnitBase> enemyUnitList = new List<UnitBase>();
+    private List<UnitBase> npcUnitList = new List<UnitBase>();
     
     /// <summary>
-    /// 敵対するユニットリストを取得
+    /// 指定したタイプに敵対するユニットリストを取得
     /// </summary>
     public List<UnitBase> getEnemyUnitList(UnitTYPE type)
     {
-        // コピーを返す
-        return type == UnitTYPE.PLAYER ? new List<UnitBase>(enemyUnitList) : new List<UnitBase>(playerUnitList);
+        if(type == UnitTYPE.PLAYER)
+        {
+            return npcUnitList;
+        }
+        else if(type == UnitTYPE.NPC)
+        {
+            return playerUnitList;
+        }
+        return null;
     }
 
     /// <summary>
-    /// ユニットリストに追加
+    /// ユニットを登録する
+    /// 登録されたユニットは攻撃対象になるなど
     /// </summary>
-    public void addUnitList(UnitBase unit)
+    public void RegisterUnit(UnitBase unit)
     {
-        if(unit.unitType == UnitTYPE.PLAYER)
+        if(unit.UnitType == UnitTYPE.PLAYER)
         {
             playerUnitList.Add(unit);
         }
-        else
+        else if(unit.UnitType == UnitTYPE.NPC)
         {
-            enemyUnitList.Add(unit);
+            npcUnitList.Add(unit);
         }
     }
 
     /// <summary>
-    /// ユニットリストから削除
+    /// ユニットを登録解除
     /// </summary>
-    public void removeUnitList(UnitBase unit)
+    public void DeRegisterUnit(UnitBase unit)
     {
-        if (unit.unitType == UnitTYPE.PLAYER)
+        if(unit.UnitType == UnitTYPE.PLAYER)
         {
             playerUnitList.Remove(unit);
         }
-        else
+        else if(unit.UnitType == UnitTYPE.NPC)
         {
-            enemyUnitList.Remove(unit);
+            npcUnitList.Remove(unit);
         }
     }
 
