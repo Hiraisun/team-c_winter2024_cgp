@@ -135,7 +135,6 @@ MonoBehaviour:
   stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
   unitType: 1
   lane: 0
-  isBusy: 0
   MaxHP: 50
 --- !u!114 &1680774027292231591
 MonoBehaviour:
@@ -167,6 +166,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   attackableLaneList: 00000000
   range: 0.31
-  attackDuration: 1
+  attackDelay: 1
   attackMotionDuration: 2
   damage: 1

@@ -5,10 +5,8 @@ using UnityEngine;
 /// <summary>
 /// 基本的な移動処理
 /// </summary>
-[RequireComponent(typeof(UnitBase))]
-public class UnitMoveNormal : MonoBehaviour
+public class UnitMoveNormal : UnitActionBase
 {
-    [SerializeField] private UnitBase unitBase;
     [SerializeField] private float speed = 1.0f;
 
     // 自動アタッチ
@@ -20,7 +18,7 @@ public class UnitMoveNormal : MonoBehaviour
     void Update()
     {
         // アクション中以外は移動
-        if(!unitBase.isBusy)
+        if(!unitBase.IsBusy)
         {
             transform.position -= new Vector3(speed * Time.deltaTime * unitBase.direction, 0, 0);
         }
