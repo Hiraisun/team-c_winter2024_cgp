@@ -386,7 +386,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleManager: {fileID: 562767220}
-  stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
   unitType: 0
   lane: 0
   MaxHP: 100
@@ -612,9 +611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe54d1ea1d643554a81fc80ce3e7e0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
-  playerUnitList: []
-  npcUnitList: []
+  laneY: 0.33
+  spawnPosX: 7.48
 --- !u!1 &573390528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,7 +1781,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleManager: {fileID: 562767220}
-  stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
   unitType: 1
   lane: 0
   MaxHP: 100

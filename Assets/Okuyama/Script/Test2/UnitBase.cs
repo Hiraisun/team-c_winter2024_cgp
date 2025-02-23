@@ -11,7 +11,6 @@ using UnityEngine;
 public class UnitBase : MonoBehaviour
 {
     [SerializeField] public BattleManager battleManager;
-    [SerializeField] public StageData stageData;
 
     [SerializeField] private UnitTYPE unitType; // PLAYER or NPC
     public UnitTYPE UnitType {get { return unitType; } }
@@ -49,7 +48,6 @@ public class UnitBase : MonoBehaviour
     {
         HP = MaxHP;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
-        Debug.Log(this.unitType);
     }
 
     /// <summary>

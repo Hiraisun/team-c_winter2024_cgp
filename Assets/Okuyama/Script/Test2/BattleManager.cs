@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Lane{
+    Ground,
+    Sky
+}
+
+/// <summary>
+/// バトル中のユニット,召喚などの管理
+/// </summary>
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField] private StageData stageData;
+    [SerializeField] private float laneY;
+    [SerializeField] private float spawnPosX;
 
     // (攻撃などの対象となる)ユニットのリスト
     private List<UnitBase> playerUnitList = new List<UnitBase>();
@@ -61,20 +70,15 @@ public class BattleManager : MonoBehaviour
     void OnDrawGizmos()
     {
         //レーンの描画
-        Gizmos.color = Color.red;
-        GUIStyle style = new GUIStyle();
-        style.normal.textColor = Color.red;
-        foreach (var lane in stageData.LaneParams)
-        {
-            //横線
-            Gizmos.DrawLine(new Vector3(-10, lane.PosY, 0), new Vector3(10, lane.PosY, 0));
-            //ラベル
-            UnityEditor.Handles.Label(new Vector3(-10, lane.PosY, 0), lane.lane.ToString(),style);
-        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(new Vector3(-20, laneY, 0), new Vector3(20, laneY, 0));
 
-        //スポーン位置
-        Gizmos.DrawSphere(new Vector3(stageData.SpawnPosX, stageData.LaneParams[0].PosY, 0), 0.1f);
-        Gizmos.DrawSphere(new Vector3(-stageData.SpawnPosX, stageData.LaneParams[0].PosY, 0), 0.1f);
+        //スポーン位置描画
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(new Vector3(-spawnPosX, laneY, 0), 0.2f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(new Vector3(spawnPosX, laneY, 0), 0.2f);
     }
 
 }
+
