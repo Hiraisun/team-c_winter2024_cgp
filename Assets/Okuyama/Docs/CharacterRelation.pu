@@ -1,5 +1,5 @@
 
-@startuml
+@startuml CharacterRelation
 
 object 研究者 {
   要検討

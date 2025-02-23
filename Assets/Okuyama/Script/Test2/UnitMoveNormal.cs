@@ -5,10 +5,8 @@ using UnityEngine;
 /// <summary>
 /// 基本的な移動処理
 /// </summary>
-[RequireComponent(typeof(UnitBase))]
-public class UnitMoveNormal : MonoBehaviour
+public class UnitMoveNormal : UnitActionBase
 {
-    [SerializeField] private UnitBase unitBase;
     [SerializeField] private float speed = 1.0f;
 
     // 自動アタッチ

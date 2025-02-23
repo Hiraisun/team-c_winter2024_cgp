@@ -6,32 +6,19 @@ using UnityEngine;
 /// 本拠地(城)の処理
 /// 勝利/敗北判定
 /// </summary>
-[RequireComponent(typeof(UnitBase))]
-public class UnitCastle : MonoBehaviour
+public class UnitCastle : UnitActionBase
 {
-    [SerializeField] private UnitBase unitBase;
-
-    // 自動アタッチ
-    void Reset()
+    // 死亡時処理をオーバーライド
+    protected override void OnDeath()
     {
-        unitBase = GetComponent<UnitBase>();
-    }
-
-    void Awake()
-    {
-        // 死亡時:勝敗判定
-        unitBase.OnDeath += () =>
+        if (unitBase.UnitType == UnitTYPE.PLAYER)
         {
-            if(unitBase.unitType == UnitTYPE.PLAYER)
-            {
-                Debug.Log("敗北");
-            }
-            else
-            {
-                Debug.Log("勝利");
-            }
-        };
+            Debug.Log("敗北");
+        }
+        else
+        {
+            Debug.Log("勝利");
+        }
     }
 
-    
 }

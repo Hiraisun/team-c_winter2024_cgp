@@ -8,23 +8,27 @@ using UnityEngine;
 /// イベントの受け渡しなどを行う。
 /// 各種耐性など、受け身な情報はここに実装？
 /// </summary>
-/// //TODO:イベント管理
 public class UnitBase : MonoBehaviour
 {
     [SerializeField] public BattleManager battleManager;
     [SerializeField] public StageData stageData;
 
-    public UnitTYPE unitType = UnitTYPE.PLAYER; // 敵か味方か
-    public Lane lane = Lane.Ground; // レーン
+    [SerializeField] private UnitTYPE unitType = UnitTYPE.PLAYER; // PLAYER or NPC
+    public UnitTYPE UnitType {get; private set;}
 
-    // 何らかのアクション中か
-    public bool isBusy = false;
+    [SerializeField] private Lane lane = Lane.Ground; // 所属レーン
+    public Lane Lane { get; private set; }
+
+    private bool isBusy = false; // 何らかのアクション中か
+    public bool IsBusy { get { return isBusy; } }
+    private UnitActionBase executionAction; // 実行中のアクションコンポーネント
+    
 
     // 各種イベント
-    public Action OnDeath;                  //死亡時
-    public Action OnAttackStart;            //攻撃開始時
-    public Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
-    public Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
+    private Action OnDeath;                  //死亡時
+    private Action OnAttackStart;            //攻撃開始時
+    private Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
+    private Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
 
     // HP
     [SerializeField] private float MaxHP = 100;
@@ -38,30 +42,102 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 初期化
+    /// </summary>
     void Start()
     {
         HP = MaxHP;
-        battleManager.addUnitList(this);
+        battleManager.RegisterUnit(this); //battleManagerにユニットを登録
     }
 
-    // ダメージを受ける
-    public void Damage(float damage)
+    /// <summary>
+    /// このユニットにダメージを与える
+    /// </summary>
+    public void Damage(float damageValue)
     {
-        HP -= damage;
+        if(damageValue < 0)
+        {
+            Debug.LogWarning("Damage: 負のダメージを受けた");
+            return;
+        }
+
+        HP -= damageValue;
 
         if (HP <= 0)
         {
             //死亡時処理
-            battleManager.removeUnitList(this);
-            OnDeath?.Invoke();
+            battleManager.DeRegisterUnit(this);
+            OnDeath?.Invoke(); // 死亡イベント発火
             Destroy(gameObject);
         }
 
-        OnDamageReceived?.Invoke(damage);
+        // 被ダメージイベント発火
+        OnDamageReceived?.Invoke(damageValue);
+    }
+
+    /// <summary>
+    /// アクション実行開始通知
+    /// 他の行動に割り込まれない行動を実行する場合はこれを呼ぶ。
+    /// </summary>
+    public void StartAction(UnitActionBase unitActionBase)
+    {
+        isBusy = true;
+        executionAction = unitActionBase;
+    }
+    /// <summary>
+    /// アクション終了通知
+    /// 占有アクション終了時には必ずこれを呼ぶ。
+    /// </summary>
+    public void FinishAction(UnitActionBase unitActionBase)
+    {
+        if(executionAction == unitActionBase)
+        {
+            isBusy = false;
+            executionAction = null;
+        }
+        else
+        {
+            Debug.LogWarning("EndAction: 実行中のアクションと異なるアクションが終了しようとしています。: " + unitActionBase);
+        }
+    }
+
+    // イベントレジスタ-------------------------------------
+    public void RegisterOnDeath(Action action)
+    {
+        OnDeath += action;
+    }
+    public void RegisterOnAttackStart(Action action)
+    {
+        OnAttackStart += action;
+    }
+    public void RegisterOnDamageDealt(Action<UnitBase> action)
+    {
+        OnDamageDealt += action;
+    }
+    public void RegisterOnDamageReceived(Action<float> action)
+    {
+        OnDamageReceived += action;
+    }
+
+    // 外部からイベント発火---------------------------------
+    /// <summary>
+    /// 攻撃開始イベントを発火する
+    /// </summary>
+    public void InvokeOnAttackStart()
+    {
+        OnAttackStart?.Invoke();
+    }
+    /// <summary>
+    /// 与ダメージイベントを発火する
+    /// </summary>
+    public void InvokeOnDamageDealt(UnitBase target)
+    {
+        OnDamageDealt?.Invoke(target);
     }
 }
 public enum UnitTYPE
 {
     PLAYER,
-    ENEMY,
+    NPC,
 }
