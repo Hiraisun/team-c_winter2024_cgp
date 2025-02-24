@@ -41,7 +41,8 @@ public class UnitBase : MonoBehaviour
 
     // HP
     [SerializeField, Tooltip("最大HP")]
-    private float MaxHP = 100;
+    private float maxHP = 100;
+    public float MaxHP { get { return maxHP; } }
     public float HP { get; private set; }
 
     // 向き : 移動などで乗算するためのパラメータ 

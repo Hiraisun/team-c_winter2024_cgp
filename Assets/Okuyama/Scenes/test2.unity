@@ -252,10 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 562767220}
   owner: 0
   lane: 0
-  MaxHP: 100
+  maxHP: 100
 --- !u!114 &223059204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,10 +644,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 562767220}
   owner: 1
   lane: 0
-  MaxHP: 100
+  maxHP: 100
 --- !u!114 &1598504171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,10 +953,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 933506233445904033, guid: e3f0f99a092aa884d9d6468d7be1262b, type: 3}
-      propertyPath: battleManager
-      value: 
-      objectReference: {fileID: 562767220}
     - target: {fileID: 4592819920525232684, guid: e3f0f99a092aa884d9d6468d7be1262b, type: 3}
       propertyPath: m_Name
       value: TestEnemy
@@ -976,10 +970,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3980213837861586902, guid: 296550f433f898148bcf6707d083a83b, type: 3}
-      propertyPath: attackableLaneList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5241466414610463414, guid: 296550f433f898148bcf6707d083a83b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.3
