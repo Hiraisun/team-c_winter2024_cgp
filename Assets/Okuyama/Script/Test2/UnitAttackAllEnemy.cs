@@ -15,7 +15,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected override bool CanStartAttack()
     {
         //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
+        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.UnitType);
         
         //各候補について確認
         foreach (var target in targetList)
@@ -34,7 +34,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected override void Attack()
     {
         //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.battleManager.getEnemyUnitList(unitBase.UnitType);
+        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.UnitType);
         
         //各候補について
         foreach (var target in targetList)

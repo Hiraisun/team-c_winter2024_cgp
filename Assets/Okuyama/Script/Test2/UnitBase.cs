@@ -10,7 +10,8 @@ using UnityEngine;
 /// </summary>
 public class UnitBase : MonoBehaviour
 {
-    [SerializeField] public BattleManager battleManager;
+    [SerializeField] private BattleManager battleManager;
+    public BattleManager BattleManager { get { return battleManager; } }
 
     [SerializeField] private UnitTYPE unitType; // PLAYER or NPC
     public UnitTYPE UnitType {get { return unitType; } }
@@ -44,12 +45,17 @@ public class UnitBase : MonoBehaviour
     /// <summary>
     /// 初期化
     /// </summary>
-    void Start()
+    public void Initialize(BattleManager battleManager, UnitTYPE unitType)
     {
+        this.battleManager = battleManager;
+        this.unitType = unitType;
+
         HP = MaxHP;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
-    }
 
+        //TODO: NPC時の見た目反転
+    }
+    
     /// <summary>
     /// このユニットにダメージを与える
     /// </summary>

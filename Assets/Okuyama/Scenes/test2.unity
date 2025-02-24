@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 104009158}
   - component: {fileID: 104009157}
   m_Layer: 5
-  m_Name: Draw (1)
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe54d1ea1d643554a81fc80ce3e7e0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laneY: 0.33
+  laneY: 0.39
   spawnPosX: 7.48
 --- !u!1 &573390528
 GameObject:
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 996962007}
   - component: {fileID: 996962006}
   m_Layer: 5
-  m_Name: Draw (3)
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 1014303242}
   - component: {fileID: 1014303241}
   m_Layer: 5
-  m_Name: Draw
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -963,9 +963,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CardManager, Assembly-CSharp
-        m_MethodName: Draw
+      - m_Target: {fileID: 11500000, guid: fe54d1ea1d643554a81fc80ce3e7e0cd, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1396,7 +1396,7 @@ GameObject:
   - component: {fileID: 1570108195}
   - component: {fileID: 1570108194}
   m_Layer: 5
-  m_Name: Draw (2)
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2231,7 +2231,7 @@ GameObject:
   - component: {fileID: 2026849561}
   - component: {fileID: 2026849560}
   m_Layer: 5
-  m_Name: Draw (4)
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
