@@ -8,6 +8,10 @@ using UnityEngine;
 public abstract class CardEffectBase : ScriptableObject
 {
     protected BattleManager battleManager;
+
+    [SerializeField, Tooltip("発動コスト (未実装, 定義のみ)")] 
+    private int cost = 0;
+    public int Cost { get { return cost; } }
     
     /// <summary>
     /// カード効果の発動
