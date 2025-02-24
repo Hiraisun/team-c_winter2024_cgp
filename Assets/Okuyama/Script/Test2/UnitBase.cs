@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum OwnerType
+{
+    PLAYER,
+    NPC,
+}
+
 /// <summary>
 /// Unitには必ずアタッチする基本コンポーネント
 /// イベントの受け渡しなどを行う。
@@ -13,8 +19,8 @@ public class UnitBase : MonoBehaviour
     [SerializeField] private BattleManager battleManager;
     public BattleManager BattleManager { get { return battleManager; } }
 
-    [SerializeField] private UnitTYPE unitType; // PLAYER or NPC
-    public UnitTYPE UnitType {get { return unitType; } }
+    [SerializeField] private OwnerType owner; // PLAYER or NPC
+    public OwnerType Owner {get { return owner; } }
 
     [SerializeField] private Lane lane; // 所属レーン
     public Lane Lane {get { return lane; } }
@@ -38,24 +44,24 @@ public class UnitBase : MonoBehaviour
     // (PLAYERは1, ENEMYは-1)
     public float direction{
         get{
-            return unitType == UnitTYPE.PLAYER ? 1 : -1;
+            return owner == OwnerType.PLAYER ? 1 : -1;
         }
     }
 
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Initialize(BattleManager battleManager, UnitTYPE unitType)
+    public void Initialize(BattleManager battleManager, OwnerType unitType)
     {
         this.battleManager = battleManager;
-        this.unitType = unitType;
+        this.owner = unitType;
 
         HP = MaxHP;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
 
         //TODO: NPC時の見た目反転
     }
-    
+
     /// <summary>
     /// このユニットにダメージを与える
     /// </summary>
@@ -141,8 +147,4 @@ public class UnitBase : MonoBehaviour
         OnDamageDealt?.Invoke(target);
     }
 }
-public enum UnitTYPE
-{
-    PLAYER,
-    NPC,
-}
+

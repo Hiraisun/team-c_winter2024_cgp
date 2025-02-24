@@ -15,7 +15,7 @@ public class UnitAttackSingle : UnitAttackBase
     protected override bool CanStartAttack()
     {
         //ターゲット候補
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.UnitType);
+        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
         
         //各候補について確認
         foreach (var target in targetList)
@@ -34,7 +34,7 @@ public class UnitAttackSingle : UnitAttackBase
     protected override void Attack()
     {
         //ターゲット候補
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.UnitType);
+        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
 
         UnitBase nearestTarget = null;
         float distance = float.MaxValue;

@@ -24,7 +24,7 @@ public class BattleManager : MonoBehaviour
         // シーン開始時、既に存在するユニットの初期化
         foreach (var unit in FindObjectsOfType<UnitBase>())
         {
-            unit.Initialize(this, unit.UnitType);
+            unit.Initialize(this, unit.Owner);
         }
     }
 
@@ -32,10 +32,10 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// ユニットを召喚する
     /// </summary>
-    public void SummonUnit(GameObject unitPrefab, UnitTYPE type)
+    public void SummonUnit(GameObject unitPrefab, OwnerType type)
     {
         //TODO: Y軸を乱数でブレさせる
-        Vector3 pos = new Vector3(type == UnitTYPE.PLAYER ? spawnPosX : -spawnPosX, laneY, 0);
+        Vector3 pos = new Vector3(type == OwnerType.PLAYER ? spawnPosX : -spawnPosX, laneY, 0);
         //召喚
         GameObject unitObj = Instantiate(unitPrefab, pos, Quaternion.identity, transform);
         UnitBase unit = unitObj.GetComponent<UnitBase>();
@@ -50,11 +50,11 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void RegisterUnit(UnitBase unit)
     {
-        if(unit.UnitType == UnitTYPE.PLAYER)
+        if(unit.Owner == OwnerType.PLAYER)
         {
             playerUnitList.Add(unit);
         }
-        else if(unit.UnitType == UnitTYPE.NPC)
+        else if(unit.Owner == OwnerType.NPC)
         {
             npcUnitList.Add(unit);
         }
@@ -65,11 +65,11 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void DeRegisterUnit(UnitBase unit)
     {
-        if(unit.UnitType == UnitTYPE.PLAYER)
+        if(unit.Owner == OwnerType.PLAYER)
         {
             playerUnitList.Remove(unit);
         }
-        else if(unit.UnitType == UnitTYPE.NPC)
+        else if(unit.Owner == OwnerType.NPC)
         {
             npcUnitList.Remove(unit);
         }
@@ -78,13 +78,13 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 指定した派閥に敵対するユニットリストを取得
     /// </summary>
-    public List<UnitBase> getEnemyUnitList(UnitTYPE type)
+    public List<UnitBase> getEnemyUnitList(OwnerType type)
     {
-        if(type == UnitTYPE.PLAYER)
+        if(type == OwnerType.PLAYER)
         {
             return npcUnitList;
         }
-        else if(type == UnitTYPE.NPC)
+        else if(type == OwnerType.NPC)
         {
             return playerUnitList;
         }
@@ -94,13 +94,13 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 指定した派閥と同じ所属のユニットリストを取得
     /// </summary>
-    public List<UnitBase> getAllyUnitList(UnitTYPE type)
+    public List<UnitBase> getAllyUnitList(OwnerType type)
     {
-        if(type == UnitTYPE.PLAYER)
+        if(type == OwnerType.PLAYER)
         {
             return playerUnitList;
         }
-        else if(type == UnitTYPE.NPC)
+        else if(type == OwnerType.NPC)
         {
             return npcUnitList;
         }

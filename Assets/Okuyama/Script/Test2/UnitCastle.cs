@@ -11,7 +11,7 @@ public class UnitCastle : UnitActionBase
     // 死亡時処理をオーバーライド
     protected override void OnDeath()
     {
-        if (unitBase.UnitType == UnitTYPE.PLAYER)
+        if (unitBase.Owner == OwnerType.PLAYER)
         {
             Debug.Log("敗北");
         }
