@@ -122,7 +122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7787838296836141863}
   front: {fileID: 2346402755435393238}
-  frontImage: {fileID: 0}
+  canvasGroup: {fileID: 6289047931892270183}
+  fadeDelay: 2
+  fadeDuration: 1
 --- !u!1 &8166724873558246144
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +137,7 @@ GameObject:
   - component: {fileID: 1317001957713870406}
   - component: {fileID: 8199503512377632981}
   - component: {fileID: 5244327025779090868}
+  - component: {fileID: 6289047931892270183}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -226,6 +229,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &6289047931892270183
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166724873558246144}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8208958265733324542
 GameObject:
   m_ObjectHideFlags: 0

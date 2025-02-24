@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d0d3c90ee8acd458da5912efe6247b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitBase: {fileID: 223059203}
+  unitBase: {fileID: 1598504170}
   hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
   position: {x: 0.77, y: 1.95, z: 0}
   width: 1.54
