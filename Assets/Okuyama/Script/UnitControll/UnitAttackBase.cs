@@ -11,24 +11,27 @@ public abstract class UnitAttackBase : UnitActionBase
 {
     [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
 
-    [SerializeField] protected List<Lane> attackableLaneList; // 攻撃可能レーン
-    [SerializeField] protected float range = 1f; // 射程
+    [SerializeField, Tooltip("攻撃可能レーンのリスト")] 
+    protected List<Lane> attackableLaneList; // 攻撃可能レーン
+    [SerializeField, Tooltip("射程距離(前方のみ)")] 
+    protected float range = 1f; // 射程
 
-    [SerializeField, Description("攻撃モーション開始から判定発生までの遅延(秒)")] 
+    [SerializeField, Tooltip("攻撃モーション開始から判定発生までの遅延(秒)")] 
     protected float attackDelay = 1f;
-    [SerializeField, Header("攻撃モーションの長さ(秒)")]
+    [SerializeField, Tooltip("攻撃モーション全体の長さ(秒)")]
     protected float attackMotionDuration = 2f;
 
     void Update()
     {
-        if(!unitBase.IsBusy) // 他のアクション中でない場合
+        if (!unitBase.IsBusy) // 他のアクション中でない
         {
-            if (CanStartAttack()) // 攻撃開始条件を満たしている場合
+            if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
                 // 攻撃処理コルーチンを開始
                 StartCoroutine(AttackAction());
             }
         }
+
     }
 
     /// <summary>
@@ -40,7 +43,6 @@ public abstract class UnitAttackBase : UnitActionBase
     /// 攻撃判定処理 継承先で記述する
     /// </summary>
     protected abstract void Attack();
-
 
     /// <summary>
     /// 攻撃処理コルーチン

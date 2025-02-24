@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8e0a26ef615b04c84b29730bb60f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardEffect: {fileID: 11400000, guid: dc2d721d1b6d8aa4a814f1488e439606, type: 2}
+  cardEffect: {fileID: 11400000, guid: ceba8bf7af9250b4e807962c101373e4, type: 2}
   button: 0
 --- !u!1 &1559396975
 GameObject:

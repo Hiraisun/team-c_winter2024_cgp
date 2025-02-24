@@ -8,7 +8,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Summon", menuName = "CardEffects/Summon")]
 public class CardEffectSummon : CardEffectBase
 {
-    [SerializeField] GameObject unitPrefab; // 召喚するユニット
+    [SerializeField, Tooltip("召喚するユニット")]
+    GameObject unitPrefab;
 
     protected override void Effect(OwnerType owner)
     {

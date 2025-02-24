@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UnitMoveNormal : UnitActionBase
 {
-    [SerializeField] private float speed = 1.0f;
+    [SerializeField, Tooltip("移動速度")]
+    private float speed = 1.0f;
 
     // 自動アタッチ
     void Reset()

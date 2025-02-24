@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 [CreateAssetMenu(fileName = "SummonMultiple", menuName = "CardEffects/SummonMultiple")]
 public class CardEffectSummonMultiple : CardEffectBase
 {
-    [SerializeField] GameObject unitPrefab; // 召喚するユニット
-    [SerializeField] int summonCount; // ユニットの数
-    [SerializeField] float interval; // 間隔(秒)
+    [SerializeField, Tooltip("召喚するユニット")] 
+    GameObject unitPrefab; 
+
+    [SerializeField, Tooltip("ユニットの数")] 
+    int summonCount; 
+    
+    [SerializeField, Tooltip("間隔(秒)")] 
+    float interval; 
 
     protected override void Effect(OwnerType owner)
     {

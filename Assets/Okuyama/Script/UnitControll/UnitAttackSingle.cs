@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UnitAttackSingle : UnitAttackBase
 {
-    [SerializeField] private int damage = 10;
+    [SerializeField, Tooltip("与ダメージ")]
+    private int damage = 10;
 
     /// <summary>
     /// 攻撃開始条件: 射程内に敵が一体でも存在すれば攻撃開始

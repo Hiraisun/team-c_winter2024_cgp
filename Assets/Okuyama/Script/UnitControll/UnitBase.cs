@@ -14,15 +14,18 @@ public enum OwnerType
 /// イベントの受け渡しなどを行う。
 /// 各種耐性など、受け身な情報はここに実装？
 /// </summary>
+[DisallowMultipleComponent] //複数アタッチ禁止
 public class UnitBase : MonoBehaviour
 {
-    [SerializeField] private BattleManager battleManager;
+    private BattleManager battleManager;
     public BattleManager BattleManager { get { return battleManager; } }
 
-    [SerializeField] private OwnerType owner; // PLAYER or NPC
+    [SerializeField, Tooltip("所属 : PLAYER or NPC")]
+    private OwnerType owner; // PLAYER or NPC
     public OwnerType Owner {get { return owner; } }
 
-    [SerializeField] private Lane lane; // 所属レーン
+    [SerializeField, Tooltip("レーン : 地上 or 空中")]
+    private Lane lane; // 所属レーン
     public Lane Lane {get { return lane; } }
 
     private bool isBusy = false; // 何らかのアクション中か
@@ -37,7 +40,8 @@ public class UnitBase : MonoBehaviour
     private Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
 
     // HP
-    [SerializeField] private float MaxHP = 100;
+    [SerializeField, Tooltip("最大HP")]
+    private float MaxHP = 100;
     public float HP { get; private set; }
 
     // 向き : 移動などで乗算するためのパラメータ 
