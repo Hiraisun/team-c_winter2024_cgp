@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
         get { return deck; }
         private set { deck = value; }
     }
-    private int[] handNums => cardCmps.Select(card => card.GetCardNum()).ToArray();
+    private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
     // 手札のゲームオブジェクト
     private GameObject[] cardObjs;
@@ -111,11 +111,12 @@ public class CardManager : MonoBehaviour
 
     private void TrashAndDraw(Card card)
     {
-        var availableNums = Enumerable.Range(0, deck.Count).Except(handNums).ToList();
+        var availableNums = Enumerable.Range(0, deck.Count).Except(HandNums).ToList();
 
         int newCardNum = availableNums[Random.Range(0, availableNums.Count)];
 
         card.SetCardNum(newCardNum);
+        card.ApplyChanges();
     }
 
     private Card selectedCard = null;
@@ -128,11 +129,11 @@ public class CardManager : MonoBehaviour
         {
             selectedCard = card;
 
-            HashSet<int> candidateOfSymbols = new(deck[selectedCard.GetCardNum()]);
+            HashSet<int> candidateOfSymbols = new(deck[selectedCard.CardNum]);
 
             commonSymbol = new();
 
-            foreach (int handNum in handNums)
+            foreach (int handNum in HandNums)
             {
                 HashSet<int> handSymbols = new(deck[handNum]);
 
@@ -148,8 +149,7 @@ public class CardManager : MonoBehaviour
 
         else if (selectedCard != card)
         {
-            //actionOfSymbols[card.cardNum].Execute();
-            Debug.Log(commonSymbol[card.GetCardNum()].symbolSprite.name + "が呼び出されました");
+            commonSymbol[card.CardNum].action.Execute();
 
             TrashAndDraw(selectedCard);
             TrashAndDraw(card);
@@ -162,6 +162,4 @@ public class CardManager : MonoBehaviour
             Debug.LogWarning("同じカードは選択できません");
         }
     }
-
-    
 }

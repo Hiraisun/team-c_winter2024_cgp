@@ -2,8 +2,7 @@ using UnityEngine;
 using System;
 public class Card : MonoBehaviour
 {
-    [SerializeField, Header("ÉJÅ[Éhî‘çÜ")]
-    private int cardNum;
+    public int CardNum { get; private set; }
 
     public string actionDiscription;
 
@@ -37,21 +36,17 @@ public class Card : MonoBehaviour
     {
         for(int i = 0; i <= sr.Length - 1; i++)
         {
-            int symbolIndex = cm.Deck[cardNum][i];
+            int symbolIndex = cm.Deck[CardNum][i];
             sr[i].sprite = cm.AllSymbols[symbolIndex].symbolSprite;
         }
     }
 
-    public void SetCardNum(int newNum)
+    public void SetHighlightedSymbol(int[] symbolIndices)
     {
-        cardNum = newNum;
-        ApplyChanges();
+
     }
 
-    public int GetCardNum()
-    {
-        return cardNum;
-    }
+    public void SetCardNum(int newNum) => CardNum = newNum;
 
     public void TrashAnimation()
     {
@@ -66,7 +61,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseEnter()
     {
-
+        
     }
 
     private void OnMouseExit()
