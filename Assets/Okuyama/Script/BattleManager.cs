@@ -82,11 +82,11 @@ public class BattleManager : MonoBehaviour
     {
         if(type == OwnerType.PLAYER)
         {
-            return npcUnitList;
+            return new List<UnitBase>(npcUnitList);
         }
         else if(type == OwnerType.NPC)
         {
-            return playerUnitList;
+            return new List<UnitBase>(playerUnitList);
         }
         return null;
     }
@@ -98,11 +98,11 @@ public class BattleManager : MonoBehaviour
     {
         if(type == OwnerType.PLAYER)
         {
-            return playerUnitList;
+            return new List<UnitBase>(playerUnitList);
         }
         else if(type == OwnerType.NPC)
         {
-            return npcUnitList;
+            return new List<UnitBase>(npcUnitList);
         }
         return null;
     }

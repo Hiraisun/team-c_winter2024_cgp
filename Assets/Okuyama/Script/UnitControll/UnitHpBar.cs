@@ -22,7 +22,10 @@ public class UnitHpBar : UnitActionBase
     {
         // HPバーのインスタンスを生成
         Vector3 pos = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
-        hpBarObj = Instantiate(hpBarPrefab, pos, Quaternion.identity, transform);
+        hpBarObj = Instantiate(hpBarPrefab, pos, Quaternion.identity);
+        hpBarObj.transform.SetParent(transform); // 子にする
+
+        // HPバーの初期化
         hpBar = hpBarObj.GetComponent<HpBar>();
         hpBar.Initialize(unitBase.MaxHP, width, height);
     }

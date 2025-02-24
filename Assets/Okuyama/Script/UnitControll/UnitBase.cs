@@ -53,18 +53,25 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    void OnValidate()
+    {
+        // エディタ上でもNPC時の見た目反転
+        transform.localScale = new Vector3(direction, 1, 1);
+    }
+
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Initialize(BattleManager battleManager, OwnerType unitType)
+    public void Initialize(BattleManager battleManager, OwnerType owner)
     {
         this.battleManager = battleManager;
-        this.owner = unitType;
+        this.owner = owner;
 
         HP = MaxHP;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
 
-        //TODO: NPC時の見た目反転
+        //NPC時の見た目反転
+        transform.localScale = new Vector3(direction, 1, 1);
     }
 
     /// <summary>
