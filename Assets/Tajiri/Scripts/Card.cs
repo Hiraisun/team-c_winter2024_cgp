@@ -1,27 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 public class Card : MonoBehaviour
 {
     [Header("カード番号")]
     public int cardNum;
-    // CardManagerがSymbolを決定
-    [HideInInspector]
-    public List<SymbolData> symbols;
+
+    public string actionDiscription;
 
     [SerializeField, Header("シンボルを表示するSpriteRenderer")]
     private SpriteRenderer[] sr;
 
+    public enum CardState
+    {
+        Idle,
+        Selected,
+        Trashing
+    }
+
+    public CardState currentState = CardState.Idle;
+
+    public event Action<Card> OnCardClicked;
+
     private CardManager cm;
-
-    public List<int> symbolIndices = new();
-
-    [HideInInspector]
-    public bool isSelected = false;
 
     private void OnEnable()
     {
@@ -29,24 +29,34 @@ public class Card : MonoBehaviour
         cm = GameObject.FindAnyObjectByType<CardManager>();
     }
 
-    // SymbolのSpriteをImageに適用
-    public void ApplySymbols()
+    public void Initialize()
     {
-        for (int i = 0; i < symbols.Count; i++)
+        for(int i = 0; i <= sr.Length - 1; i++)
         {
-            sr[i].sprite = symbols[i].symbolSprite;
+            int symbolIndex = cm.Deck[cardNum][i];
+            sr[i].sprite = cm.AllSymbols[symbolIndex].symbolSprite;
         }
+    }
+
+    public void TrashAnimation()
+    {
+
     }
 
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()
     {
-        if (isSelected) return;
+        OnCardClicked?.Invoke(this);
+    }
 
-        isSelected = true;
+    private void OnMouseEnter()
+    {
 
-        cm.selectedCards.Add(this.GetComponent<Card>());
-        cm.UseCard();
+    }
+
+    private void OnMouseExit()
+    {
+
     }
 }
 

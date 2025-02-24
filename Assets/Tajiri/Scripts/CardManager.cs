@@ -1,70 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
     // 使用するすべてのカード
-    [SerializeField]
     private List<List<int>> deck;
 
-    // 手札
-    [SerializeField]
-    private List<int> hand;
+    public List<List<int>> Deck
+    {
+        get { return deck; }
+        private set { deck = value; }
+    }
+    private int[] handNums => cardCmps.Select(card => card.cardNum).ToArray();
 
     // 手札のゲームオブジェクト
-    [SerializeField]
-    private List<GameObject> cards;
+    private GameObject[] cardObjs;
+
+    private Card[] cardCmps;
 
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
 
-    [SerializeField, Header("最初にドローするカードの枚数")]
-    int initialDrawCount = 5;
+    [SerializeField, Header("手札の枚数")]
+    private int MAX_HAND_CARDS = 5;
 
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
-    int symbolCountPerCard = 4;
+    private int SYMBOL_COUNT_PER_CARD = 4;
 
-    [SerializeField, Header("シンボルのデータを格納するリスト")]
-    private List<SymbolData> allSymbols = new();
+    [SerializeField, Header("シンボルのデータを格納する")]
+    private SymbolData[] allSymbols;
 
-    // 選択中のカード
-    [SerializeField]
-    public List<Card> selectedCards;
-
-    private void Start()
+    public SymbolData[] AllSymbols
     {
-        // デッキを初期化(デッキを生成)
-        InitializeDeck();
-
-        for(int i = 0; i <= initialDrawCount - 1; i++)
-        {
-            GameObject card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            cards.Add(card);
-            hand.Add(-1);
-            Draw(i);
-        }
+        get { return allSymbols; }
+        private set { allSymbols = value; }
     }
 
-    /// <summary>
-    /// デッキの初期化
-    /// </summary>
-    private void InitializeDeck()
+    private void OnEnable()
     {
-        int n = symbolCountPerCard - 1;
+        cardObjs = new GameObject[MAX_HAND_CARDS];
+        cardCmps = new Card[MAX_HAND_CARDS];
 
-        deck = GenerateDobbleCards(n);
+        deck = GenerateDobbleCards(SYMBOL_COUNT_PER_CARD);
+
+        GenerateHandCards();
     }
 
-    /// <summary>
-    /// Dobbleのルールに沿ったデッキを作成する
-    /// </summary>
-    /// <param name="n">カード毎のシンボルの数-1の値</param>
-    /// <returns></returns>
     private List<List<int>> GenerateDobbleCards(int n)
     {
+        n--;
+
         List<List<int>> cards = new();
 
         // 1枚目のカード (0, 1, 2, ..., n)
@@ -105,97 +92,74 @@ public class CardManager : MonoBehaviour
         return cards;
     }
 
-    /// <summary>
-    /// カードが選択されたときに実行されるスクリプト. ２枚選ばれた状態の時に作用する.
-    /// </summary>
-    public void UseCard()
+    private void GenerateHandCards()
     {
-        // 選択されたカードが2枚以下なら実行しない
-        if (selectedCards.Count != 2) return;
-
-        // 選択されたカードのシンボルのインデックスのリスト
-        List<int> combinedSymbolIndices = new();
-
-        // 結合されたリストから２回登場するシンボルを特定
-        foreach(Card card in selectedCards)
+        for (int i = 0; i <= MAX_HAND_CARDS - 1; i++)
         {
-            card.isSelected = false;
-            foreach(int index in card.symbolIndices)
+            cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //配置に関しては一時的です
+            cardCmps[i] = cardObjs[i].GetComponent<Card>();
+
+            cardCmps[i].OnCardClicked += HandleCardClicked;
+        }
+
+        for (int i = 0; i <= MAX_HAND_CARDS - 1; i++)
+        {
+            TrashAndDraw(cardCmps[i]);
+        }
+    }
+
+    private void TrashAndDraw(Card card)
+    {
+        var availableNums = Enumerable.Range(0, deck.Count).Except(handNums).ToList();
+
+        card.cardNum = availableNums[Random.Range(0, availableNums.Count)];
+
+        card.Initialize();
+    }
+
+    private Card selectedCard = null;
+
+    private Dictionary<int, SymbolData> commonSymbol;
+
+    private void HandleCardClicked(Card card)
+    {
+        if (selectedCard == null)
+        {
+            selectedCard = card;
+
+            HashSet<int> candidateOfSymbols = new(deck[selectedCard.cardNum]);
+
+            commonSymbol = new();
+
+            foreach (int handNum in handNums)
             {
-                // indexがすでにリストに含まれていたら処理を中断
-                if (combinedSymbolIndices.Contains(index))
+                HashSet<int> handSymbols = new(deck[handNum]);
+
+                HashSet<int> matchingSymbols = new(candidateOfSymbols.Intersect(handSymbols));
+
+                foreach (int matchingSymbol in matchingSymbols)
                 {
-                    // デバッグ用
-                    Debug.Log(allSymbols[index].symbolSprite.name + "が呼び出されました！");
-
-                    // indexに対応するシンボルに対応するアクションを実行
-                    //allSymbols[index].action.Execute();
-
-                    // ループを終了
-                    break;
+                    commonSymbol[handNum] = allSymbols[matchingSymbol];
                 }
-                // indexが初めて出てきたものならリストに追加
-                combinedSymbolIndices.Add(index);
             }
         }
 
-        // 2枚のカードのトラッシュ
-        List<int> selectedCardIndices = Trash();
+        else if (selectedCard != card)
+        {
+            //actionOfSymbols[card.cardNum].Execute();
+            Debug.Log(commonSymbol[card.cardNum].symbolSprite.name + "が呼び出されました");
 
-        // 2枚ドロー
-        Draw(selectedCardIndices[0]);
-        Draw(selectedCardIndices[1]);
+            TrashAndDraw(selectedCard);
+            TrashAndDraw(card);
+
+            selectedCard = null;
+        }
+
+        else
+        {
+            Debug.LogWarning("同じカードは選択できません");
+        }
     }
 
-    /// <summary>
-    /// 選択されたカードを記録しトラッシュする
-    /// </summary>
-    List<int> Trash()
-    {
-        List<int> cardsToRemove = new();
-        List<int> selectedCardIndices = new();
-
-        foreach (var _card in selectedCards)
-        {
-            cardsToRemove.Add(_card.cardNum);
-        }
-
-        foreach (var card in cardsToRemove)
-        {
-            selectedCardIndices.Add(hand.IndexOf(card));
-            hand.Remove(card);
-        }
-
-        selectedCards.Clear();
-
-        return selectedCardIndices;
-    }
-
-
-    /// <summary>
-    /// デッキからカードを1枚ドローする
-    /// </summary>
-    private void Draw(int index)
-    {
-        int randomIndex;
-
-        while (true)
-        {
-            randomIndex = Random.Range(0, deck.Count);
-            if (!hand.Contains(randomIndex)) break;
-        }
-
-        hand[index] = randomIndex;
-
-        Card card = cards[index].GetComponent<Card>();
-        card.symbolIndices = deck[hand[index]];
-        card.cardNum = hand[index];
-        card.symbols.Clear();
-
-        for (int j = 0; j <= deck[hand[index]].Count - 1; j++)
-        {
-            card.symbols.Add(allSymbols[deck[hand[index]][j]]);
-        }
-        card.ApplySymbols();
-    }
+    
 }
