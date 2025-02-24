@@ -4,29 +4,37 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
+/// <summary>
+/// HPバーの管理クラス
+/// </summary>
 public class HpBar : MonoBehaviour
 {
     [SerializeField] private RectTransform canvas;
-
-    [SerializeField] private RectTransform middle;
     [SerializeField] private RectTransform front;
 
-    private float maxHP;
-    private float currentHP;
+    [SerializeField] private Image frontImage;
 
+    private float maxHP;
+
+    // TODO: 最大HPの変化に対応
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void Initialize(float maxHP, float width = 1f, float height = 0.05f)
     {
-        canvas.sizeDelta = new Vector2(width, height);
         this.maxHP = maxHP;
-        currentHP = maxHP;
+
+        canvas.sizeDelta = new Vector2(width, height);
+        front.offsetMax = new Vector2(0, 0);
     }
 
-    public void UpdateHealth(float currentHP)
+    /// <summary>
+    /// HPバーの更新
+    /// </summary>
+    public void UpdateHpBar(float currentHP)
     {
-        this.currentHP = currentHP;
-
         float deltaX = - ( 1 - currentHP / maxHP) * canvas.sizeDelta.x;
-
         front.offsetMax = new Vector2(deltaX, 0);
     }
 

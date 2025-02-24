@@ -167,7 +167,7 @@ MonoBehaviour:
   range: 0.31
   attackDelay: 1
   attackMotionDuration: 2
-  damage: 1
+  damage: 5
 --- !u!114 &7825262807617505203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +182,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 933506233445904033}
   hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
-  pos: {x: -0.51, y: 1.2, z: 0}
-  width: 2
+  position: {x: 0.5, y: 1.15, z: 0}
+  width: 1
   height: 0.05

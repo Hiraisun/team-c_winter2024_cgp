@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 223059202}
   - component: {fileID: 223059203}
   - component: {fileID: 223059204}
+  - component: {fileID: 223059205}
   m_Layer: 0
   m_Name: PlayerCastle
   m_TagString: Untagged
@@ -268,6 +269,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 223059203}
+--- !u!114 &223059205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223059201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d0d3c90ee8acd458da5912efe6247b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 223059203}
+  hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  position: {x: 0.77, y: 1.95, z: 0}
+  width: 1.54
+  height: 0.05
 --- !u!1 &229567584
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +627,7 @@ GameObject:
   - component: {fileID: 1598504169}
   - component: {fileID: 1598504170}
   - component: {fileID: 1598504171}
+  - component: {fileID: 1598504172}
   m_Layer: 0
   m_Name: EnemyCastle
   m_TagString: Untagged
@@ -660,6 +679,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 1598504170}
+--- !u!114 &1598504172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598504168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d0d3c90ee8acd458da5912efe6247b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 223059203}
+  hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  position: {x: 0.77, y: 1.95, z: 0}
+  width: 1.54
+  height: 0.05
 --- !u!1 &1628559847
 GameObject:
   m_ObjectHideFlags: 0

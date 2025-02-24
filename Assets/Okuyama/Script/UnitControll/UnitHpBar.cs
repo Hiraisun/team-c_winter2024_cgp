@@ -10,7 +10,7 @@ public class UnitHpBar : UnitActionBase
     [SerializeField] private GameObject hpBarPrefab; // HPバーのプレハブ
 
     [Header("位置調整")]
-    [SerializeField] private Vector3 pos; // HPバーの位置調整用
+    [SerializeField] private Vector3 position; // HPバーの位置調整用
     [SerializeField] private float width = 1f; // HPバーの幅
     [SerializeField] private float height = 0.05f; // HPバーの高さ
 
@@ -21,24 +21,23 @@ public class UnitHpBar : UnitActionBase
     private void Start()
     {
         // HPバーのインスタンスを生成
-        hpBarObj = Instantiate(hpBarPrefab, transform.position + pos, Quaternion.identity, transform);
+        Vector3 pos = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
+        hpBarObj = Instantiate(hpBarPrefab, pos, Quaternion.identity, transform);
         hpBar = hpBarObj.GetComponent<HpBar>();
-        Debug.Log(width);
         hpBar.Initialize(unitBase.MaxHP, width, height);
     }
 
     protected override void OnDamageRecieved(float damage)
     {
         // 被ダメージ時更新
-        hpBar.UpdateHealth(unitBase.HP);
+        hpBar.UpdateHpBar(unitBase.HP);
     }
-
 
     void OnDrawGizmosSelected()
     {
         // デバッグ用位置表示
         Gizmos.color = Color.red;
-        Vector3 center = transform.position + pos;
+        Vector3 center = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
         Gizmos.DrawWireCube(center, new Vector3(width, height, 0f));
     }
 

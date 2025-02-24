@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 6495303854027191389}
   - component: {fileID: 4678205637200721549}
   - component: {fileID: 3980213837861586902}
+  - component: {fileID: 5467265619203972228}
   m_Layer: 0
   m_Name: Unit1
   m_TagString: Untagged
@@ -153,12 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 0}
-  stageData: {fileID: 11400000, guid: 32efd47ef12ae874fa0edc97dbbdea1e, type: 2}
-  unitType: 0
+  owner: 0
   lane: 0
-  isBusy: 0
-  MaxHP: 100
+  maxHP: 100
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +187,23 @@ MonoBehaviour:
   animator: {fileID: 5850544880172349102}
   attackableLaneList: 00000000
   range: 0.7
-  attackDuration: 1
+  attackDelay: 1
   attackMotionDuration: 2
   damage: 10
+--- !u!114 &5467265619203972228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595941037245212814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d0d3c90ee8acd458da5912efe6247b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 6495303854027191389}
+  hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  position: {x: 0.5, y: 1.15, z: 0}
+  width: 1
+  height: 0.05
