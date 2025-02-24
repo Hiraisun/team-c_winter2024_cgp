@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
         get { return deck; }
         private set { deck = value; }
     }
-    private int[] handNums => cardCmps.Select(card => card.cardNum).ToArray();
+    private int[] handNums => cardCmps.Select(card => card.GetCardNum()).ToArray();
 
     // 手札のゲームオブジェクト
     private GameObject[] cardObjs;
@@ -97,8 +97,9 @@ public class CardManager : MonoBehaviour
         for (int i = 0; i <= MAX_HAND_CARDS - 1; i++)
         {
             cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //配置に関しては一時的です
-            cardCmps[i] = cardObjs[i].GetComponent<Card>();
 
+            cardCmps[i] = cardObjs[i].GetComponent<Card>();
+            cardCmps[i].Initialize(this);
             cardCmps[i].OnCardClicked += HandleCardClicked;
         }
 
@@ -112,9 +113,9 @@ public class CardManager : MonoBehaviour
     {
         var availableNums = Enumerable.Range(0, deck.Count).Except(handNums).ToList();
 
-        card.cardNum = availableNums[Random.Range(0, availableNums.Count)];
+        int newCardNum = availableNums[Random.Range(0, availableNums.Count)];
 
-        card.Initialize();
+        card.SetCardNum(newCardNum);
     }
 
     private Card selectedCard = null;
@@ -127,7 +128,7 @@ public class CardManager : MonoBehaviour
         {
             selectedCard = card;
 
-            HashSet<int> candidateOfSymbols = new(deck[selectedCard.cardNum]);
+            HashSet<int> candidateOfSymbols = new(deck[selectedCard.GetCardNum()]);
 
             commonSymbol = new();
 
@@ -139,6 +140,7 @@ public class CardManager : MonoBehaviour
 
                 foreach (int matchingSymbol in matchingSymbols)
                 {
+                    allSymbols[matchingSymbol].isHighlighted = true;
                     commonSymbol[handNum] = allSymbols[matchingSymbol];
                 }
             }
@@ -147,7 +149,7 @@ public class CardManager : MonoBehaviour
         else if (selectedCard != card)
         {
             //actionOfSymbols[card.cardNum].Execute();
-            Debug.Log(commonSymbol[card.cardNum].symbolSprite.name + "が呼び出されました");
+            Debug.Log(commonSymbol[card.GetCardNum()].symbolSprite.name + "が呼び出されました");
 
             TrashAndDraw(selectedCard);
             TrashAndDraw(card);

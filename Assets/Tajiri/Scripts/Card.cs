@@ -2,8 +2,8 @@ using UnityEngine;
 using System;
 public class Card : MonoBehaviour
 {
-    [Header("カード番号")]
-    public int cardNum;
+    [SerializeField, Header("カード番号")]
+    private int cardNum;
 
     public string actionDiscription;
 
@@ -25,17 +25,32 @@ public class Card : MonoBehaviour
 
     private void OnEnable()
     {
-        // CardManagerを取得
-        cm = GameObject.FindAnyObjectByType<CardManager>();
+
     }
 
-    public void Initialize()
+    public void Initialize(CardManager manager)
+    {
+        cm = manager;
+    }
+
+    public void ApplyChanges()
     {
         for(int i = 0; i <= sr.Length - 1; i++)
         {
             int symbolIndex = cm.Deck[cardNum][i];
             sr[i].sprite = cm.AllSymbols[symbolIndex].symbolSprite;
         }
+    }
+
+    public void SetCardNum(int newNum)
+    {
+        cardNum = newNum;
+        ApplyChanges();
+    }
+
+    public int GetCardNum()
+    {
+        return cardNum;
     }
 
     public void TrashAnimation()
