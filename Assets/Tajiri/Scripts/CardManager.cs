@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardManager : MonoBehaviour
 {
@@ -26,13 +27,13 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
     private int SYMBOL_PER_CARD = 4;
 
-    private int TOTAL_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1;
+    private int TOTAL_CARD_AND_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1; // カードの枚数とシンボルの数は同じ
 
     [SerializeField, Header("手札の枚数")]
     private int INITIAL_HAND_CARDS = 5;
 
     [SerializeField, Header("手札の最大枚数")]
-    private int MAX_HAND_CARDS = 5;
+    private int MAX_HAND_CARDS = 8;
 
     private SymbolData[] allSymbols;
 
@@ -48,14 +49,16 @@ public class CardManager : MonoBehaviour
 
         GenerateDobbleCardsList();
 
-        GenerateHandCards();
+        GenerateCardsObj();
+
+        InitialDraw();
     }
 
     private void InitializeArrays()
     {
-        allSymbols = new SymbolData[TOTAL_SYMBOL];
-        cardObjs = new GameObject[INITIAL_HAND_CARDS];
-        cardCmps = new Card[INITIAL_HAND_CARDS];
+        allSymbols = new SymbolData[TOTAL_CARD_AND_SYMBOL];
+        cardObjs = new GameObject[TOTAL_CARD_AND_SYMBOL];
+        cardCmps = new Card[TOTAL_CARD_AND_SYMBOL];
 
         allSymbols = Resources.LoadAll<SymbolData>("Symbols");
     }
@@ -102,31 +105,73 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void GenerateHandCards()
+    private void GenerateCardsObj()
     {
-        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
+        for (int i = 0; i < TOTAL_CARD_AND_SYMBOL; i++)
         {
-            cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //配置に関しては一時的です
+            cardObjs[i] = Instantiate(cardPrefab, new(0, 10, 0), Quaternion.identity); //配置に関しては一時的です
+            cardObjs[i].SetActive(false);
 
             cardCmps[i] = cardObjs[i].GetComponent<Card>();
+            cardCmps[i].SetCardNum(i);
             cardCmps[i].Initialize(this);
+            cardCmps[i].ApplyChanges();
             cardCmps[i].OnCardClicked += HandleCardClicked;
-        }
-
-        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
-        {
-            TrashAndDraw(cardCmps[i]);
         }
     }
 
-    private void TrashAndDraw(Card card)
+    private void InitialDraw()
     {
-        var availableNums = Enumerable.Range(0, deck.Count).Except(HandNums).ToList();
+        for(int i = 0; i < INITIAL_HAND_CARDS; i++)
+        {
+            Draw();
+        }
+    }
 
-        int newCardNum = availableNums[UnityEngine.Random.Range(0, availableNums.Count)];
+    private void Trash(Card selectedCard)
+    {
+        if (selectedCard == null)
+        {
+            Debug.LogWarning("捨てるカードが選択されていません。");
+            return;
+        }
 
-        card.SetCardNum(newCardNum);
-        card.ApplyChanges();
+        selectedCard.transform.position = new Vector3(0, 10, 0);
+        selectedCard.gameObject.SetActive(false);
+        selectedCard = null;
+        RearrangeHand();
+    }
+
+    private void Draw()
+    {
+        if (cardCmps.Count(c => c.gameObject.activeSelf) >= MAX_HAND_CARDS)
+        {
+            Debug.LogWarning("手札が最大枚数に達しています。");
+            return;
+        }
+
+        var inactiveCards = cardCmps.Where(c => !c.gameObject.activeSelf).ToList();
+
+        if (inactiveCards.Count > 0)
+        {
+            Card newCard = inactiveCards[UnityEngine.Random.Range(0, inactiveCards.Count)];
+            newCard.gameObject.SetActive(true);
+            RearrangeHand();
+        }
+        else
+        {
+            Debug.LogWarning("非アクティブなカードがありません。");
+        }
+    }
+
+    private void RearrangeHand()
+    {
+        int index = 0;
+        foreach (var card in cardCmps.Where(c => c.gameObject.activeSelf))
+        {
+            card.transform.DOMove(new Vector3(-6 + index * 3, 0, 0), 1f);
+            index++;
+        }
     }
 
     private Card selectedCard = null;
@@ -182,9 +227,9 @@ public class CardManager : MonoBehaviour
             {
                 Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " に効果が設定されていません。");
             }
-    
-            TrashAndDraw(selectedCard);
-            TrashAndDraw(card);
+
+            Trash(selectedCard);
+            Trash(card);
 
             selectedCard = null;
 

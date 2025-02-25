@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 using System.Linq;
+using System.Collections.Generic;
 public class Card : MonoBehaviour
 {
     public int CardNum { get; private set; }
@@ -10,15 +11,6 @@ public class Card : MonoBehaviour
 
     [SerializeField, Header("シンボルを表示するSpriteRenderer")]
     private SpriteRenderer[] sr;
-
-    public enum CardState
-    {
-        Idle,
-        Selected,
-        Trashing
-    }
-
-    public CardState currentState = CardState.Idle;
 
     public event Action<Card> OnCardClicked;
 
@@ -72,13 +64,11 @@ public class Card : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        transform.DOKill();
         this.transform.DOScale(Vector2.one * 1.1f, 0.2f);
     }
 
     private void OnMouseExit()
     {
-        transform.DOKill();
         this.transform.DOScale(Vector2.one, 0.2f);
     }
 }
