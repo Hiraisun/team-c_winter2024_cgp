@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class DebugActivateCardEffect : MonoBehaviour
 {
     [Serializable]
@@ -64,3 +65,4 @@ public class DebugActivateCardEffect : MonoBehaviour
     }
 
 }
+#endif
