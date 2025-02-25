@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    // g—p‚·‚é‚·‚×‚Ä‚ÌƒJ[ƒh
+    // ä½¿ç”¨ã™ã‚‹ã™ã¹ã¦ã®ã‚«ãƒ¼ãƒ‰
     private List<List<int>> deck;
 
     public List<List<int>> Deck
@@ -15,24 +15,24 @@ public class CardManager : MonoBehaviour
     }
     private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
-    // èD‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg
+    // æ‰‹æœ­ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     private GameObject[] cardObjs;
 
     private Card[] cardCmps;
 
-    [SerializeField, Header("ƒJ[ƒh‚ÌPrefab")]
+    [SerializeField, Header("ã‚«ãƒ¼ãƒ‰ã®Prefab")]
     private GameObject cardPrefab;
 
-    [SerializeField, Header("‚P–‡‚ÌƒJ[ƒh‚É‘‚©‚ê‚Ä‚¢‚éƒVƒ“ƒ{ƒ‹‚Ì”")]
+    [SerializeField, Header("ï¼‘æšã®ã‚«ãƒ¼ãƒ‰ã«æ›¸ã‹ã‚Œã¦ã„ã‚‹ã‚·ãƒ³ãƒœãƒ«ã®æ•°")]
     private int SYMBOL_COUNT_PER_CARD = 4;
 
-    [SerializeField, Header("èD‚Ì–‡”")]
+    [SerializeField, Header("æ‰‹æœ­ã®æšæ•°")]
     private int INITIAL_HAND_CARDS = 5;
 
-    [SerializeField, Header("èD‚ÌÅ‘å–‡”")]
+    [SerializeField, Header("æ‰‹æœ­ã®æœ€å¤§æšæ•°")]
     private int MAX_HAND_CARDS = 5;
 
-    [SerializeField, Header("ƒVƒ“ƒ{ƒ‹‚Ìƒf[ƒ^‚ğŠi”[‚·‚é")]
+    [SerializeField, Header("ã‚·ãƒ³ãƒœãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹")]
     private SymbolData[] allSymbols;
 
     public SymbolData[] AllSymbols
@@ -57,7 +57,7 @@ public class CardManager : MonoBehaviour
 
         deck = new();
 
-        // 1–‡–Ú‚ÌƒJ[ƒh (0, 1, 2, ..., n)
+        // 1æšç›®ã®ã‚«ãƒ¼ãƒ‰ (0, 1, 2, ..., n)
         List<int> firstCard = new();
         for (int i = 0; i <= n; i++)
         {
@@ -65,7 +65,7 @@ public class CardManager : MonoBehaviour
         }
         deck.Add(firstCard);
 
-        // Ÿ‚Ì n –‡ (0 ‚ğŒÅ’è‚µA—ñ‚²‚Æ‚É‘‚â‚µ‚Ä‚¢‚­)
+        // æ¬¡ã® n æš (0 ã‚’å›ºå®šã—ã€åˆ—ã”ã¨ã«å¢—ã‚„ã—ã¦ã„ã)
         for (int i = 1; i <= n; i++)
         {
             List<int> card = new() { 0 };
@@ -76,7 +76,7 @@ public class CardManager : MonoBehaviour
             deck.Add(card);
         }
 
-        // c‚è‚Ì n^2 –‡ (y = ax + b ‚ÌŒ`)
+        // æ®‹ã‚Šã® n^2 æš (y = ax + b ã®å½¢)
         for (int a = 1; a <= n; a++)
         {
             for (int b = 1; b <= n; b++)
@@ -97,7 +97,7 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < INITIAL_HAND_CARDS; i++)
         {
-            cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //”z’u‚ÉŠÖ‚µ‚Ä‚Íˆê“I‚Å‚·
+            cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //é…ç½®ã«é–¢ã—ã¦ã¯ä¸€æ™‚çš„ã§ã™
 
             cardCmps[i] = cardObjs[i].GetComponent<Card>();
             cardCmps[i].Initialize(this);
@@ -171,7 +171,7 @@ public class CardManager : MonoBehaviour
             }
             catch
             {
-                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " ‚ÉƒAƒNƒVƒ‡ƒ“‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
+                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " ã«ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
             }
     
             TrashAndDraw(selectedCard);
@@ -187,7 +187,7 @@ public class CardManager : MonoBehaviour
 
         else
         {
-            Debug.LogWarning("“¯‚¶ƒJ[ƒh‚Í‘I‘ğ‚Å‚«‚Ü‚¹‚ñ");
+            Debug.LogWarning("åŒã˜ã‚«ãƒ¼ãƒ‰ã¯é¸æŠã§ãã¾ã›ã‚“");
         }
     }
 }

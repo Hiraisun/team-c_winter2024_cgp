@@ -13,19 +13,19 @@ public abstract class ActionScriptableObject : ScriptableObject, IAction
 }
 
 /// <summary>
-/// ƒ†ƒjƒbƒg‚ğ¶¬‚·‚é
+/// ãƒ¦ãƒ‹ãƒƒãƒˆã‚’ç”Ÿæˆã™ã‚‹
 /// </summary>
 [CreateAssetMenu(fileName = "SpawnUnitAction", menuName = "ScriptableObject/Actions/SpawnUnit")]
 public class SpawnUnitAction : ActionScriptableObject
 {
-    [SerializeField, Header("¶¬‚·‚éƒ†ƒjƒbƒg‚ÌPrefab")]
+    [SerializeField, Header("ç”Ÿæˆã™ã‚‹ãƒ¦ãƒ‹ãƒƒãƒˆã®Prefab")]
     private GameObject unitPrefab;
 
-    [SerializeField, Header("¶¬‚³‚ê‚éÀ•W")]
+    [SerializeField, Header("ç”Ÿæˆã•ã‚Œã‚‹åº§æ¨™")]
     private Transform spawnPoint;
 
     public override void Execute()
     {
-        Debug.Log(unitPrefab.name + "‚ğ¶¬‚µ‚½I");
+        Debug.Log(unitPrefab.name + "ã‚’ç”Ÿæˆã—ãŸï¼");
     }
 }
