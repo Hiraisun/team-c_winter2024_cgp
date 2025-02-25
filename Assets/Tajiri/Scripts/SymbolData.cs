@@ -10,7 +10,7 @@ public class SymbolData : ScriptableObject
     public string description;
 
     [Header("シンボルに対応するアクション")]
-    public ActionScriptableObject action;
+    public CardEffectBase cardAction;
 
     [Header("シンボルのスプライト")]
     public Sprite symbolSprite;

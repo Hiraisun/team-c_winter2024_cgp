@@ -167,7 +167,7 @@ public class CardManager : MonoBehaviour
         {
             try
             {
-                commonSymbol[card.CardNum].action.Execute();
+                commonSymbol[card.CardNum].cardAction.Activate(OwnerType.PLAYER);
             }
             catch
             {
