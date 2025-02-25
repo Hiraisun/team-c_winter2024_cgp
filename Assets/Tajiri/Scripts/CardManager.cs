@@ -23,11 +23,14 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
 
-    [SerializeField, Header("手札の枚数")]
-    private int MAX_HAND_CARDS = 5;
-
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
     private int SYMBOL_COUNT_PER_CARD = 4;
+
+    [SerializeField, Header("手札の枚数")]
+    private int INITIAL_HAND_CARDS = 5;
+
+    [SerializeField, Header("手札の最大枚数")]
+    private int MAX_HAND_CARDS = 5;
 
     [SerializeField, Header("シンボルのデータを格納する")]
     private SymbolData[] allSymbols;
@@ -40,15 +43,15 @@ public class CardManager : MonoBehaviour
 
     private void OnEnable()
     {
-        cardObjs = new GameObject[MAX_HAND_CARDS];
-        cardCmps = new Card[MAX_HAND_CARDS];
+        cardObjs = new GameObject[INITIAL_HAND_CARDS];
+        cardCmps = new Card[INITIAL_HAND_CARDS];
 
-        GenerateDobbleCards();
+        GenerateDobbleCardsList();
 
         GenerateHandCards();
     }
 
-    private void GenerateDobbleCards()
+    private void GenerateDobbleCardsList()
     {
         int n = SYMBOL_COUNT_PER_CARD - 1;
 
@@ -92,7 +95,7 @@ public class CardManager : MonoBehaviour
 
     private void GenerateHandCards()
     {
-        for (int i = 0; i < MAX_HAND_CARDS; i++)
+        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
         {
             cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //配置に関しては一時的です
 
@@ -101,7 +104,7 @@ public class CardManager : MonoBehaviour
             cardCmps[i].OnCardClicked += HandleCardClicked;
         }
 
-        for (int i = 0; i < MAX_HAND_CARDS; i++)
+        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
         {
             TrashAndDraw(cardCmps[i]);
         }
@@ -162,11 +165,11 @@ public class CardManager : MonoBehaviour
 
         else if (selectedCard != card)
         {
-            if (commonSymbol[card.CardNum].action != null)
+            try
             {
                 commonSymbol[card.CardNum].action.Execute();
             }
-            else
+            catch
             {
                 Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " にアクションが設定されていません。");
             }

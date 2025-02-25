@@ -36,7 +36,7 @@ public class Card : MonoBehaviour
 
     public void ApplyChanges()
     {
-        for(int i = 0; i <= sr.Length - 1; i++)
+        for(int i = 0; i < sr.Length; i++)
         {
             int symbolIndex = cm.Deck[CardNum][i];
             sr[i].sprite = cm.AllSymbols[symbolIndex].symbolSprite;
@@ -49,15 +49,16 @@ public class Card : MonoBehaviour
         int highlightedSymbolIndex = cm.Deck[CardNum].IndexOf(highlightedSymbol);
 
         if (highlightedSymbolIndex == -1) return;
-
-        sr[highlightedSymbolIndex].DOColor(Color.red, 1f);
+        sr[highlightedSymbolIndex].DOKill();
+        sr[highlightedSymbolIndex].DOColor(Color.green, 1f);
     }
 
     public void ResetSymbolsColor()
     {
         foreach(SpriteRenderer _sr in sr)
         {
-            _sr.DOColor(Color.white, 0f);
+            _sr.DOKill();
+            _sr.DOColor(Color.white, 1f);
         }
     }
 
