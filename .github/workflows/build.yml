@@ -1,6 +1,13 @@
 name: WebGL Build ✨
 
-on: [push, pull_request]
+# メインブランチのみ実行
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
