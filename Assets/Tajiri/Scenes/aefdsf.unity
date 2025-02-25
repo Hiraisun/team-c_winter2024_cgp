@@ -152,8 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
-  MAX_HAND_CARDS: 5
   SYMBOL_COUNT_PER_CARD: 4
+  INITIAL_HAND_CARDS: 5
+  MAX_HAND_CARDS: 5
   allSymbols:
   - {fileID: 11400000, guid: 8dd70d7c0518c6f47a82d4efb44bed70, type: 2}
   - {fileID: 11400000, guid: 1fa4c805a0594ae43b8e119d64fef838, type: 2}
