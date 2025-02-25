@@ -8,7 +8,7 @@ public class Card : MonoBehaviour
 
     public string actionDiscription;
 
-    [SerializeField, Header("ƒVƒ“ƒ{ƒ‹‚ğ•\¦‚·‚éSpriteRenderer")]
+    [SerializeField, Header("ã‚·ãƒ³ãƒœãƒ«ã‚’è¡¨ç¤ºã™ã‚‹SpriteRenderer")]
     private SpriteRenderer[] sr;
 
     public enum CardState
@@ -69,7 +69,7 @@ public class Card : MonoBehaviour
 
     }
 
-    // ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ªƒNƒŠƒbƒN‚³‚ê‚½‚Æ‚«
+    // ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã¨ã
     private void OnMouseDown()
     {
         OnCardClicked?.Invoke(this);

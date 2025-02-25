@@ -3,15 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SymbolData", menuName = "ScriptableObject/SymbolData")]
 public class SymbolData : ScriptableObject
 {
-    [Header("ƒVƒ“ƒ{ƒ‹–¼")]
+    [Header("ã‚·ãƒ³ãƒœãƒ«å")]
     public string symbolName;
 
-    [Header("ƒVƒ“ƒ{ƒ‹‚É‘Î‰‚·‚éƒAƒNƒVƒ‡ƒ“‚Ìà–¾")]
+    [Header("ã‚·ãƒ³ãƒœãƒ«ã«å¯¾å¿œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®èª¬æ˜")]
     public string description;
 
-    [Header("ƒVƒ“ƒ{ƒ‹‚É‘Î‰‚·‚éƒAƒNƒVƒ‡ƒ“")]
-    public ActionScriptableObject action;
+    [Header("ã‚·ãƒ³ãƒœãƒ«ã«å¯¾å¿œã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³")]
+    public CardEffectBase cardAction;
 
-    [Header("ƒVƒ“ƒ{ƒ‹‚ÌƒXƒvƒ‰ƒCƒg")]
+    [Header("ã‚·ãƒ³ãƒœãƒ«ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ")]
     public Sprite symbolSprite;
 }
