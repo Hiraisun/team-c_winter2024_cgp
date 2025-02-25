@@ -7,33 +7,28 @@ public class Card : MonoBehaviour
 {
     public int CardNum { get; private set; }
 
-    public string actionDiscription;
+    public string EffectDiscription { get; private set; }
+
+    public bool IsCardInHand { get; private set; }
 
     [SerializeField, Header("シンボルを表示するSpriteRenderer")]
     private SpriteRenderer[] sr;
 
     public event Action<Card> OnCardClicked;
 
-    private CardManager cm;
-
-    public void Initialize(CardManager manager)
-    {
-        cm = manager;
-    }
-
-    public void ApplyChanges()
+    public void ApplyChanges(List<List<int>> deck, SymbolData[] allSymbols)
     {
         for(int i = 0; i < sr.Length; i++)
         {
-            int symbolIndex = cm.Deck[CardNum][i];
-            sr[i].sprite = cm.AllSymbols[symbolIndex].symbolSprite;
+            int symbolIndex = deck[CardNum][i];
+            sr[i].sprite = allSymbols[symbolIndex].symbolSprite;
         }
     }
 
-    public void SetHighlightedSymbol()
+    public void SetHighlightedSymbol(List<List<int>> deck, List<int> matchingSymbols)
     {
-        int highlightedSymbol = cm.Deck[CardNum].Intersect(cm.MatchingSymbols).DefaultIfEmpty(-1).First();
-        int highlightedSymbolIndex = cm.Deck[CardNum].IndexOf(highlightedSymbol);
+        int highlightedSymbol = deck[CardNum].Intersect(matchingSymbols).DefaultIfEmpty(-1).First();
+        int highlightedSymbolIndex = deck[CardNum].IndexOf(highlightedSymbol);
 
         if (highlightedSymbolIndex == -1) return;
         sr[highlightedSymbolIndex].DOKill();
@@ -49,12 +44,11 @@ public class Card : MonoBehaviour
         }
     }
 
-    public void SetCardNum(int newNum) => CardNum = newNum;
+    public void SetCardNum(int value) => CardNum = value;
 
-    public void TrashAnimation()
-    {
+    public void SetCardInHand(bool value) => IsCardInHand = value;
 
-    }
+    public void SetCardDescription(string value) => EffectDiscription = value;
 
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()

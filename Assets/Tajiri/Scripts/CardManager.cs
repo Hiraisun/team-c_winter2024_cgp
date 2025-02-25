@@ -9,17 +9,12 @@ public class CardManager : MonoBehaviour
     // 使用するすべてのカード
     private List<List<int>> deck;
 
-    public List<List<int>> Deck
-    {
-        get { return deck; }
-        private set { deck = value; }
-    }
-    private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
-
     // 手札のゲームオブジェクト
     private GameObject[] cardObjs;
 
     private Card[] cardCmps;
+
+    private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
@@ -35,13 +30,9 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("手札の最大枚数")]
     private int MAX_HAND_CARDS = 8;
 
-    private SymbolData[] allSymbols;
+    private Vector3 trashPos = new(0, 10, 0);
 
-    public SymbolData[] AllSymbols
-    {
-        get { return allSymbols; }
-        private set { allSymbols = value; }
-    }
+    private SymbolData[] allSymbols;
 
     private void OnEnable()
     {
@@ -109,13 +100,12 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < TOTAL_CARD_AND_SYMBOL; i++)
         {
-            cardObjs[i] = Instantiate(cardPrefab, new(0, 10, 0), Quaternion.identity); //配置に関しては一時的です
-            cardObjs[i].SetActive(false);
+            cardObjs[i] = Instantiate(cardPrefab, trashPos, Quaternion.identity); //配置に関しては一時的です
 
             cardCmps[i] = cardObjs[i].GetComponent<Card>();
+            cardCmps[i].SetCardInHand(false);
             cardCmps[i].SetCardNum(i);
-            cardCmps[i].Initialize(this);
-            cardCmps[i].ApplyChanges();
+            cardCmps[i].ApplyChanges(deck, allSymbols);
             cardCmps[i].OnCardClicked += HandleCardClicked;
         }
     }
@@ -136,26 +126,27 @@ public class CardManager : MonoBehaviour
             return;
         }
 
-        selectedCard.transform.position = new Vector3(0, 10, 0);
-        selectedCard.gameObject.SetActive(false);
-        selectedCard = null;
-        RearrangeHand();
+        selectedCard.transform.DOMove(trashPos, 1f).OnComplete(() =>
+        {
+            selectedCard.SetCardInHand(false);
+            RearrangeHand();
+        });
     }
 
     private void Draw()
     {
-        if (cardCmps.Count(c => c.gameObject.activeSelf) >= MAX_HAND_CARDS)
+        if (cardCmps.Count(c => c.IsCardInHand) >= MAX_HAND_CARDS)
         {
             Debug.LogWarning("手札が最大枚数に達しています。");
             return;
         }
 
-        var inactiveCards = cardCmps.Where(c => !c.gameObject.activeSelf).ToList();
+        var inactiveCards = cardCmps.Where(c => !c.IsCardInHand).ToList();
 
         if (inactiveCards.Count > 0)
         {
             Card newCard = inactiveCards[UnityEngine.Random.Range(0, inactiveCards.Count)];
-            newCard.gameObject.SetActive(true);
+            newCard.SetCardInHand(true);
             RearrangeHand();
         }
         else
@@ -167,7 +158,7 @@ public class CardManager : MonoBehaviour
     private void RearrangeHand()
     {
         int index = 0;
-        foreach (var card in cardCmps.Where(c => c.gameObject.activeSelf))
+        foreach (var card in cardCmps.Where(c => c.IsCardInHand))
         {
             card.transform.DOMove(new Vector3(-6 + index * 3, 0, 0), 1f);
             index++;
@@ -177,12 +168,6 @@ public class CardManager : MonoBehaviour
     private Card selectedCard = null;
 
     private HashSet<int> matchingSymbols;
-
-    public List<int> MatchingSymbols
-    {
-        get { return matchingSymbols.ToList(); }
-        private set { matchingSymbols = value.ToHashSet(); }
-    }
 
     private Dictionary<int, SymbolData> commonSymbol;
 
@@ -206,7 +191,7 @@ public class CardManager : MonoBehaviour
                 {
                     if (_card != card)
                     {
-                        _card.SetHighlightedSymbol();
+                        _card.SetHighlightedSymbol(deck, matchingSymbols.ToList());
                     }
                 }
 
