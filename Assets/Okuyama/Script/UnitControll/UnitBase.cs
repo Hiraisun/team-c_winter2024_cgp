@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum OwnerType
@@ -157,6 +158,27 @@ public class UnitBase : MonoBehaviour
     public void InvokeOnDamageDealt(UnitBase target)
     {
         OnDamageDealt?.Invoke(target);
+    }
+
+
+
+
+    // デバッグ用
+    void OnDrawGizmosSelected()
+    {
+        // 頭上にstateを表示
+        string text;
+        if(isBusy)
+        {
+            text = executionAction.GetType().Name;
+        }
+        else
+        {
+            text = "Idle";
+        }
+        var guiStyle = new GUIStyle {fontSize = 20, normal = {textColor = Color.black}};
+        Handles.Label(transform.position + Vector3.up, text, guiStyle);
+
     }
 }
 
