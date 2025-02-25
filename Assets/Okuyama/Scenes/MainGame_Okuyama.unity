@@ -392,8 +392,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe54d1ea1d643554a81fc80ce3e7e0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laneY: 0.39
-  spawnPosX: 7.48
+  laneMaxY: 0.6
+  laneMinY: 0
+  spawnPosX: 7.62
 --- !u!1 &650402618
 GameObject:
   m_ObjectHideFlags: 0

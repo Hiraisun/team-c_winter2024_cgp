@@ -12,8 +12,12 @@ public enum Lane{
 /// </summary>
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField] private float laneY;
-    [SerializeField] private float spawnPosX;
+    [SerializeField, Header("ユニットの召喚Y座標 最大値")] 
+    private float laneMaxY;
+    [SerializeField, Header("ユニットの召喚Y座標 最小値")]
+    private float laneMinY;
+    [SerializeField, Header("召喚X座標, プレイヤーとNPCで左右対称")] 
+    private float spawnPosX;
 
     // (攻撃などの対象となる)ユニットのリスト
     private List<UnitBase> playerUnitList = new();
@@ -34,10 +38,12 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void SummonUnit(GameObject unitPrefab, OwnerType type)
     {
-        //TODO: Y軸を乱数でブレさせる
-        Vector3 pos = new Vector3(type == OwnerType.PLAYER ? spawnPosX : -spawnPosX, laneY, 0);
+        float y = Random.Range(laneMinY, laneMaxY);
+        float x = type == OwnerType.PLAYER ? spawnPosX : -spawnPosX;
+        float z = laneMaxY - y; // 出現Y座標と表示順を対応
+        
         //召喚
-        GameObject unitObj = Instantiate(unitPrefab, pos, Quaternion.identity, transform);
+        GameObject unitObj = Instantiate(unitPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
         UnitBase unit = unitObj.GetComponent<UnitBase>();
 
         //ユニット初期化
@@ -107,18 +113,19 @@ public class BattleManager : MonoBehaviour
         return null;
     }
 
-    //デバッグ用
-    void OnDrawGizmos()
+    //調整用
+    void OnDrawGizmosSelected()
     {
         //レーンの描画
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(new Vector3(-20, laneY, 0), new Vector3(20, laneY, 0));
+        Gizmos.DrawLine(new Vector3(-20, laneMaxY, 0), new Vector3(20, laneMaxY, 0));
+        Gizmos.DrawLine(new Vector3(-20, laneMinY, 0), new Vector3(20, laneMinY, 0));
 
         //スポーン位置描画
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(new Vector3(-spawnPosX, laneY, 0), 0.2f);
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(new Vector3(spawnPosX, laneY, 0), 0.2f);
+        Gizmos.DrawLine(new Vector3(spawnPosX, laneMaxY, 0), new Vector3(spawnPosX, laneMinY, 0));
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(new Vector3(-spawnPosX, laneMaxY, 0), new Vector3(-spawnPosX, laneMinY, 0));
     }
 
 }
