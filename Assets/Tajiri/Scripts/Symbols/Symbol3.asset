@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Symbol3
   m_EditorClassIdentifier: 
   symbolName: 3
-  description: 
-  action: {fileID: 0}
+  description: "\u304D\u308A\u304B\u3076"
+  action: {fileID: 11400000, guid: 5abe6c48f184ecf48adc8b8668c0ebeb, type: 2}
   symbolSprite: {fileID: 21300000, guid: 2106d9b8e84fcb143aff5d9a62e01fcf, type: 3}
+  isHighlighted: 0

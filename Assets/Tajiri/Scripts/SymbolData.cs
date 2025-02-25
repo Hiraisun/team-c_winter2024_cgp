@@ -14,6 +14,4 @@ public class SymbolData : ScriptableObject
 
     [Header("シンボルのスプライト")]
     public Sprite symbolSprite;
-
-    public bool isHighlighted = false;
 }

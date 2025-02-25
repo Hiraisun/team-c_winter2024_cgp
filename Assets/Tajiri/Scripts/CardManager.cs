@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,16 +43,16 @@ public class CardManager : MonoBehaviour
         cardObjs = new GameObject[MAX_HAND_CARDS];
         cardCmps = new Card[MAX_HAND_CARDS];
 
-        deck = GenerateDobbleCards(SYMBOL_COUNT_PER_CARD);
+        GenerateDobbleCards();
 
         GenerateHandCards();
     }
 
-    private List<List<int>> GenerateDobbleCards(int n)
+    private void GenerateDobbleCards()
     {
-        n--;
+        int n = SYMBOL_COUNT_PER_CARD - 1;
 
-        List<List<int>> cards = new();
+        deck = new();
 
         // 1枚目のカード (0, 1, 2, ..., n)
         List<int> firstCard = new();
@@ -60,7 +60,7 @@ public class CardManager : MonoBehaviour
         {
             firstCard.Add(i);
         }
-        cards.Add(firstCard);
+        deck.Add(firstCard);
 
         // 次の n 枚 (0 を固定し、列ごとに増やしていく)
         for (int i = 1; i <= n; i++)
@@ -70,7 +70,7 @@ public class CardManager : MonoBehaviour
             {
                 card.Add(i + j * n);
             }
-            cards.Add(card);
+            deck.Add(card);
         }
 
         // 残りの n^2 枚 (y = ax + b の形)
@@ -85,16 +85,14 @@ public class CardManager : MonoBehaviour
                     symbol = n + symbol * n + x;
                     card.Add(symbol);
                 }
-                cards.Add(card);
+                deck.Add(card);
             }
         }
-
-        return cards;
     }
 
     private void GenerateHandCards()
     {
-        for (int i = 0; i <= MAX_HAND_CARDS - 1; i++)
+        for (int i = 0; i < MAX_HAND_CARDS; i++)
         {
             cardObjs[i] = Instantiate(cardPrefab, new(-7 + 3 * i + 1, -3, 0), Quaternion.identity); //配置に関しては一時的です
 
@@ -103,7 +101,7 @@ public class CardManager : MonoBehaviour
             cardCmps[i].OnCardClicked += HandleCardClicked;
         }
 
-        for (int i = 0; i <= MAX_HAND_CARDS - 1; i++)
+        for (int i = 0; i < MAX_HAND_CARDS; i++)
         {
             TrashAndDraw(cardCmps[i]);
         }
@@ -113,13 +111,21 @@ public class CardManager : MonoBehaviour
     {
         var availableNums = Enumerable.Range(0, deck.Count).Except(HandNums).ToList();
 
-        int newCardNum = availableNums[Random.Range(0, availableNums.Count)];
+        int newCardNum = availableNums[UnityEngine.Random.Range(0, availableNums.Count)];
 
         card.SetCardNum(newCardNum);
         card.ApplyChanges();
     }
 
     private Card selectedCard = null;
+
+    private HashSet<int> matchingSymbols;
+
+    public List<int> MatchingSymbols
+    {
+        get { return matchingSymbols.ToList(); }
+        private set { matchingSymbols = value.ToHashSet(); }
+    }
 
     private Dictionary<int, SymbolData> commonSymbol;
 
@@ -137,11 +143,18 @@ public class CardManager : MonoBehaviour
             {
                 HashSet<int> handSymbols = new(deck[handNum]);
 
-                HashSet<int> matchingSymbols = new(candidateOfSymbols.Intersect(handSymbols));
+                matchingSymbols = new(candidateOfSymbols.Intersect(handSymbols));
+
+                foreach (Card _card in cardCmps)
+                {
+                    if (_card != card)
+                    {
+                        _card.SetHighlightedSymbol();
+                    }
+                }
 
                 foreach (int matchingSymbol in matchingSymbols)
                 {
-                    allSymbols[matchingSymbol].isHighlighted = true;
                     commonSymbol[handNum] = allSymbols[matchingSymbol];
                 }
             }
@@ -149,12 +162,24 @@ public class CardManager : MonoBehaviour
 
         else if (selectedCard != card)
         {
-            commonSymbol[card.CardNum].action.Execute();
-
+            if (commonSymbol[card.CardNum].action != null)
+            {
+                commonSymbol[card.CardNum].action.Execute();
+            }
+            else
+            {
+                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " にアクションが設定されていません。");
+            }
+    
             TrashAndDraw(selectedCard);
             TrashAndDraw(card);
 
             selectedCard = null;
+
+            foreach (Card _card in cardCmps)
+            {
+                _card.ResetSymbolsColor();
+            }
         }
 
         else

@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
-  initialDrawCount: 5
-  symbolCountPerCard: 4
+  MAX_HAND_CARDS: 5
+  SYMBOL_COUNT_PER_CARD: 4
   allSymbols:
   - {fileID: 11400000, guid: 8dd70d7c0518c6f47a82d4efb44bed70, type: 2}
   - {fileID: 11400000, guid: 1fa4c805a0594ae43b8e119d64fef838, type: 2}
@@ -168,7 +168,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c35a8b9abc3918e49838c39cf57ab1f2, type: 2}
   - {fileID: 11400000, guid: a74e8ce37fb608847929ba7e88ac718f, type: 2}
   - {fileID: 11400000, guid: fe494df0bb2f9b5468fe3bf840333bea, type: 2}
-  selectedCards: []
 --- !u!4 &998776113
 Transform:
   m_ObjectHideFlags: 0

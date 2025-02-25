@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using DG.Tweening;
+using System.Linq;
 public class Card : MonoBehaviour
 {
     public int CardNum { get; private set; }
@@ -41,9 +43,22 @@ public class Card : MonoBehaviour
         }
     }
 
-    public void SetHighlightedSymbol(int[] symbolIndices)
+    public void SetHighlightedSymbol()
     {
+        int highlightedSymbol = cm.Deck[CardNum].Intersect(cm.MatchingSymbols).DefaultIfEmpty(-1).First();
+        int highlightedSymbolIndex = cm.Deck[CardNum].IndexOf(highlightedSymbol);
 
+        if (highlightedSymbolIndex == -1) return;
+
+        sr[highlightedSymbolIndex].DOColor(Color.red, 1f);
+    }
+
+    public void ResetSymbolsColor()
+    {
+        foreach(SpriteRenderer _sr in sr)
+        {
+            _sr.DOColor(Color.white, 0f);
+        }
     }
 
     public void SetCardNum(int newNum) => CardNum = newNum;
@@ -61,12 +76,14 @@ public class Card : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        
+        transform.DOKill();
+        this.transform.DOScale(Vector2.one * 1.1f, 0.2f);
     }
 
     private void OnMouseExit()
     {
-
+        transform.DOKill();
+        this.transform.DOScale(Vector2.one, 0.2f);
     }
 }
 
