@@ -45,3 +45,6 @@ TagManager:
   - name: worldSpaceUI
     uniqueID: 380563861
     locked: 0
+  - name: Card
+    uniqueID: 2139114971
+    locked: 0
