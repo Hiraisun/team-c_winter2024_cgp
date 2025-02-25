@@ -24,11 +24,6 @@ public class Card : MonoBehaviour
 
     private CardManager cm;
 
-    private void OnEnable()
-    {
-
-    }
-
     public void Initialize(CardManager manager)
     {
         cm = manager;

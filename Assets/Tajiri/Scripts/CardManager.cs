@@ -24,7 +24,9 @@ public class CardManager : MonoBehaviour
     private GameObject cardPrefab;
 
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
-    private int SYMBOL_COUNT_PER_CARD = 4;
+    private int SYMBOL_PER_CARD = 4;
+
+    private int TOTAL_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1;
 
     [SerializeField, Header("手札の枚数")]
     private int INITIAL_HAND_CARDS = 5;
@@ -32,7 +34,6 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("手札の最大枚数")]
     private int MAX_HAND_CARDS = 5;
 
-    [SerializeField, Header("シンボルのデータを格納する")]
     private SymbolData[] allSymbols;
 
     public SymbolData[] AllSymbols
@@ -43,17 +44,25 @@ public class CardManager : MonoBehaviour
 
     private void OnEnable()
     {
-        cardObjs = new GameObject[INITIAL_HAND_CARDS];
-        cardCmps = new Card[INITIAL_HAND_CARDS];
+        InitializeArrays();
 
         GenerateDobbleCardsList();
 
         GenerateHandCards();
     }
 
+    private void InitializeArrays()
+    {
+        allSymbols = new SymbolData[TOTAL_SYMBOL];
+        cardObjs = new GameObject[INITIAL_HAND_CARDS];
+        cardCmps = new Card[INITIAL_HAND_CARDS];
+
+        allSymbols = Resources.LoadAll<SymbolData>("Symbols");
+    }
+
     private void GenerateDobbleCardsList()
     {
-        int n = SYMBOL_COUNT_PER_CARD - 1;
+        int n = SYMBOL_PER_CARD - 1;
 
         deck = new();
 
@@ -171,7 +180,7 @@ public class CardManager : MonoBehaviour
             }
             catch
             {
-                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " にアクションが設定されていません。");
+                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " に効果が設定されていません。");
             }
     
             TrashAndDraw(selectedCard);
