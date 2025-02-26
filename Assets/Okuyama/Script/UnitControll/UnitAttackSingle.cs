@@ -21,7 +21,7 @@ public class UnitAttackSingle : UnitAttackBase
         //各候補について確認
         foreach (var target in targetList)
         {
-            if (isInRange(target)) //射程内?
+            if (IsInRange(target)) //射程内?
             {
                 return true;
             }
@@ -43,7 +43,7 @@ public class UnitAttackSingle : UnitAttackBase
         //各候補について確認し、最も近い敵を調べる
         foreach (var target in targetList)
         {
-            if (isInRange(target)) //射程内
+            if (IsInRange(target)) //射程内
             {
                 // 敵との距離
                 float targetDistance = Mathf.Abs(transform.position.x - target.transform.position.x);

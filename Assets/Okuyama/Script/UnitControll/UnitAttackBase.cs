@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.ComponentModel;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 /// <summary>
 /// 敵への攻撃行動を扱うコンポーネントの基底クラス
@@ -22,6 +23,14 @@ public abstract class UnitAttackBase : UnitActionBase
     [SerializeField, Tooltip("攻撃モーション全体の長さ(秒)")]
     protected float attackMotionDuration = 2f;
 
+    CancellationTokenSource cts = new();
+    CancellationToken ct;
+
+    void Start()
+    {
+        ct = cts.Token;
+    }
+
     void Update()
     {
         if (!unitBase.IsBusy) // 他のアクション中でない
@@ -29,13 +38,37 @@ public abstract class UnitAttackBase : UnitActionBase
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
                 // 攻撃処理を開始
-                AttackAction().Forget();
+                AttackAction(ct).Forget();
             }
         }
-
     }
 
     /// <summary>
+    /// 攻撃キャンセル処理
+    /// </summary>
+    public override bool InterruptAction()
+    {
+        cts.Cancel();
+        unitBase.FinishAction(this);
+        return true;
+    }
+
+    /// <summary>
+    /// 攻撃処理の流れ
+    /// </summary>
+    async UniTask AttackAction(CancellationToken ct)
+    {
+        ct.ThrowIfCancellationRequested(); //キャンセルチェック
+
+        unitBase.StartAction(this); //アクション開始を宣言
+        if (animator != null) animator.SetTrigger("Attack"); //攻撃開始アニメーション TODO:要検討
+        await UniTask.WaitForSeconds(attackDelay, cancellationToken: ct); //攻撃判定まで待機
+        Attack(); // 攻撃判定処理
+        await UniTask.WaitForSeconds(attackMotionDuration - attackDelay, cancellationToken: ct); //攻撃モーション終了まで待機
+        unitBase.FinishAction(this);
+    }
+
+        /// <summary>
     /// 攻撃開始条件 継承先で記述する
     /// </summary>
     protected abstract bool CanStartAttack();
@@ -45,36 +78,11 @@ public abstract class UnitAttackBase : UnitActionBase
     /// </summary>
     protected abstract void Attack();
 
-    /// <summary>
-    /// 攻撃処理の流れ
-    /// </summary>
-    async UniTask AttackAction()
-    {
-        unitBase.StartAction(this); //アクション開始を宣言
-
-        if (animator != null) animator.SetTrigger("Attack"); //攻撃開始アニメーション TODO:要検討
-        await UniTask.WaitForSeconds(attackDelay); //攻撃判定まで待機
-        Attack(); // 攻撃判定処理
-        await UniTask.WaitForSeconds(attackMotionDuration - attackDelay); //攻撃モーション終了まで待機
-
-        unitBase.FinishAction(this);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        //攻撃範囲の描画
-        Gizmos.color = Color.red;
-
-        Vector3 Center = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
-        Vector3 Size = new Vector3(range, 1, 1);
-        Gizmos.DrawWireCube(Center, Size);
-        
-    }
 
     /// <summary>
-    /// 対象が攻撃可能位置にいるかを判定する
+    /// 対象が攻撃可能位置にいるかを判定するためのメソッド
     /// </summary>
-    protected bool isInRange(UnitBase target)
+    protected bool IsInRange(UnitBase target)
     {
         //対象のレーンが攻撃可能レーンか確認
         if(!attackableLaneList.Contains(target.Lane)) return false;
@@ -100,4 +108,16 @@ public abstract class UnitAttackBase : UnitActionBase
         }
         return false;
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        //攻撃範囲の描画
+        Gizmos.color = Color.red;
+
+        Vector3 Center = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Size = new Vector3(range, 1, 1);
+        Gizmos.DrawWireCube(Center, Size);
+    }
+#endif
 }

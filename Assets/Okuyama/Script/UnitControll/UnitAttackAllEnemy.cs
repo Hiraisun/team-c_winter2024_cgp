@@ -21,7 +21,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
         //各候補について確認
         foreach (var target in targetList)
         {
-            if(isInRange(target)) //射程内?
+            if(IsInRange(target)) //射程内?
             {
                 return true;
             }
@@ -40,7 +40,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
         //各候補について
         foreach (var target in targetList)
         {
-            if(isInRange(target)) //射程内なら
+            if(IsInRange(target)) //射程内なら
             {
                 target.Damage(damage); //ダメージ
             }
