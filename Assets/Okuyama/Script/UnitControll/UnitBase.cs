@@ -162,7 +162,7 @@ public class UnitBase : MonoBehaviour
 
 
 
-
+#if UNITY_EDITOR
     // デバッグ用
     void OnDrawGizmosSelected()
     {
@@ -178,7 +178,7 @@ public class UnitBase : MonoBehaviour
         }
         var guiStyle = new GUIStyle {fontSize = 20, normal = {textColor = Color.black}};
         Handles.Label(transform.position + Vector3.up, text, guiStyle);
-
     }
+#endif
 }
 
