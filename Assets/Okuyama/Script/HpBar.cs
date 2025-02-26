@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
 /// <summary>
@@ -16,14 +17,14 @@ public class HpBar : MonoBehaviour
 
     [Header("設定")]
     [SerializeField] private float flushDuration = 0.2f; // フラッシュ演出にかける時間
-    [SerializeField] private float fadeStart = 3f;    // フェード開始までの遅延
+    [SerializeField] private float fadeDelay = 3f;    // フェード開始までの遅延
     [SerializeField] private float fadeDuration = 0.5f; // フェード時間
 
     
     private float maxHP;
-    private Coroutine animationCoroutine; // コルーチン管理用
+    private Color defaultColor; // 初期色
 
-    [SerializeField] Color defaultColor; // 初期色
+    private Sequence animationSequence; //演出sequence
 
     /// <summary>
     /// 初期化
@@ -39,6 +40,12 @@ public class HpBar : MonoBehaviour
         // 透明にしておく
         canvasGroup.alpha = 0;
         defaultColor = frontImage.color;
+
+        animationSequence = DOTween.Sequence()
+            .Append(frontImage.DOColor(defaultColor, flushDuration)) // フラッシュ演出
+            .AppendInterval(fadeDelay) //待機
+            .Append(canvasGroup.DOFade(0, fadeDuration)) // フェードアウト
+            .SetAutoKill(false).Pause().SetLink(gameObject);
     }
 
     /// <summary>
@@ -50,43 +57,15 @@ public class HpBar : MonoBehaviour
         float deltaX = - ( 1 - currentHP / maxHP) * canvas.sizeDelta.x;
         front.offsetMax = new Vector2(deltaX, 0);
 
-        // 既存のアニメーションを停止
-        if (animationCoroutine != null)
-        {
-            StopCoroutine(animationCoroutine);
-        }
-
-        // 新たにアニメーションを開始
-        animationCoroutine = StartCoroutine(HPbarAnimation());
+        //演出
+        AnimationStart();
     }
 
-
-    // 時間をかけて変化するアニメーション実装
-    private IEnumerator HPbarAnimation()
+    private void AnimationStart()
     {
-        float timer = Time.time;
-
-        canvasGroup.alpha = 1f; // 不透明に
-        frontImage.color = Color.white; // フラッシュ色に変更
-
-        // フラッシュを徐々に解除
-        while (Time.time - timer < flushDuration)
-        {
-            frontImage.color = Color.Lerp(Color.white, defaultColor, (Time.time - timer) / flushDuration);
-            yield return null;
-        }
-        frontImage.color = defaultColor; // 初期色に戻す
-
-        // フェードアウト開始まで待機
-        while (Time.time - timer < fadeStart) yield return null;
-
-        // フェードアウト
-        timer += fadeStart;
-        while (Time.time - timer < fadeDuration)
-        {
-            canvasGroup.alpha = Mathf.Lerp(1, 0f, (Time.time - timer) / fadeDuration);
-            yield return null;
-        }
-        canvasGroup.alpha = 0f;
+        frontImage.color = Color.white;
+        canvasGroup.alpha = 1;
+        animationSequence.Restart();
     }
 }
+
