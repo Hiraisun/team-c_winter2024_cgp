@@ -135,7 +135,7 @@ public class CardManager : MonoBehaviour
 
     IEnumerator DrawLoop()
     {
-        while (true)
+        while (cardCmps.Count(c => c.IsCardInHand) < MAX_HAND_CARDS)
         {
             yield return new WaitForSeconds(DRAW_COOLTIME);
             Draw();
@@ -178,7 +178,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void RearrangeHand()
+    public void RearrangeHand()
     {
         var cardsInHand = cardCmps.Where(c => c.IsCardInHand).ToList();
         var (positions, rotations) = GetCardTransforms(cardsInHand.Count, 5f, 45f);
@@ -283,6 +283,8 @@ public class CardManager : MonoBehaviour
             Trash(selectedCard);
             Trash(card);
 
+            StartCoroutine(DrawLoop());
+
             selectedCard = null;
 
             foreach (Card _card in cardCmps)
@@ -314,6 +316,11 @@ public class CardManagerEditor : Editor
         if (GUILayout.Button("ドロー"))
         {
             t.Draw();
+        }
+
+        if (GUILayout.Button("再配置"))
+        {
+            t.RearrangeHand();
         }
     }
 }
