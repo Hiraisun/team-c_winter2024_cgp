@@ -13,7 +13,7 @@ using DG.Tweening;
 public class UnitKnockback : UnitActionBase
 {
     [Header("ノックバック設定")]
-    [SerializeField, Tooltip("ノックバック値の累積閾値")]
+    [SerializeField, Tooltip("ノックバック値の累積閾値(耐性値)")]
     private float knockbackThreshold = 100;
     [SerializeField, Tooltip("ノックバック距離")]
     private float knockbackDistance = 1.0f;
@@ -21,7 +21,6 @@ public class UnitKnockback : UnitActionBase
     private float recievedKnockbackDamage = 0; //累積ノックバック値
 
     private CancellationTokenSource cts;
-    private CancellationToken ct;
 
 
     // 被ダメージ時
@@ -36,9 +35,9 @@ public class UnitKnockback : UnitActionBase
             if(unitBase.InterruptAction()) // 行動割込み成功
             {
                 // ノックバック処理
-                cts = new();
-                ct = cts.Token;
-                KnockbackTask(ct).Forget();
+                // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
+                cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
+                KnockbackTask(cts.Token).Forget();
             }
         }
     }
@@ -67,10 +66,4 @@ public class UnitKnockback : UnitActionBase
         return true;
     }
 
-    // Destroy時処理
-    private void OnDestroy()
-    {
-        cts?.Cancel();
-        cts?.Dispose();
-    }
 }

@@ -10,7 +10,9 @@ using System.Threading;
 public struct DamageInfo
 {
     [HideInInspector] public UnitBase attacker;
+    [SerializeField, Tooltip("与えるダメージ")]
     public float damage;
+    [SerializeField, Tooltip("与えるノックバック値 (耐性値に達するとノックバック)")]
     public float knockbackDamage;
 }
 
@@ -23,7 +25,7 @@ public abstract class UnitAttackBase : UnitActionBase
     [Header("攻撃")]
     [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
 
-    [SerializeField, Tooltip("与ダメージ")]
+    [SerializeField, Tooltip("与ダメージ情報")]
     protected DamageInfo damageInfo;
 
     [SerializeField, Tooltip("攻撃モーション開始から判定発生までの遅延(秒)")] 
@@ -34,8 +36,7 @@ public abstract class UnitAttackBase : UnitActionBase
     [SerializeField, Tooltip("攻撃可能レーンのリスト")] 
     protected List<Lane> attackableLaneList; // 攻撃可能レーン
 
-    CancellationTokenSource cts;
-    CancellationToken ct;
+    CancellationTokenSource cts; // Taskのキャンセル用トークンソース
 
     void Start()
     {
@@ -49,9 +50,9 @@ public abstract class UnitAttackBase : UnitActionBase
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
                 // 攻撃処理を開始
-                cts = new();
-                ct = cts.Token;
-                AttackTask(ct).Forget();
+                // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
+                cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
+                AttackTask(cts.Token).Forget();
             }
         }
     }
@@ -91,17 +92,6 @@ public abstract class UnitAttackBase : UnitActionBase
     /// 攻撃判定処理 継承先で記述する
     /// </summary>
     protected abstract void Attack();
-
-    // destory時にtaskをキャンセル
-    void OnDestroy()
-    {
-        if (cts != null && !cts.IsCancellationRequested)
-        {
-            cts.Cancel();
-            cts.Dispose();
-        }
-    }
-
 
     /// <summary>
     /// 対象がrange内にいるかを判定するためのメソッド
