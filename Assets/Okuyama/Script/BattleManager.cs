@@ -12,11 +12,11 @@ public enum Lane{
 /// </summary>
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField, Header("ユニットの召喚Y座標 最大値")] 
+    [SerializeField, Tooltip("ユニットの召喚Y座標 最大値")] 
     private float laneMaxY;
-    [SerializeField, Header("ユニットの召喚Y座標 最小値")]
+    [SerializeField, Tooltip("ユニットの召喚Y座標 最小値")]
     private float laneMinY;
-    [SerializeField, Header("召喚X座標, プレイヤーとNPCで左右対称")] 
+    [SerializeField, Tooltip("召喚X座標, プレイヤーとNPCで左右対称")] 
     private float spawnPosX;
 
     // (攻撃などの対象となる)ユニットのリスト

@@ -1,68 +1,62 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-#if UNITY_EDITOR
+
 public class DebugActivateCardEffect : MonoBehaviour
 {
-    [Serializable]
-    public struct ListObj
-    {
-        [SerializeField] public CardEffectBase cardEffect;
-        [SerializeField] public bool button;
-    }
-    [SerializeField] private List<ListObj> player;
-    [SerializeField] private List<ListObj> npc;
+    
 
-    private List<CardEffectBase> cardEffects;
+    public List<CardEffectBase> allCardEffects;
 
-    void Start()
+    void Reset()
     {
         // CardEffectBaseの派生クラスをのScriptableObjectを全て取得
-        cardEffects = AssetDatabase.FindAssets("t:CardEffectBase")
+        allCardEffects = AssetDatabase.FindAssets("t:CardEffectBase")
             .Select(AssetDatabase.GUIDToAssetPath)
             .Select(AssetDatabase.LoadAssetAtPath<CardEffectBase>)
             .ToList();
-
-        // Initialize player and npc lists
-        player = new List<ListObj>();
-        npc = new List<ListObj>();
-
-        // Populate the lists with the found card effects
-        foreach (var cardEffect in cardEffects)
-        {
-            player.Add(new ListObj { cardEffect = cardEffect, button = false });
-            npc.Add(new ListObj { cardEffect = cardEffect, button = false });
-        }
     }
-
-    void Update()
-    {
-        for (int i = 0; i < player.Count; i++)
-        {
-            if (player[i].button)
-            {
-                player[i].cardEffect.Activate(OwnerType.PLAYER);
-                var temp = player[i];
-                temp.button = false;
-                player[i] = temp;
-            }
-        }
-
-        for(int i = 0; i < npc.Count; i++)
-        {
-            if (npc[i].button)
-            {
-                npc[i].cardEffect.Activate(OwnerType.NPC);
-                var temp = npc[i];
-                temp.button = false;
-                npc[i] = temp;
-            }
-        }
-    }
-
 }
+
+// カスタムエディタ
+[CustomEditor(typeof(DebugActivateCardEffect))]
+public class DebugActivateCardEffectEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        //base.OnInspectorGUI();
+
+        DebugActivateCardEffect script = (DebugActivateCardEffect)target;
+
+        GUILayout.Label("Player");
+        foreach (var cardEffect in script.allCardEffects)
+        {
+            if(GUILayout.Button(cardEffect.name))
+            {
+                if (Application.isPlaying) cardEffect.Activate(OwnerType.PLAYER);
+            }
+        }
+
+        GUILayout.Space(20);
+
+        GUILayout.Label("NPC");
+        foreach (var cardEffect in script.allCardEffects)
+        {
+            if(GUILayout.Button(cardEffect.name))
+            {
+                if (Application.isPlaying) cardEffect.Activate(OwnerType.NPC);
+            }
+        }
+    }
+}
+
+
+
 #endif
