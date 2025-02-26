@@ -34,7 +34,6 @@ public abstract class UnitAttackBase : UnitActionBase
         {
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
-                Debug.Log("Attack");
                 // 攻撃処理を開始
                 cts = new();
                 ct = cts.Token;
@@ -82,8 +81,11 @@ public abstract class UnitAttackBase : UnitActionBase
     // destory時にtaskをキャンセル
     void OnDestroy()
     {
-        cts?.Cancel();
-        cts?.Dispose();
+        if (cts != null && !cts.IsCancellationRequested)
+        {
+            cts.Cancel();
+            cts.Dispose();
+        }
     }
 
 

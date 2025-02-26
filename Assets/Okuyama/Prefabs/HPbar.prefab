@@ -125,9 +125,8 @@ MonoBehaviour:
   canvasGroup: {fileID: 6289047931892270183}
   frontImage: {fileID: 686352627681956914}
   flushDuration: 0.2
-  fadeStart: 3
+  fadeDelay: 5
   fadeDuration: 0.5
-  defaultColor: {r: 0.39607847, g: 1, b: 0.2509804, a: 0}
 --- !u!1 &8166724873558246144
 GameObject:
   m_ObjectHideFlags: 0
