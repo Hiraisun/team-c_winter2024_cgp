@@ -53,7 +53,7 @@ public class Card : MonoBehaviour
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()
     {
-        OnCardClicked?.Invoke(this);
+        if (IsCardInHand) OnCardClicked?.Invoke(this);
     }
 
     private void OnMouseEnter()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
+using UnityEditor;
 
 public class CardManager : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class CardManager : MonoBehaviour
 
     [SerializeField, Header("手札の最大枚数")]
     private int MAX_HAND_CARDS = 8;
+
+    [SerializeField, Header("手札の位置")]
+    private Vector3 handPos;
 
     private Vector3 trashPos = new(0, 10, 0);
 
@@ -112,7 +116,7 @@ public class CardManager : MonoBehaviour
 
     private void InitialDraw()
     {
-        for(int i = 0; i < INITIAL_HAND_CARDS; i++)
+        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
         {
             Draw();
         }
@@ -126,14 +130,12 @@ public class CardManager : MonoBehaviour
             return;
         }
 
-        selectedCard.transform.DOMove(trashPos, 1f).OnComplete(() =>
-        {
-            selectedCard.SetCardInHand(false);
-            RearrangeHand();
-        });
+        selectedCard.SetCardInHand(false);
+        selectedCard.transform.DOMove(trashPos, 1f);
+        RearrangeHand();
     }
 
-    private void Draw()
+    public void Draw()
     {
         if (cardCmps.Count(c => c.IsCardInHand) >= MAX_HAND_CARDS)
         {
@@ -157,12 +159,43 @@ public class CardManager : MonoBehaviour
 
     private void RearrangeHand()
     {
-        int index = 0;
-        foreach (var card in cardCmps.Where(c => c.IsCardInHand))
+        var cardsInHand = cardCmps.Where(c => c.IsCardInHand).ToList();
+        var (positions, rotations) = GetCardTransforms(cardsInHand.Count, 5f, 45f);
+
+        for (int i = 0; i < cardsInHand.Count; i++)
         {
-            card.transform.DOMove(new Vector3(-6 + index * 3, 0, 0), 1f);
-            index++;
+            cardsInHand[i].transform.DOMove(positions[i], 1f);
+            cardsInHand[i].transform.DORotateQuaternion(rotations[i], 1f);
         }
+    }
+
+    private (List<Vector3>, List<Quaternion>) GetCardTransforms(int cardCount, float radius, float maxAngle)
+    {
+        List<Vector3> positions = new();
+        List<Quaternion> rotations = new();
+
+        if (cardCount <= 0) return (positions, rotations);
+
+        float startAngle = -maxAngle * 0.5f;
+        float angleStep = (cardCount > 1) ? maxAngle / (cardCount - 1) : 0;
+        Vector3 center = handPos;
+
+        for (int i = 0; i < cardCount; i++)
+        {
+            float angle = startAngle + angleStep * i;
+            float radian = angle * Mathf.Deg2Rad;
+
+            float x = Mathf.Sin(radian) * radius * 1.2f;
+            float y = Mathf.Cos(radian) * radius;
+
+            Vector3 position = center + new Vector3(x, y, -i * 0.01f);
+            positions.Add(position);
+
+            Quaternion rotation = Quaternion.Euler(0, 0, -angle);
+            rotations.Add(rotation);
+        }
+
+        return (positions, rotations);
     }
 
     private Card selectedCard = null;
@@ -230,3 +263,21 @@ public class CardManager : MonoBehaviour
         }
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(CardManager))]
+public class ExampleEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        CardManager t = target as CardManager;
+
+        if (GUILayout.Button("ドロー"))
+        {
+            t.Draw();
+        }
+    }
+}
+#endif
