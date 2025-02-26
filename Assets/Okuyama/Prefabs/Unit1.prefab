@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: 0
   lane: 0
-  maxHP: 100
+  maxHP: 50
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 1680774027292231591}
   - component: {fileID: 1584823490700510357}
   - component: {fileID: 7825262807617505203}
+  - component: {fileID: 3893639631466696099}
   m_Layer: 0
   m_Name: Unit2
   m_TagString: Untagged
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: 0
   lane: 0
-  maxHP: 50
+  maxHP: 100
 --- !u!114 &1680774027292231591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,3 +186,18 @@ MonoBehaviour:
   position: {x: 0.5, y: 1.15, z: 0}
   width: 1
   height: 0.05
+--- !u!114 &3893639631466696099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4592819920525232684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144fbe3aa9058c34ab1307b9d4a6ca8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 933506233445904033}
+  knockbackThreshold: 30
+  knockbackDistance: 1

@@ -25,13 +25,8 @@ public abstract class UnitAttackBase : UnitActionBase
     [SerializeField, Tooltip("攻撃モーション全体の長さ(秒)")]
     protected float attackMotionDuration = 2f;
 
-    CancellationTokenSource cts = new();
+    CancellationTokenSource cts;
     CancellationToken ct;
-
-    void Start()
-    {
-        ct = cts.Token;
-    }
 
     void Update()
     {
@@ -39,7 +34,10 @@ public abstract class UnitAttackBase : UnitActionBase
         {
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
+                Debug.Log("Attack");
                 // 攻撃処理を開始
+                cts = new();
+                ct = cts.Token;
                 AttackTask(ct).Forget();
             }
         }
@@ -66,6 +64,7 @@ public abstract class UnitAttackBase : UnitActionBase
     public override bool InterruptAction()
     {
         cts.Cancel();
+        cts.Dispose();
         unitBase.FinishAction(this);
         return true;
     }
@@ -83,8 +82,8 @@ public abstract class UnitAttackBase : UnitActionBase
     // destory時にtaskをキャンセル
     void OnDestroy()
     {
-        cts.Cancel();
-        cts.Dispose();
+        cts?.Cancel();
+        cts?.Dispose();
     }
 
 

@@ -185,16 +185,20 @@ public class UnitBase : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         // 頭上にstateを表示
+        // isBusyのときは赤
         string text;
+        var guiStyle = new GUIStyle {fontSize = 20};
         if(isBusy)
         {
             text = executionAction.GetType().Name;
+            guiStyle.normal.textColor = Color.red;
         }
         else
         {
             text = "Idle";
+            guiStyle.normal.textColor = Color.black;
         }
-        var guiStyle = new GUIStyle {fontSize = 20, normal = {textColor = Color.black}};
+        if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
         Handles.Label(transform.position + Vector3.up, text, guiStyle);
 
     }
