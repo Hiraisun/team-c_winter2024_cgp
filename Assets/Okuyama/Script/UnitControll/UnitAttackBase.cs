@@ -6,6 +6,14 @@ using System.ComponentModel;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 
+[Serializable]
+public struct DamageInfo
+{
+    [HideInInspector] public UnitBase attacker;
+    public float damage;
+    public float knockbackDamage;
+}
+
 /// <summary>
 /// 敵への攻撃行動を扱うコンポーネントの基底クラス
 /// 攻撃行動は割り込み可能
@@ -14,6 +22,9 @@ public abstract class UnitAttackBase : UnitActionBase
 {
     [Header("攻撃")]
     [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
+
+    [SerializeField, Tooltip("与ダメージ")]
+    protected DamageInfo damageInfo;
 
     [SerializeField, Tooltip("攻撃モーション開始から判定発生までの遅延(秒)")] 
     protected float attackDelay = 1f;
@@ -25,6 +36,11 @@ public abstract class UnitAttackBase : UnitActionBase
 
     CancellationTokenSource cts;
     CancellationToken ct;
+
+    void Start()
+    {
+        damageInfo.attacker = unitBase;
+    }
 
     void Update()
     {

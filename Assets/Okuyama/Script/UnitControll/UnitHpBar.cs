@@ -29,7 +29,7 @@ public class UnitHpBar : UnitActionBase
         hpBar.Initialize(unitBase.MaxHP, width, height);
     }
 
-    protected override void OnDamageRecieved(float damage)
+    protected override void OnDamageRecieved(DamageInfo damageInfo)
     {
         // 被ダメージ時更新
         hpBar.UpdateHpBar(unitBase.HP);

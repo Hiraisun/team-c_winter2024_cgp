@@ -39,7 +39,7 @@ public class UnitBase : MonoBehaviour
     private Action OnDeath;                  //死亡時
     private Action OnAttackStart;            //攻撃開始時
     private Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
-    private Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
+    private Action<DamageInfo> OnDamageReceived;  //被ダメージ時 引数:damage
 
     // HP
     [SerializeField, Tooltip("最大HP")]
@@ -79,15 +79,15 @@ public class UnitBase : MonoBehaviour
     /// <summary>
     /// このユニットにダメージを与える
     /// </summary>
-    public void Damage(float damageValue)
+    public void Damage(DamageInfo damageInfo)
     {
-        if(damageValue < 0)
+        if(damageInfo.damage < 0)
         {
             Debug.LogWarning("Damage: 負のダメージを受けた");
             return;
         }
 
-        HP -= damageValue;
+        HP -= damageInfo.damage;
 
         if (HP <= 0)
         {
@@ -98,7 +98,7 @@ public class UnitBase : MonoBehaviour
         }
 
         // 被ダメージイベント発火
-        OnDamageReceived?.Invoke(damageValue);
+        OnDamageReceived?.Invoke(damageInfo);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public class UnitBase : MonoBehaviour
     {
         OnDamageDealt += action;
     }
-    public void RegisterOnDamageReceived(Action<float> action)
+    public void RegisterOnDamageReceived(Action<DamageInfo> action)
     {
         OnDamageReceived += action;
     }

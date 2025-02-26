@@ -13,26 +13,26 @@ using DG.Tweening;
 public class UnitKnockback : UnitActionBase
 {
     [Header("ノックバック設定")]
-    [SerializeField, Tooltip("ノックバック発動被ダメ閾値")]
-    private float knockbackThreshold = 30;
+    [SerializeField, Tooltip("ノックバック値の累積閾値")]
+    private float knockbackThreshold = 100;
     [SerializeField, Tooltip("ノックバック距離")]
     private float knockbackDistance = 1.0f;
 
-    private float recievedDamage = 0; //累積被ダメージ
+    private float recievedKnockbackDamage = 0; //累積ノックバック値
 
     private CancellationTokenSource cts;
     private CancellationToken ct;
 
 
     // 被ダメージ時
-    protected override void OnDamageRecieved(float damage)
+    protected override void OnDamageRecieved(DamageInfo damageInfo)
     {
-        recievedDamage += damage;
+        recievedKnockbackDamage += damageInfo.knockbackDamage;
 
         // ノックバック閾値に達した
-        if(recievedDamage >= knockbackThreshold)
+        if(recievedKnockbackDamage >= knockbackThreshold)
         {
-            recievedDamage = 0;
+            recievedKnockbackDamage = 0;
             if(unitBase.InterruptAction()) // 行動割込み成功
             {
                 // ノックバック処理

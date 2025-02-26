@@ -9,8 +9,6 @@ public class UnitAttackSingle : UnitAttackBase
 {
     [SerializeField, Tooltip("射程距離(前方のみ)")] 
     protected float range = 1f; // 射程
-    [SerializeField, Tooltip("与ダメージ")]
-    private int damage = 10;
 
     /// <summary>
     /// 攻撃開始条件: 射程内に敵が一体でも存在すれば攻撃開始
@@ -62,7 +60,7 @@ public class UnitAttackSingle : UnitAttackBase
         //見つかったやつに攻撃
         if (nearestTarget != null)
         {
-            nearestTarget.Damage(damage);
+            nearestTarget.Damage(damageInfo);
         }
     }
 

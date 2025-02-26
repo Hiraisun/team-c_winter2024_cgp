@@ -11,8 +11,6 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected float attackStartRange = 1f;
     [SerializeField, Tooltip("射程距離(前方のみ)")] 
     protected float range = 1f;
-    [SerializeField, Tooltip("与ダメージ")]
-    private int damage = 10;
 
     /// <summary>
     /// 攻撃開始条件: 射程内に敵が一体でも存在すれば攻撃開始
@@ -46,7 +44,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
         {
             if(IsInRange(target, range)) //射程内なら
             {
-                target.Damage(damage); //ダメージ
+                target.Damage(damageInfo); //ダメージ
             }
         }
     }

@@ -163,11 +163,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   animator: {fileID: 0}
+  damageInfo:
+    attacker: {fileID: 0}
+    damage: 20
+    knockbackDamage: 100
+  attackDelay: 0.3
+  attackMotionDuration: 2
   attackableLaneList: 00000000
   range: 2.12
-  attackDelay: 0.3
-  attackMotionDuration: 3
-  damage: 30
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0
