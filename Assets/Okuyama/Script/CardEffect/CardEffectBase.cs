@@ -19,7 +19,7 @@ public abstract class CardEffectBase : ScriptableObject
     public void Activate(OwnerType owner)
     {
         // 初回実行時に参照を保存
-        if (battleManager == null) battleManager = FindFirstObjectByType<BattleManager>();
+        if (battleManager == null) battleManager = FindAnyObjectByType<BattleManager>();
 
         //効果処理
         Effect(owner);

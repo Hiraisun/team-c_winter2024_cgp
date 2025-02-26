@@ -17,3 +17,5 @@ MonoBehaviour:
   cycleActions:
   - cardEffect: {fileID: 11400000, guid: dc2d721d1b6d8aa4a814f1488e439606, type: 2}
     interval: 10
+  - cardEffect: {fileID: 11400000, guid: 2e6c125948c9e8b408bd56a87adb15a9, type: 2}
+    interval: 45
