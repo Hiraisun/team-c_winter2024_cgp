@@ -7,9 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UnitHpBar : UnitActionBase
 {
+    [Header("HPバー")]
     [SerializeField] private GameObject hpBarPrefab; // HPバーのプレハブ
-
-    [Header("位置調整")]
     [SerializeField] private Vector3 position; // HPバーの位置調整用
     [SerializeField] private float width = 1f; // HPバーの幅
     [SerializeField] private float height = 0.05f; // HPバーの高さ

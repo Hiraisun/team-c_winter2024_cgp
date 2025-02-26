@@ -8,9 +8,11 @@ using System.Threading;
 
 /// <summary>
 /// 敵への攻撃行動を扱うコンポーネントの基底クラス
+/// 攻撃行動は割り込み可能
 /// </summary>
 public abstract class UnitAttackBase : UnitActionBase
 {
+    [Header("攻撃")]
     [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
 
     [SerializeField, Tooltip("攻撃可能レーンのリスト")] 
@@ -38,25 +40,15 @@ public abstract class UnitAttackBase : UnitActionBase
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
                 // 攻撃処理を開始
-                AttackAction(ct).Forget();
+                AttackTask(ct).Forget();
             }
         }
     }
 
     /// <summary>
-    /// 攻撃キャンセル処理
-    /// </summary>
-    public override bool InterruptAction()
-    {
-        cts.Cancel();
-        unitBase.FinishAction(this);
-        return true;
-    }
-
-    /// <summary>
     /// 攻撃処理の流れ
     /// </summary>
-    async UniTask AttackAction(CancellationToken ct)
+    async UniTask AttackTask(CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested(); //キャンセルチェック
 
@@ -68,7 +60,17 @@ public abstract class UnitAttackBase : UnitActionBase
         unitBase.FinishAction(this);
     }
 
-        /// <summary>
+    /// <summary>
+    /// 攻撃中の割り込み
+    /// </summary>
+    public override bool InterruptAction()
+    {
+        cts.Cancel();
+        unitBase.FinishAction(this);
+        return true;
+    }
+
+    /// <summary>
     /// 攻撃開始条件 継承先で記述する
     /// </summary>
     protected abstract bool CanStartAttack();
@@ -77,6 +79,13 @@ public abstract class UnitAttackBase : UnitActionBase
     /// 攻撃判定処理 継承先で記述する
     /// </summary>
     protected abstract void Attack();
+
+    // destory時にtaskをキャンセル
+    void OnDestroy()
+    {
+        cts.Cancel();
+        cts.Dispose();
+    }
 
 
     /// <summary>

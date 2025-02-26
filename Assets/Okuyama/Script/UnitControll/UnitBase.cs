@@ -18,6 +18,7 @@ public enum OwnerType
 [DisallowMultipleComponent] //複数アタッチ禁止
 public class UnitBase : MonoBehaviour
 {
+    [Header("ユニット基本情報")]
     private BattleManager battleManager;
     public BattleManager BattleManager { get { return battleManager; } }
 
@@ -90,9 +91,9 @@ public class UnitBase : MonoBehaviour
 
         if (HP <= 0)
         {
-            //死亡時処理
-            battleManager.DeRegisterUnit(this);
+            //死亡時処理 TODO:死亡演出
             OnDeath?.Invoke(); // 死亡イベント発火
+            battleManager.DeRegisterUnit(this);
             Destroy(gameObject);
         }
 
@@ -123,6 +124,23 @@ public class UnitBase : MonoBehaviour
         else
         {
             Debug.LogWarning("EndAction: 実行中のアクションと異なるアクションが終了しようとしています。: " + unitActionBase);
+        }
+    }
+
+    /// <summary>
+    /// 他の行動をキャンセルして割り込む
+    /// trueならば新たに行動してOK, falseなら割り込み不可
+    /// 例 if(unitBase.InterruptAction()) StartAction();
+    /// </summary>
+    public bool InterruptAction()
+    {
+        if(isBusy)
+        {
+            // 実行中のアクションに判断を任せる
+            return executionAction.InterruptAction();
+        }
+        else{
+            return true; // 何も行動していないので行動可
         }
     }
 
