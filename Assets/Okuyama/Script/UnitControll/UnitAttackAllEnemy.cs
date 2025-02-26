@@ -7,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class UnitAttackAllEnemy : UnitAttackBase
 {
+    [SerializeField, Tooltip("攻撃開始射程")] 
+    protected float attackStartRange = 1f;
+    [SerializeField, Tooltip("射程距離(前方のみ)")] 
+    protected float range = 1f;
     [SerializeField, Tooltip("与ダメージ")]
     private int damage = 10;
 
@@ -21,7 +25,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
         //各候補について確認
         foreach (var target in targetList)
         {
-            if(IsInRange(target)) //射程内?
+            if(IsInRange(target, attackStartRange)) //射程内?
             {
                 return true;
             }
@@ -40,10 +44,27 @@ public class UnitAttackAllEnemy : UnitAttackBase
         //各候補について
         foreach (var target in targetList)
         {
-            if(IsInRange(target)) //射程内なら
+            if(IsInRange(target, range)) //射程内なら
             {
                 target.Damage(damage); //ダメージ
             }
         }
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        //攻撃開始範囲の描画
+        Gizmos.color = Color.yellow;
+        Vector3 Center = new Vector3(transform.position.x + attackStartRange * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Size = new Vector3(attackStartRange, 1, 1);
+        Gizmos.DrawWireCube(Center, Size);
+
+        //攻撃範囲の描画
+        Gizmos.color = Color.red;
+        Vector3 Center2 = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Size2 = new Vector3(range, 1, 1);
+        Gizmos.DrawWireCube(Center2, Size2);
+    }
+#endif
 }
