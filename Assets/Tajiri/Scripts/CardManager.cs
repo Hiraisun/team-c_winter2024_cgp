@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using UnityEditor;
+using System.Collections;
 
 public class CardManager : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class CardManager : MonoBehaviour
 
     [SerializeField, Header("手札の最大枚数")]
     private int MAX_HAND_CARDS = 8;
+
+    [SerializeField, Header("ドローのクールタイム")]
+    private float DRAW_COOLTIME = 5f;
 
     [SerializeField, Header("手札の位置")]
     private Vector3 handPos;
@@ -52,6 +56,8 @@ public class CardManager : MonoBehaviour
         GenerateCardsObj();
 
         InitialDraw();
+
+        StartCoroutine(DrawLoop());
     }
 
     private void InitializeArrays()
@@ -123,6 +129,15 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < INITIAL_HAND_CARDS; i++)
         {
+            Draw();
+        }
+    }
+
+    IEnumerator DrawLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(DRAW_COOLTIME);
             Draw();
         }
     }

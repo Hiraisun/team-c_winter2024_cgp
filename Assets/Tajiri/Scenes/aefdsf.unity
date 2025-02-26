@@ -155,6 +155,7 @@ MonoBehaviour:
   SYMBOL_PER_CARD: 4
   INITIAL_HAND_CARDS: 5
   MAX_HAND_CARDS: 8
+  DRAW_COOLTIME: 10
   handPos: {x: 0, y: -2, z: 0}
   gapSizeMagnification: 3
 --- !u!4 &998776113
