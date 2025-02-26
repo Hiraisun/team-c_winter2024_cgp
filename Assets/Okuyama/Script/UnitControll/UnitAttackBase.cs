@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.ComponentModel;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// 敵への攻撃行動を扱うコンポーネントの基底クラス
@@ -27,8 +28,8 @@ public abstract class UnitAttackBase : UnitActionBase
         {
             if (CanStartAttack()) // 攻撃開始条件を満たしている
             {
-                // 攻撃処理コルーチンを開始
-                StartCoroutine(AttackAction());
+                // 攻撃処理を開始
+                AttackAction().Forget();
             }
         }
 
@@ -45,16 +46,17 @@ public abstract class UnitAttackBase : UnitActionBase
     protected abstract void Attack();
 
     /// <summary>
-    /// 攻撃処理コルーチン
+    /// 攻撃処理の流れ
     /// </summary>
-    IEnumerator AttackAction()
+    async UniTask AttackAction()
     {
         unitBase.StartAction(this); //アクション開始を宣言
 
         if (animator != null) animator.SetTrigger("Attack"); //攻撃開始アニメーション TODO:要検討
-        yield return new WaitForSeconds(attackDelay); //攻撃判定まで待機
+        await UniTask.WaitForSeconds(attackDelay); //攻撃判定まで待機
         Attack(); // 攻撃判定処理
-        yield return new WaitForSeconds(attackMotionDuration-attackDelay); //モーション終了待機
+        await UniTask.WaitForSeconds(attackMotionDuration - attackDelay); //攻撃モーション終了まで待機
+
         unitBase.FinishAction(this);
     }
 
