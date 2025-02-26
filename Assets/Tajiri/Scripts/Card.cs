@@ -44,6 +44,12 @@ public class Card : MonoBehaviour
         }
     }
 
+    public void MoveTo(Vector3 position, Quaternion rotation)
+    {
+        this.transform.DOMove(position, 1f);
+        this.transform.DORotateQuaternion(rotation, 1f);
+    }
+
     public void SetCardNum(int value) => CardNum = value;
 
     public void SetCardInHand(bool value) => IsCardInHand = value;
