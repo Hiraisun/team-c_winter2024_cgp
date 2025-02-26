@@ -15,15 +15,11 @@ public class CardManager : MonoBehaviour
 
     private Card[] cardCmps;
 
-    private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
-
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
 
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
     private int SYMBOL_PER_CARD = 4;
-
-    private int TOTAL_CARD_AND_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1; // カードの枚数とシンボルの数は同じ
 
     [SerializeField, Header("手札の枚数")]
     private int INITIAL_HAND_CARDS = 5;
@@ -34,9 +30,18 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("手札の位置")]
     private Vector3 handPos;
 
+    [SerializeField, Header("カード間の隙間"), Range(1, 5)]
+    private float gapSizeMagnification = 3f;
+
+    private float gapSize;
+
     private Vector3 trashPos = new(0, 10, 0);
 
     private SymbolData[] allSymbols;
+
+    private int TOTAL_CARD_AND_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1; // カードの枚数とシンボルの数は同じ
+
+    private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
     private void OnEnable()
     {
@@ -132,6 +137,7 @@ public class CardManager : MonoBehaviour
 
         selectedCard.SetCardInHand(false);
         selectedCard.transform.DOMove(trashPos, 1f);
+        selectedCard.transform.DORotate(new Vector3(0 ,0 ,0), 1f);
         RearrangeHand();
     }
 
@@ -178,14 +184,27 @@ public class CardManager : MonoBehaviour
 
         float startAngle = -maxAngle * 0.5f;
         float angleStep = (cardCount > 1) ? maxAngle / (cardCount - 1) : 0;
-        Vector3 center = handPos;
+        Vector3 center = handPos - new Vector3(0, radius, 0);
+
+        if (cardCount == 1)
+        {
+            Vector3 position = center + new Vector3(0 ,radius, 0);
+            positions.Add(position);
+
+            Quaternion rotation = Quaternion.Euler(0, 0, 0);
+            rotations.Add(rotation);
+
+            return (positions, rotations);
+        }
+
+        gapSize = cardCount * gapSizeMagnification * 0.1f;
 
         for (int i = 0; i < cardCount; i++)
         {
             float angle = startAngle + angleStep * i;
             float radian = angle * Mathf.Deg2Rad;
 
-            float x = Mathf.Sin(radian) * radius * 1.2f;
+            float x = Mathf.Sin(radian) * radius * gapSize;
             float y = Mathf.Cos(radian) * radius;
 
             Vector3 position = center + new Vector3(x, y, -i * 0.01f);
@@ -264,9 +283,12 @@ public class CardManager : MonoBehaviour
     }
 }
 
+/// <summary>
+/// エディターの設定
+/// </summary>
 #if UNITY_EDITOR
 [CustomEditor(typeof(CardManager))]
-public class ExampleEditor : Editor
+public class CardManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
