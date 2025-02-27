@@ -180,7 +180,7 @@ public class UnitBase : MonoBehaviour
 
 
 
-
+#if UNITY_EDITOR
     // デバッグ用
     void OnDrawGizmosSelected()
     {
@@ -200,7 +200,7 @@ public class UnitBase : MonoBehaviour
         }
         if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
         Handles.Label(transform.position + Vector3.up, text, guiStyle);
-
     }
+#endif
 }
 
