@@ -17,6 +17,9 @@ public class CardManager : MonoBehaviour
     // 全Cardインスタンスの配列
     private Card[] cardCmps;
 
+    [SerializeField]
+    private PlayerResourceManager playerResourceManager;
+
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
 
@@ -55,7 +58,9 @@ public class CardManager : MonoBehaviour
 
     private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
-
+    // ドローイベント
+    private event Action OnCardDrawn;
+    public void AddCardDrawnListener(Action listener) => OnCardDrawn += listener;
     // 手札選択イベント
     private event Action<Card> OnCardSelected;
     public void AddCardSelectedListener(Action<Card> listener) => OnCardSelected += listener;
@@ -65,6 +70,9 @@ public class CardManager : MonoBehaviour
     // 手札使用イベント
     private event Action OnCardUsed;
     public void AddCardUsedListener(Action listener) => OnCardUsed += listener;
+    // 使用失敗イベント 
+    private event Action OnCardUseFailed;
+    public void AddCardUseFailedListener(Action listener) => OnCardUseFailed += listener;
 
 
     // 選択中のカード
@@ -136,7 +144,7 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// カードを選択する ----------------------(2)
     /// </summary>
-    public void SelectCard(Card card)
+    private void SelectCard(Card card)
     {
         card.Select();
         selectedCard = card;
@@ -146,7 +154,7 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// カードの選択を解除する-----------------(3)
     /// </summary>
-    public void DeselectCard()
+    private void DeselectCard()
     {
         selectedCard.Deselect();
         OnCardDeselected?.Invoke();
@@ -156,7 +164,7 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// 指定した2枚のカードを使用する -----------------(4)
     /// </summary>
-    public void ActivateCards(Card card1, Card card2)
+    private void TryActivateCards(Card card1, Card card2)
     {
         // 重複するシンボルを取得
         var commonSymbolIDs = card1.SymbolsHashSet.Intersect(card2.SymbolsHashSet).ToList();
@@ -165,18 +173,23 @@ public class CardManager : MonoBehaviour
         if (commonSymbolIDs.Count == 1)
         {
             // シンボルに対応する効果を発動
-            try{
-                AllSymbolData[commonSymbolIDs[0]].cardAction.Activate(OwnerType.PLAYER);
-            }
-            catch (NullReferenceException)
+            CardEffectBase effect = AllSymbolData[commonSymbolIDs[0]].cardAction;
+
+            if(playerResourceManager.ConsumeMana(effect.ManaCost))
             {
-                Debug.LogWarning("ActivateCards: 効果未設定(" + AllSymbolData[commonSymbolIDs[0]].description);
+                effect.Activate(OwnerType.PLAYER);
+                card1.Use();
+                card2.Use();
+                selectedCard = null;
+                OnCardUsed?.Invoke();
+                RearrangeHand();
             }
-            card1.Use();
-            card2.Use();
-            selectedCard = null;
-            OnCardUsed?.Invoke();
-            RearrangeHand();
+            else
+            {
+                Debug.Log("TryActivateCards: マナ不足");
+                OnCardUseFailed?.Invoke();
+            }
+
         }
         else
         {
@@ -186,6 +199,7 @@ public class CardManager : MonoBehaviour
 
     /// <summary>
     /// 選択中のカードを捨てる-----------------(5)
+    /// TODO:リソーステストのために暫定的にpublic
     /// </summary>
     public void TrashSelectedCard()
     {
@@ -232,7 +246,7 @@ public class CardManager : MonoBehaviour
         }
         else if (selectedCard != card) // 選択中, かつ他のカードをクリック
         {
-            ActivateCards(selectedCard, card);
+            TryActivateCards(selectedCard, card);
         }
         else // 同じカードをクリック
         {
