@@ -152,22 +152,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
-  MAX_HAND_CARDS: 5
-  SYMBOL_COUNT_PER_CARD: 4
-  allSymbols:
-  - {fileID: 11400000, guid: 8dd70d7c0518c6f47a82d4efb44bed70, type: 2}
-  - {fileID: 11400000, guid: 1fa4c805a0594ae43b8e119d64fef838, type: 2}
-  - {fileID: 11400000, guid: cee565d6a812e564e9a551cb922b0c64, type: 2}
-  - {fileID: 11400000, guid: 17457e51f21c4a94db1daf1523e33054, type: 2}
-  - {fileID: 11400000, guid: 5b577a6d5045035478ab5e63557f5fa6, type: 2}
-  - {fileID: 11400000, guid: 6e2f1608491eac740bb1849c6566deda, type: 2}
-  - {fileID: 11400000, guid: 23d6d3dd132880f438a2a05e122c3471, type: 2}
-  - {fileID: 11400000, guid: 655739f465e7b364e9fb27c673eb9f12, type: 2}
-  - {fileID: 11400000, guid: 7c8eab080505ae84aa0e3529f1b9ceb7, type: 2}
-  - {fileID: 11400000, guid: a424affaac681b242b2055d81f217b38, type: 2}
-  - {fileID: 11400000, guid: c35a8b9abc3918e49838c39cf57ab1f2, type: 2}
-  - {fileID: 11400000, guid: a74e8ce37fb608847929ba7e88ac718f, type: 2}
-  - {fileID: 11400000, guid: fe494df0bb2f9b5468fe3bf840333bea, type: 2}
+  SYMBOL_PER_CARD: 4
+  INITIAL_HAND_CARDS: 5
+  MAX_HAND_CARDS: 8
+  DRAW_COOLTIME: 10
+  handPos: {x: 0, y: -2, z: 0}
+  gapSizeMagnification: 3
 --- !u!4 &998776113
 Transform:
   m_ObjectHideFlags: 0
