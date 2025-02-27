@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.XR;
+using Unity.VisualScripting;
 
 public class CardManager : MonoBehaviour
 {
@@ -59,8 +60,8 @@ public class CardManager : MonoBehaviour
     private event Action<Card> OnCardSelected;
     public void AddCardSelectedListener(Action<Card> listener) => OnCardSelected += listener;
     // 手札選択解除イベント
-    private event Action<Card> OnCardDeselected;
-    public void AddCardDeselectedListener(Action<Card> listener) => OnCardDeselected += listener;
+    private event Action OnCardDeselected;
+    public void AddCardDeselectedListener(Action listener) => OnCardDeselected += listener;
     // 手札使用イベント
     private event Action OnCardUsed;
     public void AddCardUsedListener(Action listener) => OnCardUsed += listener;
@@ -113,7 +114,7 @@ public class CardManager : MonoBehaviour
         // 上限処理
         if (cardCmps.Count(c => c.IsCardInHand) >= MAX_HAND_CARDS)
         {
-            Debug.LogWarning("手札が最大枚数に達しています。");
+            Debug.LogWarning("DrawCard: 手札が最大枚数に達しています。");
             return;
         }
 
@@ -128,7 +129,7 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("デッキにカードがありません。");
+            Debug.LogWarning("DrawCard: デッキにカードがありません。");
         }
     }
 
@@ -145,16 +146,11 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// カードの選択を解除する-----------------(3)
     /// </summary>
-    public void DeselectCard(Card card)
+    public void DeselectCard()
     {
-        if(card != selectedCard)
-        {
-            Debug.LogWarning("選択中のカードではありません。");
-            return;
-        }
-        card.Deselect();
+        selectedCard.Deselect();
+        OnCardDeselected?.Invoke();
         selectedCard = null;
-        OnCardDeselected?.Invoke(card);
     }
 
     /// <summary>
@@ -174,7 +170,7 @@ public class CardManager : MonoBehaviour
             }
             catch (NullReferenceException)
             {
-                Debug.LogWarning("効果未設定 : " + AllSymbolData[commonSymbolIDs[0]].description);
+                Debug.LogWarning("ActivateCards: 効果未設定(" + AllSymbolData[commonSymbolIDs[0]].description);
             }
             card1.Use();
             card2.Use();
@@ -184,8 +180,25 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("重複シンボルが1つじゃない。"+ commonSymbolIDs.ToString());
+            Debug.LogError("ActivateCards: 重複シンボルが1つじゃない。"+ commonSymbolIDs.ToString());
         }
+    }
+
+    /// <summary>
+    /// 選択中のカードを捨てる-----------------(5)
+    /// </summary>
+    public void TrashSelectedCard()
+    {
+        if (selectedCard == null)
+        {
+            Debug.LogWarning("TrashSelectedCard: 選択中のカードがありません。");
+            return;
+        }
+        
+        selectedCard.Trash();
+        OnCardDeselected?.Invoke();
+        selectedCard = null;
+        RearrangeHand();
     }
 
 
@@ -223,7 +236,7 @@ public class CardManager : MonoBehaviour
         }
         else // 同じカードをクリック
         {
-            DeselectCard(card);
+            DeselectCard();
         }
     }
 
@@ -246,6 +259,10 @@ public class CardManager : MonoBehaviour
         // 使用位置
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(usedPos, 0.5f);
+
+        // トラッシュ位置
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(trashPos, 0.5f);
     }
     // 角度付きのWireCubeを描画
     private void DrawCardGizmo(Vector3 center, float angle, Vector3 size)
@@ -285,6 +302,11 @@ public class CardManagerEditor : Editor
         if (GUILayout.Button("再配置"))
         {
             //t.RearrangeHand();
+        }
+
+        if (GUILayout.Button("選択中のカードを捨てる"))
+        {
+            t.TrashSelectedCard();
         }
     }
 }

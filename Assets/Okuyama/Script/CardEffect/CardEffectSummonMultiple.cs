@@ -21,7 +21,7 @@ public class CardEffectSummonMultiple : CardEffectBase
 
     protected override void Effect(OwnerType owner)
     {
-        TriggerEffect(owner).Forget(); // TODO:効果中の演出つけるならawaitする
+        TriggerEffect(owner).Forget(); // 効果中の演出つけるならawaitする
     }
 
     // 一定時間おきにユニットを召喚

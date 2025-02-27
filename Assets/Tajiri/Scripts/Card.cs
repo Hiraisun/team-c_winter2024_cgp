@@ -175,6 +175,24 @@ public class Card : MonoBehaviour
         transform.localScale = Vector3.one;
     }
 
+    /// <summary>
+    /// カードを捨てる -------------(5)
+    /// </summary>
+    public async void Trash()
+    {
+        if(state!= CardState.Hand_Selected  && state!= CardState.Hand_Unselected){
+            Debug.LogError("カードが手札にない状態で捨てられた");
+            return;
+        }
+
+        state = CardState.Trashed;
+        await transform.DOMove(cardManager.TrashPos, 1f);
+
+        state = CardState.InDeck;
+        transform.position = cardManager.DrawPos;
+
+    }
+
 
 
     /// <summary>
@@ -191,13 +209,10 @@ public class Card : MonoBehaviour
     /// <summary>
     /// カード選択解除のイベントハンドラ
     /// </summary>
-    public void HandleCardDeselected(Card deselectedCard)
+    public void HandleCardDeselected()
     {
-        if(deselectedCard != this) // 他のカードが選択解除
-        {
-            // シンボルハイライト演出終了
-            FinishSymbolHighlight();
-        }
+        // シンボルハイライト演出終了
+        FinishSymbolHighlight();
     }
     /// <summary>
     /// カード使用のイベントハンドラ
