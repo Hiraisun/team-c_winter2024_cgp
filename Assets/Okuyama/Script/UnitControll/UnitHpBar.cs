@@ -7,9 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UnitHpBar : UnitActionBase
 {
+    [Header("HPバー")]
     [SerializeField] private GameObject hpBarPrefab; // HPバーのプレハブ
-
-    [Header("位置調整")]
     [SerializeField] private Vector3 position; // HPバーの位置調整用
     [SerializeField] private float width = 1f; // HPバーの幅
     [SerializeField] private float height = 0.05f; // HPバーの高さ
@@ -30,7 +29,7 @@ public class UnitHpBar : UnitActionBase
         hpBar.Initialize(unitBase.MaxHP, width, height);
     }
 
-    protected override void OnDamageRecieved(float damage)
+    protected override void OnDamageRecieved(DamageInfo damageInfo)
     {
         // 被ダメージ時更新
         hpBar.UpdateHpBar(unitBase.HP);

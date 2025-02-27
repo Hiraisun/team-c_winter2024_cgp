@@ -52,6 +52,6 @@ public abstract class UnitActionBase : MonoBehaviour
     /// <summary>
     /// 被ダメージ時の処理
     /// </summary>
-    virtual protected void OnDamageRecieved(float damage){}
+    virtual protected void OnDamageRecieved(DamageInfo damage){}
     
 }

@@ -18,6 +18,7 @@ public enum OwnerType
 [DisallowMultipleComponent] //複数アタッチ禁止
 public class UnitBase : MonoBehaviour
 {
+    [Header("ユニット基本情報")]
     private BattleManager battleManager;
     public BattleManager BattleManager { get { return battleManager; } }
 
@@ -38,7 +39,7 @@ public class UnitBase : MonoBehaviour
     private Action OnDeath;                  //死亡時
     private Action OnAttackStart;            //攻撃開始時
     private Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
-    private Action<float> OnDamageReceived;  //被ダメージ時 引数:damage
+    private Action<DamageInfo> OnDamageReceived;  //被ダメージ時 引数:damage
 
     // HP
     [SerializeField, Tooltip("最大HP")]
@@ -78,26 +79,26 @@ public class UnitBase : MonoBehaviour
     /// <summary>
     /// このユニットにダメージを与える
     /// </summary>
-    public void Damage(float damageValue)
+    public void Damage(DamageInfo damageInfo)
     {
-        if(damageValue < 0)
+        if(damageInfo.damage < 0)
         {
             Debug.LogWarning("Damage: 負のダメージを受けた");
             return;
         }
 
-        HP -= damageValue;
+        HP -= damageInfo.damage;
 
         if (HP <= 0)
         {
-            //死亡時処理
-            battleManager.DeRegisterUnit(this);
+            //死亡時処理 TODO:死亡演出
             OnDeath?.Invoke(); // 死亡イベント発火
+            battleManager.DeRegisterUnit(this);
             Destroy(gameObject);
         }
 
         // 被ダメージイベント発火
-        OnDamageReceived?.Invoke(damageValue);
+        OnDamageReceived?.Invoke(damageInfo);
     }
 
     /// <summary>
@@ -126,6 +127,23 @@ public class UnitBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 他の行動をキャンセルして割り込む
+    /// trueならば新たに行動してOK, falseなら割り込み不可
+    /// 例 if(unitBase.InterruptAction()) StartAction();
+    /// </summary>
+    public bool InterruptAction()
+    {
+        if(isBusy)
+        {
+            // 実行中のアクションに判断を任せる
+            return executionAction.InterruptAction();
+        }
+        else{
+            return true; // 何も行動していないので行動可
+        }
+    }
+
     // イベントレジスタ-------------------------------------
     public void RegisterOnDeath(Action action)
     {
@@ -139,7 +157,7 @@ public class UnitBase : MonoBehaviour
     {
         OnDamageDealt += action;
     }
-    public void RegisterOnDamageReceived(Action<float> action)
+    public void RegisterOnDamageReceived(Action<DamageInfo> action)
     {
         OnDamageReceived += action;
     }
@@ -167,16 +185,20 @@ public class UnitBase : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         // 頭上にstateを表示
+        // isBusyのときは赤
         string text;
+        var guiStyle = new GUIStyle {fontSize = 20};
         if(isBusy)
         {
             text = executionAction.GetType().Name;
+            guiStyle.normal.textColor = Color.red;
         }
         else
         {
             text = "Idle";
+            guiStyle.normal.textColor = Color.black;
         }
-        var guiStyle = new GUIStyle {fontSize = 20, normal = {textColor = Color.black}};
+        if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
         Handles.Label(transform.position + Vector3.up, text, guiStyle);
     }
 #endif
