@@ -156,10 +156,10 @@ MonoBehaviour:
   MAX_HAND_CARDS: 8
   handPosConfig:
     handPos: {x: 0, y: -2, z: 0}
-    handRadius: 5
-    handMaxAngle: 45
+    handRadius: 5.88
+    handMaxAngle: 48
     gapSizeMagnification: 3
-  drawPos: {x: -10, y: 0, z: 0}
+  drawPos: {x: -11.02, y: -4.91, z: 0}
   usedPos: {x: 7, y: 3, z: 0}
   trashPos: {x: 0, y: 10, z: 0}
 --- !u!4 &998776113

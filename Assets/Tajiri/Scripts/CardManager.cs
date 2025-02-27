@@ -227,6 +227,39 @@ public class CardManager : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
+    // 各種パラメータ設定用Gizmo
+    void OnDrawGizmosSelected()
+    {
+        // 手札位置
+        Vector3 cardSize = cardPrefab.GetComponent<RectTransform>().sizeDelta;
+        var (positions, rotations) = CardAlgorithms.CalculateHandPos(5, handPosConfig);
+        for (int i = 0; i < positions.Count; i++)
+        {
+            DrawCardGizmo(positions[i], rotations[i].eulerAngles.z, cardSize);
+        }
+
+        // ドロー位置
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(drawPos, cardSize);
+
+        // 使用位置
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(usedPos, 0.5f);
+    }
+    // 角度付きのWireCubeを描画
+    private void DrawCardGizmo(Vector3 center, float angle, Vector3 size)
+    {
+        Matrix4x4 original = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(
+            center,
+            transform.rotation * Quaternion.Euler(0, 0, angle), // オブジェクトの回転に追加
+            Vector3.one
+        );
+        Gizmos.DrawWireCube(Vector3.zero, size);
+        Gizmos.matrix = original;
+    }
+#endif
 
 
 }

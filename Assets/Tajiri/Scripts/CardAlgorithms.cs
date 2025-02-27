@@ -61,11 +61,11 @@ public static class CardAlgorithms
     {
         [Tooltip("手札の中心位置")]
         public Vector3 handPos;
-        [Tooltip("手札の半径")]
+        [Tooltip("手札の半径"), Range(0, 10)]
         public float handRadius;
-        [Tooltip("手札の最大角度")]
+        [Tooltip("手札の最大角度"), Range(0, 90)]
         public float handMaxAngle;
-        [Tooltip("カード間の隙間"), Range(1, 5)]
+        [Tooltip("カード間の隙間"), Range(0, 5)]
         public float gapSizeMagnification;
     }
     /// <summary>
