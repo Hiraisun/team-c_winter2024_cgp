@@ -159,6 +159,9 @@ MonoBehaviour:
     handRadius: 5
     handMaxAngle: 45
     gapSizeMagnification: 3
+  drawPos: {x: -10, y: 0, z: 0}
+  usedPos: {x: 7, y: 3, z: 0}
+  trashPos: {x: 0, y: 10, z: 0}
 --- !u!4 &998776113
 Transform:
   m_ObjectHideFlags: 0
