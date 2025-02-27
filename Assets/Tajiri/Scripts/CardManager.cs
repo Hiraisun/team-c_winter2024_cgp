@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.XR;
 
 public class CardManager : MonoBehaviour
 {
     // 使用するすべてのカード
     private List<List<int>> deck;
 
-    // 手札のゲームオブジェクト
+    // 全カードのゲームオブジェクト配列
     private GameObject[] cardObjs;
 
+    // 全Cardインスタンスの配列
     private Card[] cardCmps;
 
     [SerializeField, Header("カードのPrefab")]
@@ -20,39 +22,44 @@ public class CardManager : MonoBehaviour
     [SerializeField, Header("１枚のカードに書かれているシンボルの数")]
     private int SYMBOL_PER_CARD = 4;
 
-    [SerializeField, Header("手札の枚数")]
-    private int INITIAL_HAND_CARDS = 5;
-
     [SerializeField, Header("手札の最大枚数")]
     private int MAX_HAND_CARDS = 8;
 
-    [SerializeField, Header("手札の位置")]
-    private Vector3 handPos;
+    [Space(10)]
+    [SerializeField, Header("手札位置の調整パラメータ")]
+    private CardAlgorithms.HandPosConfig handPosConfig = new()
+    {
+        handPos = new Vector3(0, 0, 0),
+        handRadius = 5f,
+        handMaxAngle = 45f,
+        gapSizeMagnification = 3f
+    };
 
-    [SerializeField, Header("カード間の隙間"), Range(1, 5)]
-    private float gapSizeMagnification = 3f;
+    [SerializeField, Header("ドロー時出現位置")]
+    private Vector3 drawPos = new(0, 10, 0); //初期位置として利用
 
-    private float gapSize;
-
-    private Vector3 trashPos = new(0, 10, 0);
+    [SerializeField, Header("トラッシュ時移動先")]
+    private Vector3 trashPos = new(0, 0, 0);
 
     private SymbolData[] allSymbols;
 
-    private int TOTAL_CARD_AND_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1; // カードの枚数とシンボルの数は同じ
+    private int TOTAL_CARD_AND_SYMBOL => SYMBOL_PER_CARD * SYMBOL_PER_CARD - SYMBOL_PER_CARD + 1; 
+    // カードの枚数とシンボルの数は同じ
 
     private int[] HandNums => cardCmps.Select(card => card.CardNum).ToArray();
 
-    private void OnEnable()
+    // 選択中のカード
+    private Card selectedCard = null;
+
+    // 初期化処理
+    private void Awake()
     {
         InitializeArrays();
-
-        GenerateDobbleCardsList();
-
+        deck = CardAlgorithms.GenerateDobbleCardsList(SYMBOL_PER_CARD);
         GenerateCardsObj();
-
-        InitialDraw();
     }
 
+    // メモリ確保
     private void InitializeArrays()
     {
         allSymbols = new SymbolData[TOTAL_CARD_AND_SYMBOL];
@@ -62,97 +69,40 @@ public class CardManager : MonoBehaviour
         allSymbols = Resources.LoadAll<SymbolData>("Symbols");
     }
 
-    private void GenerateDobbleCardsList()
-    {
-        int n = SYMBOL_PER_CARD - 1;
-
-        deck = new();
-
-        // 1枚目のカード (0, 1, 2, ..., n)
-        List<int> firstCard = new();
-        for (int i = 0; i <= n; i++)
-        {
-            firstCard.Add(i);
-        }
-        deck.Add(firstCard);
-
-        // 次の n 枚 (0 を固定し、列ごとに増やしていく)
-        for (int i = 1; i <= n; i++)
-        {
-            List<int> card = new() { 0 };
-            for (int j = 1; j <= n; j++)
-            {
-                card.Add(i + j * n);
-            }
-            deck.Add(card);
-        }
-
-        // 残りの n^2 枚 (y = ax + b の形)
-        for (int a = 1; a <= n; a++)
-        {
-            for (int b = 1; b <= n; b++)
-            {
-                List<int> card = new() { a };
-                for (int x = 1; x <= n; x++)
-                {
-                    int symbol = (a * x + b) % n;
-                    symbol = n + symbol * n + x;
-                    card.Add(symbol);
-                }
-                deck.Add(card);
-            }
-        }
-    }
-
+    // カードオブジェクトの生成(初期化)
     private void GenerateCardsObj()
     {
         for (int i = 0; i < TOTAL_CARD_AND_SYMBOL; i++)
         {
-            cardObjs[i] = Instantiate(cardPrefab, trashPos, Quaternion.identity); //配置に関しては一時的です
+            cardObjs[i] = Instantiate(cardPrefab, trashPos, Quaternion.identity, transform); //配置に関しては一時的です
+            // Managerの子オブジェクトとした。シーンが散らかるので。
 
+            // 参照取得処理
             cardCmps[i] = cardObjs[i].GetComponent<Card>();
-            cardCmps[i].SetCardInHand(false);
-            cardCmps[i].SetCardNum(i);
-            cardCmps[i].ApplyChanges(deck, allSymbols);
-            cardCmps[i].OnCardClicked += HandleCardClicked;
+            cardCmps[i].Initialize(i, deck, allSymbols);            // 初期化
+            cardCmps[i].AddCardClickedListener(HandleCardClicked);  // クリックイベントを聴く
         }
     }
 
-    private void InitialDraw()
-    {
-        for (int i = 0; i < INITIAL_HAND_CARDS; i++)
-        {
-            Draw();
-        }
-    }
-
-    private void Trash(Card selectedCard)
-    {
-        if (selectedCard == null)
-        {
-            Debug.LogWarning("捨てるカードが選択されていません。");
-            return;
-        }
-
-        selectedCard.SetCardInHand(false);
-        selectedCard.MoveTo(trashPos, Quaternion.Euler(0, 0, 0));
-        RearrangeHand();
-    }
-
+    /// <summary>
+    /// カードを1枚引く
+    /// </summary>
     public void Draw()
     {
+        // 例外処理
         if (cardCmps.Count(c => c.IsCardInHand) >= MAX_HAND_CARDS)
         {
             Debug.LogWarning("手札が最大枚数に達しています。");
             return;
         }
 
+        // 手札にないカード
         var inactiveCards = cardCmps.Where(c => !c.IsCardInHand).ToList();
 
         if (inactiveCards.Count > 0)
         {
             Card newCard = inactiveCards[UnityEngine.Random.Range(0, inactiveCards.Count)];
-            newCard.SetCardInHand(true);
+            newCard.ToHand(); // 手札に加える
             RearrangeHand();
         }
         else
@@ -161,10 +111,31 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void RearrangeHand()
+    ///// <summary>
+    ///// 指定したカードを捨てる   ->   「捨てる」「使う」は別で定義すべきかも
+    ///// </summary>
+    ///// <param name="selectedCard"></param>
+    //private void Trash(Card selectedCard)
+    //{
+    //    if (selectedCard == null)
+    //    {
+    //        Debug.LogWarning("捨てるカードが選択されていません。");
+    //        return;
+    //    }
+    //
+    //    selectedCard.SetCardInHand(false);
+    //    selectedCard.MoveTo(trashPos, Quaternion.Euler(0, 0, 0));
+    //    RearrangeHand();
+    //}
+
+
+    /// <summary>
+    /// 手札のカードを再配置する
+    /// </summary>
+    private void RearrangeHand()
     {
         var cardsInHand = cardCmps.Where(c => c.IsCardInHand).ToList();
-        var (positions, rotations) = GetCardTransforms(cardsInHand.Count, 5f, 45f);
+        var (positions, rotations) = CardAlgorithms.CalculateHandPos(cardsInHand.Count, handPosConfig);
 
         for (int i = 0; i < cardsInHand.Count; i++)
         {
@@ -172,63 +143,24 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private (List<Vector3>, List<Quaternion>) GetCardTransforms(int cardCount, float radius, float maxAngle)
-    {
-        List<Vector3> positions = new();
-        List<Quaternion> rotations = new();
-
-        if (cardCount <= 0) return (positions, rotations);
-
-        float startAngle = -maxAngle * 0.5f;
-        float angleStep = (cardCount > 1) ? maxAngle / (cardCount - 1) : 0;
-        Vector3 center = handPos - new Vector3(0, radius, 0);
-
-        if (cardCount == 1)
-        {
-            Vector3 position = center + new Vector3(0 ,radius, 0);
-            positions.Add(position);
-
-            Quaternion rotation = Quaternion.Euler(0, 0, 0);
-            rotations.Add(rotation);
-
-            return (positions, rotations);
-        }
-
-        gapSize = cardCount * gapSizeMagnification * 0.1f;
-
-        for (int i = 0; i < cardCount; i++)
-        {
-            float angle = startAngle + angleStep * i;
-            float radian = angle * Mathf.Deg2Rad;
-
-            float x = Mathf.Sin(radian) * radius * gapSize;
-            float y = Mathf.Cos(radian) * radius;
-
-            Vector3 position = center + new Vector3(x, y, -i * 0.01f);
-            positions.Add(position);
-
-            Quaternion rotation = Quaternion.Euler(0, 0, -angle);
-            rotations.Add(rotation);
-        }
-
-        return (positions, rotations);
-    }
-
-    private Card selectedCard = null;
-
-    private HashSet<int> matchingSymbols;
-
-    private Dictionary<int, SymbolData> commonSymbol;
-
+    /// <summary>
+    /// カードクリックイベントのハンドラメソッド。
+    /// 
+    /// !!! イベントハンドリング (クリック時の処理の振り分け) のみを行う !!!
+    /// 気を抜くとここが肥大化する。分散しよう。
+    /// 
+    /// </summary>
     private void HandleCardClicked(Card card)
     {
-        if (selectedCard == null)
+        if (selectedCard == null) // 選択中でない 
         {
             selectedCard = card;
 
             HashSet<int> candidateOfSymbols = new(deck[selectedCard.CardNum]);
 
-            commonSymbol = new();
+            Dictionary<int, SymbolData> commonSymbol = new();
+
+            HashSet<int> matchingSymbols;
 
             foreach (int handNum in HandNums)
             {
@@ -250,20 +182,19 @@ public class CardManager : MonoBehaviour
                 }
             }
         }
-
-        else if (selectedCard != card)
+        else if (selectedCard != card) // 選択中, かつ他のカードをクリック
         {
             try
             {
-                commonSymbol[card.CardNum].cardAction.Activate(OwnerType.PLAYER);
+                //commonSymbol[card.CardNum].cardAction.Activate(OwnerType.PLAYER);
             }
             catch
             {
-                Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " に効果が設定されていません。");
+                //Debug.LogWarning(commonSymbol[card.CardNum].symbolSprite.name + " に効果が設定されていません。");
             }
 
-            Trash(selectedCard);
-            Trash(card);
+            //Trash(selectedCard);
+            //Trash(card);
 
             selectedCard = null;
 
@@ -300,7 +231,7 @@ public class CardManagerEditor : Editor
 
         if (GUILayout.Button("再配置"))
         {
-            t.RearrangeHand();
+            //t.RearrangeHand();
         }
     }
 }
