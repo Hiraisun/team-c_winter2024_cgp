@@ -8,12 +8,16 @@ using UnityEngine;
 /// </summary>
 public class PlayerResourceManager : MonoBehaviour
 {
-    private float mana = 10000000; // 現在のマナ
+    [SerializeField]
+    private float maxMana = 10; // 最大マナ
+    public float MaxMana { get => maxMana; }
+
+    private float mana; // 現在のマナ
     public float Mana { get => mana; }
 
-    private Action<float> OnManaChanged;
-    public void AddManaChangedListener(Action<float> listener) => OnManaChanged += listener;
-    
+    private Action OnManaChanged;
+    public void AddManaChangedListener(Action listener) => OnManaChanged += listener;
+
     /// <summary>
     /// マナを消費する。 成功したらtrue, 失敗したらfalseを返す
     /// </summary>
@@ -26,7 +30,7 @@ public class PlayerResourceManager : MonoBehaviour
             return false; // マナが足りない
         }else{
             mana -= cost;
-            OnManaChanged?.Invoke(mana);
+            OnManaChanged?.Invoke();
             return true; //成功
         }
     }
