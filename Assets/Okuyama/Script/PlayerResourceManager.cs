@@ -9,13 +9,16 @@ using UnityEngine;
 public class PlayerResourceManager : MonoBehaviour
 {
     [SerializeField]
-    private float maxMana = 10; // 最大マナ
+    protected CardManager cardManager;
+
+    [SerializeField]
+    protected float maxMana = 10; // 最大マナ
     public float MaxMana { get => maxMana; }
 
-    private float mana; // 現在のマナ
+    protected float mana; // 現在のマナ
     public float Mana { get => mana; }
 
-    private Action OnManaChanged;
+    protected Action OnManaChanged;
     public void AddManaChangedListener(Action listener) => OnManaChanged += listener;
 
     /// <summary>
@@ -27,7 +30,8 @@ public class PlayerResourceManager : MonoBehaviour
             Debug.LogError("ConsumeMana: マナ消費量が負です");
             return false;
         }else if (cost > mana) {
-            return false; // マナが足りない
+            Debug.Log("ConsumeMana: マナが足りない");
+            return false;
         }else{
             mana -= cost;
             OnManaChanged?.Invoke();

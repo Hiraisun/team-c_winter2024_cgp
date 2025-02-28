@@ -18,10 +18,9 @@ public class UI_ManaBar : MonoBehaviour
     private PlayerResourceManager playerResourceManager;
 
 
-    void Start()
+    void Awake()
     {
         playerResourceManager.AddManaChangedListener(HandleUpdateMana);
-        HandleUpdateMana();
     }
 
     /// <summary>
