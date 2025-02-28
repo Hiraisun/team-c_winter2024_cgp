@@ -29,6 +29,10 @@ public abstract class UnitActionBase : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 行動が割り込まれた際の処理 行動終了ならばtrueを返す
+    /// </summary>
+    virtual public bool InterruptAction(){return false;}
 
     /// <summary>
     /// 死亡時の処理
@@ -48,6 +52,6 @@ public abstract class UnitActionBase : MonoBehaviour
     /// <summary>
     /// 被ダメージ時の処理
     /// </summary>
-    virtual protected void OnDamageRecieved(float damage){}
+    virtual protected void OnDamageRecieved(DamageInfo damage){}
     
 }

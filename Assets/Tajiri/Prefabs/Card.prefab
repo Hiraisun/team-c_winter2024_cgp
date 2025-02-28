@@ -201,18 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ae56d956cebeb478e3cc3eab7a4d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardNum: 0
-  symbols:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   sr:
   - {fileID: 7868795936478531463}
   - {fileID: 4373239193321843340}
   - {fileID: 2211873750304726141}
   - {fileID: 3254164102781583812}
-  symbolIndices: 
 --- !u!210 &4583163852192862721
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -222,7 +215,7 @@ SortingGroup:
   m_GameObject: {fileID: 927187406246580337}
   m_Enabled: 1
   m_SortingLayerID: 2139114971
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!61 &2233337097132178260

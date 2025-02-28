@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// ユニット複数体を召喚するカード効果
@@ -20,17 +21,16 @@ public class CardEffectSummonMultiple : CardEffectBase
 
     protected override void Effect(OwnerType owner)
     {
-        TriggerEffect(owner);
+        TriggerEffect(owner).Forget(); // 効果中の演出つけるならawaitする
     }
 
-    // scriptableObjectのためコルーチン使えない。
-    // 代わりにTask.Delayを使って非同期処理を行う
-    private async void TriggerEffect(OwnerType owner)
+    // 一定時間おきにユニットを召喚
+    private async UniTask TriggerEffect(OwnerType owner)
     {
         for (int i = 0; i < summonCount; i++)
         {
             battleManager.SummonUnit(unitPrefab, owner);
-            await Task.Delay((int)(interval * 1000));  //TODO: TimeScale非対応。UniTasks検討
+            await UniTask.WaitForSeconds(interval);
         }
     }
 }

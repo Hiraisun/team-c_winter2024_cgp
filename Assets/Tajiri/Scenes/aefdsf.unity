@@ -122,6 +122,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &300943713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300943715}
+  - component: {fileID: 300943714}
+  m_Layer: 0
+  m_Name: PlayerResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &300943714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300943713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4af85a55fc5bd43b8d36c8f18f1f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &300943715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300943713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8148428, y: 1.2553483, z: 0.7286718}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &998776111
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,13 +195,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23719844af6a4814dace45f439f1a407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerResourceManager: {fileID: 300943714}
   cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
   SYMBOL_PER_CARD: 4
+<<<<<<< HEAD
   INITIAL_HAND_CARDS: 5
   MAX_HAND_CARDS: 8
   DRAW_COOLTIME: 10
   handPos: {x: 0, y: -2, z: 0}
   gapSizeMagnification: 3
+=======
+  MAX_HAND_CARDS: 8
+  handPosConfig:
+    handPos: {x: 0, y: -2, z: 0}
+    handRadius: 5.88
+    handMaxAngle: 48
+    gapSizeMagnification: 3
+  drawPos: {x: -11.02, y: -4.91, z: 0}
+  usedPos: {x: 7, y: 3, z: 0}
+  trashPos: {x: 0, y: 10, z: 0}
+>>>>>>> main
 --- !u!4 &998776113
 Transform:
   m_ObjectHideFlags: 0
@@ -434,4 +491,5 @@ SceneRoots:
   - {fileID: 1307924315}
   - {fileID: 1186481474}
   - {fileID: 1029495798}
+  - {fileID: 300943715}
   - {fileID: 998776113}

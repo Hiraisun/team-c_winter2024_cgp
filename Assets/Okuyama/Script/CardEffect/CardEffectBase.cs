@@ -10,8 +10,8 @@ public abstract class CardEffectBase : ScriptableObject
     protected BattleManager battleManager;
 
     [SerializeField, Tooltip("発動コスト (未実装, 定義のみ)")] 
-    private int cost = 0;
-    public int Cost { get { return cost; } }
+    private float manaCost = 0;
+    public float ManaCost { get { return manaCost; } }
     
     /// <summary>
     /// カード効果の発動
@@ -19,7 +19,11 @@ public abstract class CardEffectBase : ScriptableObject
     public void Activate(OwnerType owner)
     {
         // 初回実行時に参照を保存
-        if (battleManager == null) battleManager = FindFirstObjectByType<BattleManager>();
+        if (battleManager == null) battleManager = FindAnyObjectByType<BattleManager>();
+        if (battleManager == null) {
+            Debug.LogWarning("CardEffect: BattleManagerが見つかりませんでした");
+            return;
+        }
 
         //効果処理
         Effect(owner);
