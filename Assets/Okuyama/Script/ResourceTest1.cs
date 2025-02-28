@@ -45,9 +45,15 @@ public class ResourceTest1 : PlayerResourceManager
 
     public void UseManaToDraw()
     {
-        if (ConsumeMana(drawCost))
+        if (mana < drawCost)
         {
-            cardManager.DrawCard(); //TODO: 手札チェック
+            Debug.LogWarning("UseManaToDraw: マナが足りません。");
+            return;
+        }
+
+        if(cardManager.DrawCard())
+        {
+            ConsumeMana(drawCost);
         }
     }
 }

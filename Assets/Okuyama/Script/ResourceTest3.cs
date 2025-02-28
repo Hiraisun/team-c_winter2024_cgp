@@ -48,8 +48,15 @@ public class ResourceTest3 : PlayerResourceManager
         drawTimer += Time.deltaTime;
         if (drawTimer >= drawInterval)
         {
-            cardManager.DrawCard(); //TODO: 手札チェック
-            drawTimer = 0;
+            if(cardManager.DrawCard())
+            {
+                drawTimer -= drawInterval;
+            }
+            else
+            {
+                // 引かないなら手札が空き次第
+                drawTimer = drawInterval;
+            }
         }
     }
 

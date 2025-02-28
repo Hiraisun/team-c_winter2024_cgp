@@ -117,28 +117,30 @@ public class CardManager : MonoBehaviour
     /// <summary>
     /// カードを1枚引く   ---------------------(1)
     /// </summary>
-    public void DrawCard()
+    public bool DrawCard()
     {
         // 上限処理
         if (cardCmps.Count(c => c.IsCardInHand) >= MAX_HAND_CARDS)
         {
             Debug.LogWarning("DrawCard: 手札が最大枚数に達しています。");
-            return;
+            return false;
         }
 
         // Deckのカードを取得
         var inDeckCards = cardCmps.Where(c => c.State == Card.CardState.InDeck).ToList();
 
-        if (inDeckCards.Count > 0)
-        {
-            Card newCard = inDeckCards[UnityEngine.Random.Range(0, inDeckCards.Count)];
-            newCard.Draw();
-            RearrangeHand();
-        }
-        else
+        if (inDeckCards.Count <= 0)
         {
             Debug.LogWarning("DrawCard: デッキにカードがありません。");
+            return false;
         }
+
+        // 正常処理
+        Card newCard = inDeckCards[UnityEngine.Random.Range(0, inDeckCards.Count)];
+        newCard.Draw();
+        OnCardDrawn?.Invoke();
+        RearrangeHand();
+        return true;
     }
 
     /// <summary>
@@ -177,6 +179,7 @@ public class CardManager : MonoBehaviour
 
             if(playerResourceManager.ConsumeMana(effect.ManaCost))
             {
+                // 正常処理
                 effect.Activate(OwnerType.PLAYER);
                 card1.Use();
                 card2.Use();
@@ -201,18 +204,19 @@ public class CardManager : MonoBehaviour
     /// 選択中のカードを捨てる-----------------(5)
     /// TODO:リソーステストのために暫定的にpublic
     /// </summary>
-    public void TrashSelectedCard()
+    public bool TrashSelectedCard()
     {
         if (selectedCard == null)
         {
             Debug.LogWarning("TrashSelectedCard: 選択中のカードがありません。");
-            return;
+            return false;
         }
         
         selectedCard.Trash();
         OnCardDeselected?.Invoke();
         selectedCard = null;
         RearrangeHand();
+        return true;
     }
 
 

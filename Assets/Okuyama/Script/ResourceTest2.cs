@@ -43,16 +43,25 @@ public class ResourceTest2 : PlayerResourceManager
         drawTimer += Time.deltaTime;
         if (drawTimer >= drawInterval)
         {
-            cardManager.DrawCard(); //TODO: 手札チェック
-            drawTimer = 0;
+            if(cardManager.DrawCard())
+            {
+                drawTimer -= drawInterval;
+            }
+            else
+            {
+                // 引かないなら手札が空き次第
+                drawTimer = drawInterval;
+            }
         }
     }
 
     public void TrashForMana()
     {
-        cardManager.TrashSelectedCard();
-        mana += manaPerTrash;
-        if (mana > maxMana) mana = maxMana;
-        OnManaChanged?.Invoke();
+        if (cardManager.TrashSelectedCard())
+        {
+            mana += manaPerTrash;
+            if (mana > maxMana) mana = maxMana;
+            OnManaChanged?.Invoke();
+        }
     }
 }
