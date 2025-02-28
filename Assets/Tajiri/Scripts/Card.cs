@@ -91,8 +91,11 @@ public class Card : MonoBehaviour
         handRotation = rotation;
 
         // 手札状態なら移動
-        if (IsCardInHand) {
+        if (state == CardState.Hand_Unselected) {
             MoveTo(handPosition, handRotation);
+        }
+        else if (state == CardState.Hand_Selected) {
+            MoveTo(selectedPosition, selectedRotation);
         }
     }
 
