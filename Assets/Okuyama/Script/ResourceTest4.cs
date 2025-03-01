@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+
+/// <summary>
+/// 案4
+/// マナ自動回復
+/// 二回使用後、手札回復
+/// </summary>
+public class ResourceTest4 : PlayerResourceManager
+{
+    [SerializeField, Tooltip("初期マナ")]
+    private float initialMana = 5;
+
+    [SerializeField, Tooltip("毎秒のマナ回復量")]
+    private float manaRegenPerSec = 1;
+
+    [SerializeField, Tooltip("初期手札")]
+    private int initialHandSize = 5;
+
+    [SerializeField, Tooltip("手札回復までの使用回数")]
+    private int handRecoveryCount = 2;
+
+    private float useCount = 0;
+
+    private void Start()
+    {
+        // 初期マナ
+        mana = initialMana;
+        OnManaChanged?.Invoke();
+
+        // 初期手札
+        for (int i = 0; i < initialHandSize; i++)
+        {
+            cardManager.DrawCard();
+        }
+
+        cardManager.AddCardUsedListener(HandleCardUsed);
+    }
+
+    private void Update()
+    {
+        // マナ回復
+        mana += manaRegenPerSec * Time.deltaTime;
+        if (mana > maxMana) mana = maxMana;
+        OnManaChanged?.Invoke();
+        
+    }
+
+
+    private void HandleCardUsed(){
+        useCount++;
+        if(useCount >= handRecoveryCount){
+            useCount = 0;
+            for (int i = 0; i < handRecoveryCount; i++)
+            {
+                cardManager.DrawCard();
+                cardManager.DrawCard();
+            }
+        }
+    }
+
+}
