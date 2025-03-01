@@ -318,15 +318,15 @@ MonoBehaviour:
   playerResourceManager: {fileID: 1535157426}
   cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
   SYMBOL_PER_CARD: 4
-  MAX_HAND_CARDS: 8
+  MAX_HAND_CARDS: 5
   handPosConfig:
     handPos: {x: 0, y: -2.14, z: 0}
     handRadius: 9.4
-    handMaxAngle: 24
+    handMaxAngle: 25.7
     gapSizeMagnification: 4.25
   drawPos: {x: -10.73, y: -3.54, z: 0}
   usedPos: {x: 8.07, y: 0.67, z: 0}
-  trashPos: {x: -7.16, y: 6.94, z: 0}
+  trashPos: {x: -7.16, y: 5.73, z: 0}
 --- !u!4 &373349499
 Transform:
   m_ObjectHideFlags: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laneMaxY: 0.51
   laneMinY: 0.09
-  spawnPosX: 7.52
+  spawnPosX: 6.96
 --- !u!114 &562767221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,8 +554,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardManager: {fileID: 373349498}
   maxMana: 10
-  initialMana: 5
-  manaRegenPerSec: 0.3
+  initialMana: 0
+  manaRegenPerSec: 0.2
   initialHandSize: 3
   drawInterval: 4
 --- !u!1 &1559396975

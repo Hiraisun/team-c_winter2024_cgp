@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91355deb8d5187d48b3708e87c627787, type: 3}
   m_Name: Summon_Unit2
   m_EditorClassIdentifier: 
-  cost: 0
+  manaCost: 4
   unitPrefab: {fileID: 4592819920525232684, guid: e3f0f99a092aa884d9d6468d7be1262b, type: 3}

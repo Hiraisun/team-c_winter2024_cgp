@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91355deb8d5187d48b3708e87c627787, type: 3}
   m_Name: Summon_Sword
   m_EditorClassIdentifier: 
+  manaCost: 3
   unitPrefab: {fileID: 5595941037245212814, guid: 296550f433f898148bcf6707d083a83b, type: 3}

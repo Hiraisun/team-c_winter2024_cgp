@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea56a3ba6d255d4190fa3bff90e703a, type: 3}
   m_Name: Summon_Sword3
   m_EditorClassIdentifier: 
+  manaCost: 9
   unitPrefab: {fileID: 5595941037245212814, guid: 296550f433f898148bcf6707d083a83b, type: 3}
   summonCount: 3
   interval: 0.5
