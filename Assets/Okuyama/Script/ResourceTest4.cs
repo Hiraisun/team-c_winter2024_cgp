@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
@@ -27,17 +29,14 @@ public class ResourceTest4 : PlayerResourceManager
 
     private void Start()
     {
+        cardManager.AddCardUsedListener(HandleCardUsed);
+
         // 初期マナ
         mana = initialMana;
         OnManaChanged?.Invoke();
 
         // 初期手札
-        for (int i = 0; i < initialHandSize; i++)
-        {
-            cardManager.DrawCard();
-        }
-
-        cardManager.AddCardUsedListener(HandleCardUsed);
+        DrawMultipleCard(initialHandSize).Forget();
     }
 
     private void Update()
@@ -54,11 +53,16 @@ public class ResourceTest4 : PlayerResourceManager
         useCount++;
         if(useCount >= handRecoveryCount){
             useCount = 0;
-            for (int i = 0; i < handRecoveryCount; i++)
-            {
-                cardManager.DrawCard();
-                cardManager.DrawCard();
-            }
+            DrawMultipleCard(handRecoveryCount*2).Forget();
+        }
+    }
+
+
+    private async UniTask DrawMultipleCard(int count){
+        for (int i = 0; i < count; i++)
+        {
+            cardManager.DrawCard();
+            await UniTask.Delay(200);
         }
     }
 
