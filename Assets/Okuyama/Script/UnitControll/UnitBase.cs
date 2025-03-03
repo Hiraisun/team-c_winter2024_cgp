@@ -18,6 +18,9 @@ public enum OwnerType
 [DisallowMultipleComponent] //複数アタッチ禁止
 public class UnitBase : MonoBehaviour
 {
+    [SerializeField, Tooltip("反転用オブジェクト")]
+    private Transform flipObject;
+
     [Header("ユニット基本情報")]
     private BattleManager battleManager;
     public BattleManager BattleManager { get { return battleManager; } }
@@ -73,7 +76,7 @@ public class UnitBase : MonoBehaviour
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
 
         //NPC時の見た目反転
-        transform.localScale = new Vector3(direction, 1, 1);
+        flipObject.localScale = new Vector3(direction, 1, 1);
     }
 
     /// <summary>
