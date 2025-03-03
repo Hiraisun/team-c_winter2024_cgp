@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flipObject: {fileID: 0}
   owner: 0
   lane: 0
   maxHP: 100
@@ -486,6 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flipObject: {fileID: 0}
   owner: 1
   lane: 0
   maxHP: 100

@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 4247460257993352679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.503, y: 0.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -223,8 +223,8 @@ MonoBehaviour:
     attacker: {fileID: 0}
     damage: 30
     knockbackDamage: 34
-  attackDelay: 1
-  attackMotionDuration: 1.5
+  attackDelay: 1.5
+  attackMotionDuration: 2.5
   attackableLaneList: 00000000
   range: 0.85
 --- !u!114 &5461352129063476164
@@ -256,6 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
-  position: {x: 0.5, y: 1.04, z: 0}
+  position: {x: 0.5, y: 2, z: 0}
   width: 1
   height: 0.05
