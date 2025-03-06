@@ -217,7 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
-  hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
   position: {x: 0.5, y: 1.15, z: 0}
   width: 1
   height: 0.05

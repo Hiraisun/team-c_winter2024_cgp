@@ -76,7 +76,7 @@ public class UnitBase : MonoBehaviour
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
 
         //NPC時の見た目反転
-        flipObject.localScale = new Vector3(direction, 1, 1);
+        if(flipObject != null) flipObject.localScale = new Vector3(direction, 1, 1);
     }
 
     /// <summary>

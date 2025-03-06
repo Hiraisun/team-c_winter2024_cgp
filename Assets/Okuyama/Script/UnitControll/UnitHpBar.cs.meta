@@ -5,7 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - unitBase: {instanceID: 0}
-  - hpBarPrefab: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  - hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
+  - hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

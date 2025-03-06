@@ -8,7 +8,8 @@ using UnityEngine;
 public class UnitHpBar : UnitActionBase
 {
     [Header("HPバー")]
-    [SerializeField] private GameObject hpBarPrefab; // HPバーのプレハブ
+    [SerializeField] private GameObject hpBarPrefabAllay; // HPバーのプレハブ
+    [SerializeField] private GameObject hpBarParentEnemy; // 
     [SerializeField] private Vector3 position; // HPバーの位置調整用
     [SerializeField] private float width = 1f; // HPバーの幅
     [SerializeField] private float height = 0.05f; // HPバーの高さ
@@ -21,7 +22,14 @@ public class UnitHpBar : UnitActionBase
     {
         // HPバーのインスタンスを生成
         Vector3 pos = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
-        hpBarObj = Instantiate(hpBarPrefab, pos, Quaternion.identity);
+        if(unitBase.Owner == OwnerType.PLAYER)
+        {
+            hpBarObj = Instantiate(hpBarPrefabAllay, pos, Quaternion.identity);
+        }
+        else
+        {
+            hpBarObj = Instantiate(hpBarParentEnemy, pos, Quaternion.identity);
+        }
         hpBarObj.transform.SetParent(transform); // 子にする
 
         // HPバーの初期化
