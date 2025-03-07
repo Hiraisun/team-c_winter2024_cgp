@@ -12,9 +12,7 @@ public class UnitSummonVFX : UnitActionBase
 
     async UniTask OnSummon()
     {
-        Debug.Log("召喚エフェクト再生");
-        // 召喚エフェクト再生
-        // エフェクト再生完了後にアクション終了
-        await UniTask.Delay(1000);
+        // TODO:召喚エフェクト再生
+        await UniTask.Delay(2000);
     }
 }
