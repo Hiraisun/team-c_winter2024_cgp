@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -8,8 +9,13 @@ using UnityEngine;
 /// </summary>
 public class UnitCastle : UnitActionBase
 {
-    // 死亡時処理をオーバーライド
-    protected override void OnDeath()
+    void Start()
+    {
+        unitBase.AddOnDeathListener(OnDeath);
+    }
+
+    // 死亡時処理
+    UniTask OnDeath()
     {
         if (unitBase.Owner == OwnerType.PLAYER)
         {
@@ -19,6 +25,7 @@ public class UnitCastle : UnitActionBase
         {
             Debug.Log("勝利");
         }
+        return UniTask.CompletedTask;
     }
 
 }

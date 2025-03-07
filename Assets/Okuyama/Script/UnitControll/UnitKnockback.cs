@@ -22,9 +22,14 @@ public class UnitKnockback : UnitActionBase
 
     private CancellationTokenSource cts;
 
+    void Start()
+    {
+        unitBase.AddOnDamageReceivedListener(OnDamageRecieved);
+    }
+
 
     // 被ダメージ時
-    protected override void OnDamageRecieved(DamageInfo damageInfo)
+    private void OnDamageRecieved(DamageInfo damageInfo)
     {
         recievedKnockbackDamage += damageInfo.knockbackDamage;
 

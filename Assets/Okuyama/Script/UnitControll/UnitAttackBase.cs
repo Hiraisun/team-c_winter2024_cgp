@@ -10,7 +10,7 @@ using System.Threading;
 public struct DamageInfo
 {
     [HideInInspector] public UnitBase attacker;
-    [SerializeField, Tooltip("与えるダメージ")]
+    [SerializeField, Tooltip("与えるダメージ(攻撃力)")]
     public float damage;
     [SerializeField, Tooltip("与えるノックバック値 (耐性値に達するとノックバック)")]
     public float knockbackDamage;
@@ -20,6 +20,7 @@ public struct DamageInfo
 /// 敵への攻撃行動を扱うコンポーネントの基底クラス
 /// 攻撃行動は割り込み可能
 /// </summary>
+[DisallowMultipleComponent]
 public abstract class UnitAttackBase : UnitActionBase
 {
     [Header("攻撃")]
@@ -121,5 +122,15 @@ public abstract class UnitAttackBase : UnitActionBase
             }
         }
         return false;
+    }
+
+
+    // バフ関連 -------------------------------------
+    /// <summary>
+    /// 攻撃力上昇
+    /// </summary>
+    public void BuffDamage(float value)
+    {
+        damageInfo.damage += value;
     }
 }

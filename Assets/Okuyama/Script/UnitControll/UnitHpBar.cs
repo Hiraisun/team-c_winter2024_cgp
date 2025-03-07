@@ -35,9 +35,12 @@ public class UnitHpBar : UnitActionBase
         // HPバーの初期化
         hpBar = hpBarObj.GetComponent<HpBar>();
         hpBar.Initialize(unitBase.MaxHP, width, height);
+
+        // ダメージイベントに登録
+        unitBase.AddOnDamageReceivedListener(OnDamageRecieved);
     }
 
-    protected override void OnDamageRecieved(DamageInfo damageInfo)
+    private void OnDamageRecieved(DamageInfo damageInfo)
     {
         // 被ダメージ時更新
         hpBar.UpdateHpBar(unitBase.HP);

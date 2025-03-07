@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,11 +41,19 @@ public class UnitBase : MonoBehaviour
     private UnitActionBase executionAction; // 実行中のアクションコンポーネント
     
 
-    // 各種イベント
-    private Action OnDeath;                  //死亡時
-    private Action OnAttackStart;            //攻撃開始時
-    private Action<UnitBase> OnDamageDealt;  //与ダメージ時 引数:target
-    private Action<DamageInfo> OnDamageReceived;  //被ダメージ時 引数:damage
+    // 各種イベント------------------------------------------
+    // 死亡時
+    public event Func<UniTask> OnDeath;
+    public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
+    // 攻撃開始時
+    private Action OnAttackStart;
+    public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
+    // 与ダメージ時
+    private Action<UnitBase> OnDamageDealt;
+    public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;
+    // 被ダメージ時
+    private Action<DamageInfo> OnDamageReceived;
+    public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
 
     // HP
     [SerializeField, Tooltip("最大HP")]
@@ -61,7 +72,7 @@ public class UnitBase : MonoBehaviour
     void OnValidate()
     {
         // エディタ上でもNPC時の見た目反転
-        transform.localScale = new Vector3(direction, 1, 1);
+        if(flipObject != null) flipObject.localScale = new Vector3(direction, 1, 1);
     }
 
     /// <summary>
@@ -94,14 +105,24 @@ public class UnitBase : MonoBehaviour
 
         if (HP <= 0)
         {
-            //死亡時処理 TODO:死亡演出
-            OnDeath?.Invoke(); // 死亡イベント発火
-            battleManager.DeRegisterUnit(this);
-            Destroy(gameObject);
+            //死亡
+            Death().Forget();
         }
 
         // 被ダメージイベント発火
         OnDamageReceived?.Invoke(damageInfo);
+    }
+
+    /// <summary>
+    /// 死亡時処理
+    /// </summary>
+    private async UniTask Death(){
+        battleManager.DeRegisterUnit(this);
+        if (OnDeath != null)
+        {
+            await UniTask.WhenAll(OnDeath.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
+        }
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -145,24 +166,6 @@ public class UnitBase : MonoBehaviour
         else{
             return true; // 何も行動していないので行動可
         }
-    }
-
-    // イベントレジスタ-------------------------------------
-    public void RegisterOnDeath(Action action)
-    {
-        OnDeath += action;
-    }
-    public void RegisterOnAttackStart(Action action)
-    {
-        OnAttackStart += action;
-    }
-    public void RegisterOnDamageDealt(Action<UnitBase> action)
-    {
-        OnDamageDealt += action;
-    }
-    public void RegisterOnDamageReceived(Action<DamageInfo> action)
-    {
-        OnDamageReceived += action;
     }
 
     // 外部からイベント発火---------------------------------
