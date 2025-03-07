@@ -11,6 +11,7 @@ using UnityEngine;
 [RequireComponent(typeof(UnitBase))]
 public abstract class UnitActionBase : MonoBehaviour
 {
+    [HideInInspector]
     [SerializeField, Tooltip("このユニットのUnitBase Resetで自動入力")] 
     protected UnitBase unitBase;
 

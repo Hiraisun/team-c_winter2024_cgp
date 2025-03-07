@@ -48,6 +48,7 @@ public class UnitBase : MonoBehaviour
     // 攻撃開始時
     private Action OnAttackStart;
     public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
+    public void InvokeAttackStart() => OnAttackStart?.Invoke();
     // 与ダメージ時
     private Action<UnitBase> OnDamageDealt;
     public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;

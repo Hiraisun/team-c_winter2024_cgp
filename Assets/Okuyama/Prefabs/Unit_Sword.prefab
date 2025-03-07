@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 3980213837861586902}
   - component: {fileID: 5461352129063476164}
   - component: {fileID: 5467265619203972228}
+  - component: {fileID: -3386973150505627879}
   m_Layer: 0
   m_Name: Unit_Sword
   m_TagString: Untagged
@@ -218,7 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
-  animator: {fileID: 5850544880172349102}
   damageInfo:
     attacker: {fileID: 0}
     damage: 30
@@ -260,3 +260,17 @@ MonoBehaviour:
   position: {x: 0.5, y: 2, z: 0}
   width: 1
   height: 0.05
+--- !u!114 &-3386973150505627879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595941037245212814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd296a3aa14be7744bce2cd4127213ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 6495303854027191389}
+  animator: {fileID: 5850544880172349102}

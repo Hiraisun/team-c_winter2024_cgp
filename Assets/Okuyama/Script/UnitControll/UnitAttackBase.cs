@@ -24,7 +24,6 @@ public struct DamageInfo
 public abstract class UnitAttackBase : UnitActionBase
 {
     [Header("攻撃")]
-    [SerializeField] protected Animator animator; // TODO:Animator制御は要検討
 
     [SerializeField, Tooltip("与ダメージ情報")]
     protected DamageInfo damageInfo;
@@ -54,6 +53,7 @@ public abstract class UnitAttackBase : UnitActionBase
                 // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
                 cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
                 AttackTask(cts.Token).Forget();
+                unitBase.InvokeAttackStart();
             }
         }
     }
@@ -66,7 +66,6 @@ public abstract class UnitAttackBase : UnitActionBase
         ct.ThrowIfCancellationRequested(); //キャンセルチェック
 
         unitBase.StartAction(this); //アクション開始を宣言
-        if (animator != null) animator.SetTrigger("Attack"); //攻撃開始アニメーション TODO:要検討
         await UniTask.WaitForSeconds(attackDelay, cancellationToken: ct); //攻撃判定まで待機
         Attack(); // 攻撃判定処理
         await UniTask.WaitForSeconds(attackMotionDuration - attackDelay, cancellationToken: ct); //攻撃モーション終了まで待機
