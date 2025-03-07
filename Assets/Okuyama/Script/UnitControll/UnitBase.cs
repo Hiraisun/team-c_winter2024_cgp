@@ -13,6 +13,13 @@ public enum OwnerType
     NPC,
 }
 
+public enum UnitState
+{
+    SUMMON,
+    MAIN,
+    DEAD,
+}
+
 /// <summary>
 /// Unitには必ずアタッチする基本コンポーネント
 /// イベントの受け渡しなどを行う。
@@ -39,13 +46,20 @@ public class UnitBase : MonoBehaviour
     private bool isBusy = false; // 何らかのアクション中か
     public bool IsBusy { get { return isBusy; } }
     private UnitActionBase executionAction; // 実行中のアクションコンポーネント
+
+    // ユニット状態 
+    private UnitState unitState = UnitState.SUMMON;
+    public UnitState UnitState { get { return unitState; } }
     
 
     // 各種イベント------------------------------------------
-    // 死亡時
-    public event Func<UniTask> OnDeath;
-    public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
-    // 攻撃開始時
+    // 初期化時
+    private event Func<UniTask> OnSummon;
+    public void AddOnSummonListener(Func<UniTask> listener) => OnSummon += listener;
+    // 初期化完了時
+    private Action OnSummonComplete;
+    public void AddOnSummonCompleteListener(Action listener) => OnSummonComplete += listener;
+    // 攻撃開始時 攻撃コンポーネントが発火する
     private Action OnAttackStart;
     public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
     public void InvokeAttackStart() => OnAttackStart?.Invoke();
@@ -55,6 +69,9 @@ public class UnitBase : MonoBehaviour
     // 被ダメージ時
     private Action<DamageInfo> OnDamageReceived;
     public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
+    // 死亡時
+    private event Func<UniTask> OnDeath;
+    public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
 
     // HP
     [SerializeField, Tooltip("最大HP")]
@@ -85,10 +102,24 @@ public class UnitBase : MonoBehaviour
         this.owner = owner;
 
         HP = MaxHP;
-        battleManager.RegisterUnit(this); //battleManagerにユニットを登録
 
         //NPC時の見た目反転
         if(flipObject != null) flipObject.localScale = new Vector3(direction, 1, 1);
+
+        Summon().Forget();
+    }
+    // 召喚状態で待つ
+    private async UniTask Summon(){
+        unitState = UnitState.SUMMON; // 各アクションの初期化処理を待つ
+        if (OnSummon != null)
+        {
+            await UniTask.WhenAll(OnSummon.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
+        }
+
+        // 初期化完了、行動開始
+        unitState = UnitState.MAIN;
+        battleManager.RegisterUnit(this); //battleManagerにユニットを登録
+        OnSummonComplete?.Invoke();
     }
 
     /// <summary>
@@ -103,15 +134,14 @@ public class UnitBase : MonoBehaviour
         }
 
         HP -= damageInfo.damage;
+        // 被ダメージイベント発火
+        OnDamageReceived?.Invoke(damageInfo);
 
         if (HP <= 0)
         {
             //死亡
             Death().Forget();
         }
-
-        // 被ダメージイベント発火
-        OnDamageReceived?.Invoke(damageInfo);
     }
 
     /// <summary>
