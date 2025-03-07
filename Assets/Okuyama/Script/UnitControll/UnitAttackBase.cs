@@ -45,16 +45,17 @@ public abstract class UnitAttackBase : UnitActionBase
 
     void Update()
     {
-        if (!unitBase.IsBusy) // 他のアクション中でない
+        if (unitBase.UnitState != UnitState.MAIN) return; // メイン状態でないなら処理しない
+
+        if (unitBase.IsBusy) return; // 行動中なら処理しない
+
+        if (CanStartAttack()) // 攻撃開始条件を満たしている
         {
-            if (CanStartAttack()) // 攻撃開始条件を満たしている
-            {
-                // 攻撃処理を開始
-                // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
-                cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
-                AttackTask(cts.Token).Forget();
-                unitBase.InvokeAttackStart();
-            }
+            // 攻撃処理を開始
+            // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
+            cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
+            AttackTask(cts.Token).Forget();
+            unitBase.InvokeAttackStart();
         }
     }
 

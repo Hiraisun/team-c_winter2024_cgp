@@ -19,10 +19,11 @@ public class UnitMoveNormal : UnitActionBase
 
     void Update()
     {
-        // アクション中以外は移動
-        if(!unitBase.IsBusy)
-        {
-            transform.position -= new Vector3(speed * Time.deltaTime * unitBase.direction, 0, 0);
-        }
+        if(unitBase.UnitState != UnitState.MAIN) return;
+
+        if(unitBase.IsBusy) return;
+
+        // アクション中でなければ移動
+        transform.position -= new Vector3(speed * Time.deltaTime * unitBase.direction, 0, 0);
     }
 }

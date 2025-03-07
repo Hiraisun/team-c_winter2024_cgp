@@ -148,6 +148,7 @@ public class UnitBase : MonoBehaviour
     /// 死亡時処理
     /// </summary>
     private async UniTask Death(){
+        InterruptAction(); // 行動中断
         battleManager.DeRegisterUnit(this);
         if (OnDeath != null)
         {
@@ -157,8 +158,9 @@ public class UnitBase : MonoBehaviour
     }
 
     /// <summary>
-    /// アクション実行開始通知
+    /// 占有アクション実行開始通知
     /// 他の行動に割り込まれない行動を実行する場合はこれを呼ぶ。
+    /// !! 占有する場合はInterruptActionを必ず実装すること !!
     /// </summary>
     public void StartAction(UnitActionBase unitActionBase)
     {
@@ -221,7 +223,7 @@ public class UnitBase : MonoBehaviour
     // デバッグ用
     void OnDrawGizmosSelected()
     {
-        // 頭上にstateを表示
+        // 頭上に実行中アクションを表示
         // isBusyのときは赤
         string text;
         var guiStyle = new GUIStyle {fontSize = 20};
@@ -237,6 +239,12 @@ public class UnitBase : MonoBehaviour
         }
         if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
         Handles.Label(transform.position + Vector3.up, text, guiStyle);
+
+        // 頭上にUnitStateを表示
+        string stateText = unitState.ToString();
+        guiStyle.normal.textColor = Color.black;
+        if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
+        Handles.Label(transform.position + Vector3.up * 0.5f, stateText, guiStyle);
     }
 #endif
 }
