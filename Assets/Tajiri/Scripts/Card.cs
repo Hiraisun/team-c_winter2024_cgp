@@ -266,6 +266,11 @@ public class Card : MonoBehaviour
     //public void SetCardInHand(bool value) => IsCardInHand = value;
     //public void SetCardDescription(string value) => EffectDiscription = value;
 
+    private void DisplayDescription()
+    {
+
+    }
+
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()
     {

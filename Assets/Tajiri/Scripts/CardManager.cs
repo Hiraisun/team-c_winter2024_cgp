@@ -78,9 +78,6 @@ public class CardManager : MonoBehaviour
     // 選択中のカード
     private Card selectedCard = null;
 
-
-
-
     // 初期化処理
     private void Awake()
     {
