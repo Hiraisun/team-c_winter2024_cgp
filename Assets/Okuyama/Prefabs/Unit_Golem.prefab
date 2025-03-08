@@ -167,7 +167,11 @@ MonoBehaviour:
   flipObject: {fileID: 3476582607833053083}
   owner: 0
   lane: 0
+  modelPos: {x: 1, y: 0}
+  modelSize: {x: 2, y: 2.12}
   maxHP: 300
+  attackPower: 30
+  unitVFXData: {fileID: 0}
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +199,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
-  animator: {fileID: 0}
   damageInfo:
     attacker: {fileID: 0}
     damage: 20
@@ -220,6 +223,4 @@ MonoBehaviour:
   unitBase: {fileID: 6495303854027191389}
   hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
   hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
-  position: {x: 1, y: 2.28, z: 0}
-  width: 2
   height: 0.1

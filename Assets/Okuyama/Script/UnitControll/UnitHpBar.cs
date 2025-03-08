@@ -10,18 +10,25 @@ public class UnitHpBar : UnitActionBase
     [Header("HPバー")]
     [SerializeField] private GameObject hpBarPrefabAllay; // HPバーのプレハブ
     [SerializeField] private GameObject hpBarParentEnemy; // 
-    [SerializeField] private Vector3 position; // HPバーの位置調整用
-    [SerializeField] private float width = 1f; // HPバーの幅
+
     [SerializeField] private float height = 0.05f; // HPバーの高さ
 
     private GameObject hpBarObj;
     private HpBar hpBar;
 
+    // HPバーの位置
+    private Vector3 Position{
+        get{
+            return transform.position 
+            + new Vector3(unitBase.ModelPos.x * unitBase.direction, unitBase.ModelPos.y + unitBase.ModelSize.y, 0);
+        }
+    }
+
 
     private void Start()
     {
         // HPバーのインスタンスを生成
-        Vector3 pos = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
+        Vector3 pos = Position;
         if(unitBase.Owner == OwnerType.PLAYER)
         {
             hpBarObj = Instantiate(hpBarPrefabAllay, pos, Quaternion.identity);
@@ -34,7 +41,7 @@ public class UnitHpBar : UnitActionBase
 
         // HPバーの初期化
         hpBar = hpBarObj.GetComponent<HpBar>();
-        hpBar.Initialize(unitBase.MaxHP, width, height);
+        hpBar.Initialize(unitBase.MaxHP, unitBase.ModelSize.x, height);
 
         // ダメージイベントに登録
         unitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
@@ -50,8 +57,8 @@ public class UnitHpBar : UnitActionBase
     {
         // デバッグ用位置表示
         Gizmos.color = Color.red;
-        Vector3 center = transform.position + new Vector3(position.x * unitBase.direction, position.y, position.z);
-        Gizmos.DrawWireCube(center, new Vector3(width, height, 0f));
+        Vector3 center = Position;
+        Gizmos.DrawWireCube(center, new Vector3(unitBase.ModelSize.x, height, 0f));
     }
 
 }

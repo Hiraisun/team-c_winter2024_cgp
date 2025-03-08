@@ -43,6 +43,14 @@ public partial class UnitBase : MonoBehaviour
     private Lane lane; // 所属レーン
     public Lane Lane {get { return lane; } }
 
+    [SerializeField, Tooltip("モデルの下中心座標")]
+    private Vector2 modelPos;
+    public Vector2 ModelPos { get { return modelPos; } }
+
+    [SerializeField, Tooltip("モデルのサイズ")]
+    private Vector2 modelSize;
+    public Vector2 ModelSize { get { return modelSize; } }
+
     private bool isBusy = false; // 何らかのアクション中か
     public bool IsBusy { get { return isBusy; } }
     private UnitActionBase executionAction; // 実行中のアクションコンポーネント
@@ -178,7 +186,6 @@ public partial class UnitBase : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// 攻撃力の倍率増加
     /// </summary>
@@ -218,6 +225,10 @@ public partial class UnitBase : MonoBehaviour
         guiStyle.normal.textColor = Color.black;
         if(owner == OwnerType.NPC) guiStyle.alignment = TextAnchor.UpperRight;
         Handles.Label(transform.position + Vector3.up * 0.5f, stateText, guiStyle);
+
+        // モデル位置の描画
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position + new Vector3(modelPos.x * direction, modelPos.y + modelSize.y * 0.5f, 0), new Vector3(modelSize.x, modelSize.y, 0));
     }
 #endif
 }
