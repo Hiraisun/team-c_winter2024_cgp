@@ -54,7 +54,7 @@ public abstract class UnitAttackBase : UnitActionBase
             // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
             cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
             AttackTask(cts.Token).Forget();
-            unitBase.InvokeAttackStart();
+            unitBase.Events.InvokeAttackStart();
         }
     }
 

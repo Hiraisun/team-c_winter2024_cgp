@@ -24,7 +24,7 @@ public class UnitKnockback : UnitActionBase
 
     void Start()
     {
-        unitBase.AddOnDamageReceivedListener(OnDamageRecieved);
+        unitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
     }
 
 

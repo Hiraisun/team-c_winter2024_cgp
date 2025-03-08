@@ -37,7 +37,7 @@ public class UnitHpBar : UnitActionBase
         hpBar.Initialize(unitBase.MaxHP, width, height);
 
         // ダメージイベントに登録
-        unitBase.AddOnDamageReceivedListener(OnDamageRecieved);
+        unitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
     }
 
     private void OnDamageRecieved(DamageInfo damageInfo)

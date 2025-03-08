@@ -11,7 +11,7 @@ public class UnitCastle : UnitActionBase
 {
     void Start()
     {
-        unitBase.AddOnDeathListener(OnDeath);
+        unitBase.Events.AddOnDeathListener(OnDeath);
     }
 
     // 死亡時処理

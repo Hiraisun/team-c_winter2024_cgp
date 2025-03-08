@@ -50,28 +50,6 @@ public class UnitBase : MonoBehaviour
     // ユニット状態 
     private UnitState unitState = UnitState.SUMMON;
     public UnitState UnitState { get { return unitState; } }
-    
-
-    // 各種イベント------------------------------------------
-    // 初期化時
-    private event Func<UniTask> OnSummon;
-    public void AddOnSummonListener(Func<UniTask> listener) => OnSummon += listener;
-    // 初期化完了時
-    private Action OnSummonComplete;
-    public void AddOnSummonCompleteListener(Action listener) => OnSummonComplete += listener;
-    // 攻撃開始時 攻撃コンポーネントが発火する
-    private Action OnAttackStart;
-    public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
-    public void InvokeAttackStart() => OnAttackStart?.Invoke();
-    // 与ダメージ時
-    private Action<UnitBase> OnDamageDealt;
-    public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;
-    // 被ダメージ時
-    private Action<DamageInfo> OnDamageReceived;
-    public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
-    // 死亡時
-    private event Func<UniTask> OnDeath;
-    public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
 
     // 向き : 移動などで乗算するためのパラメータ 
     // (PLAYERは1, ENEMYは-1)
@@ -81,7 +59,6 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    // HP
     [SerializeField, Tooltip("最大HP")]
     private float maxHP = 100;
     public float MaxHP { get { return maxHP; } }
@@ -90,6 +67,59 @@ public class UnitBase : MonoBehaviour
     [SerializeField, Tooltip("攻撃力")]
     private float attackPower = 30;
     public float AttackPower { get { return attackPower; } }
+
+    
+    /// <summary>
+    /// イベント管理用のクラス
+    /// </summary>
+    public class UnitEvents
+    {
+        // 初期化時
+        private event Func<UniTask> OnSummon;
+        public void AddOnSummonListener(Func<UniTask> listener) => OnSummon += listener;
+        public async UniTask InvokeSummon()
+        {
+            if (OnSummon != null)
+            {
+                await UniTask.WhenAll(OnSummon.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
+            }
+        }
+
+        // 初期化完了時
+        private Action OnSummonComplete;
+        public void AddOnSummonCompleteListener(Action listener) => OnSummonComplete += listener;
+        public void InvokeSummonComplete() => OnSummonComplete?.Invoke();
+
+        // 攻撃開始時 攻撃コンポーネントが発火する
+        private Action OnAttackStart;
+        public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
+        public void InvokeAttackStart() => OnAttackStart?.Invoke();
+
+        // 与ダメージ時
+        private Action<UnitBase> OnDamageDealt;
+        public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;
+        public void InvokeDamageDealt(UnitBase target) => OnDamageDealt?.Invoke(target);
+        
+        // 被ダメージ時
+        private Action<DamageInfo> OnDamageReceived;
+        public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
+        public void InvokeDamageReceived(DamageInfo damageInfo) => OnDamageReceived?.Invoke(damageInfo);
+
+        // 死亡時
+        private event Func<UniTask> OnDeath;
+        public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
+        public async UniTask InvokeDeath()
+        {
+            if (OnDeath != null)
+            {
+                await UniTask.WhenAll(OnDeath.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
+            }
+        }
+    }
+    public UnitEvents Events { get; private set; } = new UnitEvents();
+
+
+
 
     
 
@@ -117,15 +147,12 @@ public class UnitBase : MonoBehaviour
     // 召喚状態で待つ
     private async UniTask Summon(){
         unitState = UnitState.SUMMON; // 各アクションの初期化処理を待つ
-        if (OnSummon != null)
-        {
-            await UniTask.WhenAll(OnSummon.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
-        }
+        await Events.InvokeSummon();
 
         // 初期化完了、行動開始
         unitState = UnitState.MAIN;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
-        OnSummonComplete?.Invoke();
+        Events.InvokeSummonComplete();
     }
 
     /// <summary>
@@ -141,7 +168,7 @@ public class UnitBase : MonoBehaviour
 
         HP -= damageInfo.damage;
         // 被ダメージイベント発火
-        OnDamageReceived?.Invoke(damageInfo);
+        Events.InvokeDamageReceived(damageInfo);
 
         if (HP <= 0)
         {
@@ -156,10 +183,7 @@ public class UnitBase : MonoBehaviour
     private async UniTask Death(){
         InterruptAction(); // 行動中断
         battleManager.DeRegisterUnit(this);
-        if (OnDeath != null)
-        {
-            await UniTask.WhenAll(OnDeath.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
-        }
+        await Events.InvokeDeath();
         Destroy(gameObject);
     }
 
@@ -213,14 +237,14 @@ public class UnitBase : MonoBehaviour
     /// </summary>
     public void InvokeOnAttackStart()
     {
-        OnAttackStart?.Invoke();
+        Events.InvokeAttackStart();
     }
     /// <summary>
     /// 与ダメージイベントを発火する
     /// </summary>
     public void InvokeOnDamageDealt(UnitBase target)
     {
-        OnDamageDealt?.Invoke(target);
+        Events.InvokeDamageDealt(target);
     }
 
 

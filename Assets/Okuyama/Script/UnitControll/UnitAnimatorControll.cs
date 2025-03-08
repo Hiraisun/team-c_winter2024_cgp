@@ -11,8 +11,8 @@ public class UnitAnimatorControll : UnitActionBase
 
     void Start()
     {
-        unitBase.AddOnDeathListener(OnDeath);
-        unitBase.AddOnAttackStartListener(OnAttackStart);
+        unitBase.Events.AddOnDeathListener(OnDeath);
+        unitBase.Events.AddOnAttackStartListener(OnAttackStart);
     }
 
     // 攻撃開始時の処理

@@ -7,7 +7,7 @@ public class UnitSummonVFX : UnitActionBase
 {
     void Awake()
     {
-        unitBase.AddOnSummonListener(OnSummon);
+        unitBase.Events.AddOnSummonListener(OnSummon);
     }
 
     async UniTask OnSummon()
