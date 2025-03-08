@@ -11,8 +11,16 @@ public class UnitAnimatorControll : UnitActionBase
 
     void Start()
     {
+        unitBase.Events.AddOnSummonCompleteListener(OnSummonComplete);
         unitBase.Events.AddOnDeathListener(OnDeath);
         unitBase.Events.AddOnAttackStartListener(OnAttackStart);
+    }
+
+    // 召喚完了時の処理
+    private void OnSummonComplete()
+    {
+        // 待機を終了、歩き始める
+        if (animator != null) animator.SetTrigger("SummonComplete"); //召喚完了アニメーション
     }
 
     // 攻撃開始時の処理
@@ -42,6 +50,7 @@ public class UnitAnimatorControllEditor : Editor
     {
         base.OnInspectorGUI();
         EditorGUILayout.HelpBox("Animatorのパラメータ名 ↓↓", MessageType.Info);
+        EditorGUILayout.LabelField("召喚完了時Trigger : SummonComplete");
         EditorGUILayout.LabelField("攻撃開始時Trigger : AttackStart");
         EditorGUILayout.LabelField("死亡時Trigger     : Death (Loopしないよう注意)");
     }
