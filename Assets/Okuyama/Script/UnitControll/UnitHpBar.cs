@@ -20,7 +20,7 @@ public class UnitHpBar : UnitActionBase
     private Vector3 Position{
         get{
             return transform.position 
-            + new Vector3(unitBase.ModelPos.x * unitBase.direction, unitBase.ModelPos.y + unitBase.ModelSize.y, 0);
+            + new Vector3(UnitBase.ModelPos.x * UnitBase.direction, UnitBase.ModelPos.y + UnitBase.ModelSize.y, 0);
         }
     }
 
@@ -29,7 +29,7 @@ public class UnitHpBar : UnitActionBase
     {
         // HPバーのインスタンスを生成
         Vector3 pos = Position;
-        if(unitBase.Owner == OwnerType.PLAYER)
+        if(UnitBase.Owner == OwnerType.PLAYER)
         {
             hpBarObj = Instantiate(hpBarPrefabAllay, pos, Quaternion.identity);
         }
@@ -41,16 +41,16 @@ public class UnitHpBar : UnitActionBase
 
         // HPバーの初期化
         hpBar = hpBarObj.GetComponent<HpBar>();
-        hpBar.Initialize(unitBase.MaxHP, unitBase.ModelSize.x, height);
+        hpBar.Initialize(UnitBase.MaxHP, UnitBase.ModelSize.x, height);
 
         // ダメージイベントに登録
-        unitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
+        UnitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
     }
 
     private void OnDamageRecieved(DamageInfo damageInfo)
     {
         // 被ダメージ時更新
-        hpBar.UpdateHpBar(unitBase.HP);
+        hpBar.UpdateHpBar(UnitBase.HP);
     }
 
     void OnDrawGizmosSelected()
@@ -58,7 +58,7 @@ public class UnitHpBar : UnitActionBase
         // デバッグ用位置表示
         Gizmos.color = Color.red;
         Vector3 center = Position;
-        Gizmos.DrawWireCube(center, new Vector3(unitBase.ModelSize.x, height, 0f));
+        Gizmos.DrawWireCube(center, new Vector3(UnitBase.ModelSize.x, height, 0f));
     }
 
 }

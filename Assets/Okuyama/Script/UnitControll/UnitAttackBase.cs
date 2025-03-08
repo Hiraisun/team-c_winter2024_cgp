@@ -39,14 +39,14 @@ public abstract class UnitAttackBase : UnitActionBase
 
     void Start()
     {
-        damageInfo.attacker = unitBase;
+        damageInfo.attacker = UnitBase;
     }
 
     void Update()
     {
-        if (unitBase.UnitState != UnitState.MAIN) return; // メイン状態でないなら処理しない
+        if (UnitBase.UnitState != UnitState.MAIN) return; // メイン状態でないなら処理しない
 
-        if (unitBase.IsBusy) return; // 行動中なら処理しない
+        if (UnitBase.IsBusy) return; // 行動中なら処理しない
 
         if (CanStartAttack()) // 攻撃開始条件を満たしている
         {
@@ -54,7 +54,7 @@ public abstract class UnitAttackBase : UnitActionBase
             // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
             cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken(), destroyCancellationToken);
             AttackTask(cts.Token).Forget();
-            unitBase.Events.InvokeAttackStart();
+            UnitBase.Events.InvokeAttackStart();
         }
     }
 
@@ -65,11 +65,11 @@ public abstract class UnitAttackBase : UnitActionBase
     {
         ct.ThrowIfCancellationRequested(); //キャンセルチェック
 
-        unitBase.StartAction(this); //アクション開始を宣言
+        UnitBase.StartAction(this); //アクション開始を宣言
         await UniTask.WaitForSeconds(attackDelay, cancellationToken: ct); //攻撃判定まで待機
         Attack(); // 攻撃判定処理
         await UniTask.WaitForSeconds(attackMotionDuration - attackDelay, cancellationToken: ct); //攻撃モーション終了まで待機
-        unitBase.FinishAction(this);
+        UnitBase.FinishAction(this);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public abstract class UnitAttackBase : UnitActionBase
     {
         cts.Cancel();
         cts.Dispose();
-        unitBase.FinishAction(this);
+        UnitBase.FinishAction(this);
         return true;
     }
 
@@ -103,10 +103,10 @@ public abstract class UnitAttackBase : UnitActionBase
 
         //射程内にいるか
         float fromX = transform.position.x;                     //自分の位置
-        float toX = fromX + range * unitBase.direction * -1;    //射程の先の地点
+        float toX = fromX + range * UnitBase.direction * -1;    //射程の先の地点
         float targetX = target.transform.position.x;            //相手の位置
 
-        if (unitBase.direction == 1) //左向き(味方)
+        if (UnitBase.direction == 1) //左向き(味方)
         {
             if (toX <= targetX && targetX <= fromX)
             {

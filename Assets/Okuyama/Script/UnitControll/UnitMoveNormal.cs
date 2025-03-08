@@ -11,19 +11,14 @@ public class UnitMoveNormal : UnitActionBase
     [SerializeField, Tooltip("移動速度")]
     private float speed = 1.0f;
 
-    // 自動アタッチ
-    void Reset()
-    {
-        unitBase = GetComponent<UnitBase>();
-    }
 
     void Update()
     {
-        if(unitBase.UnitState != UnitState.MAIN) return;
+        if(UnitBase.UnitState != UnitState.MAIN) return;
 
-        if(unitBase.IsBusy) return;
+        if(UnitBase.IsBusy) return;
 
         // アクション中でなければ移動
-        transform.position -= new Vector3(speed * Time.deltaTime * unitBase.direction, 0, 0);
+        transform.position -= new Vector3(speed * Time.deltaTime * UnitBase.direction, 0, 0);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -30,6 +31,10 @@ public class BattleManager : MonoBehaviour
     // 待機中のバフ
     private Dictionary<OwnerType, CardEffectBuffBase> reserveBuffs = new();
 
+    // 召喚完了イベント
+    private Action<OwnerType> OnSummonComplete;
+    public void AddOnSummonCompleteListener(Action<OwnerType> listener) => OnSummonComplete += listener;
+
     void Awake()
     {
         // シーン開始時、既に存在するユニットの初期化
@@ -59,7 +64,7 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void SummonUnit(GameObject unitPrefab, OwnerType owner)
     {
-        float y = Random.Range(laneMinY, laneMaxY);
+        float y = UnityEngine.Random.Range(laneMinY, laneMaxY);
         float x = owner == OwnerType.PLAYER ? spawnPosX : -spawnPosX;
         float z = laneMaxY - y; // 出現Y座標と表示順を対応
         
@@ -67,15 +72,19 @@ public class BattleManager : MonoBehaviour
         GameObject unitObj = Instantiate(unitPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
         UnitBase unit = unitObj.GetComponent<UnitBase>();
 
+        //ユニット初期化
+        unit.Initialize(this, owner);
+
         //バフ適用
         if(reserveBuffs.ContainsKey(owner))
         {
             reserveBuffs[owner].Buff(unitObj, unit);
             reserveBuffs.Remove(owner);
         }
+        // 召喚完了を監視
+        unit.Events.AddOnSummonCompleteListener(() => OnSummonComplete?.Invoke(owner));
 
-        //ユニット初期化
-        unit.Initialize(this, owner);
+        unit.Summon().Forget();
     }
 
     /// <summary>

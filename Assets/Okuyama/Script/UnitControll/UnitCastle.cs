@@ -11,13 +11,13 @@ public class UnitCastle : UnitActionBase
 {
     void Start()
     {
-        unitBase.Events.AddOnDeathListener(OnDeath);
+        UnitBase.Events.AddOnDeathListener(OnDeath);
     }
 
     // 死亡時処理
     UniTask OnDeath()
     {
-        if (unitBase.Owner == OwnerType.PLAYER)
+        if (UnitBase.Owner == OwnerType.PLAYER)
         {
             Debug.Log("敗北");
         }

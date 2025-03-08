@@ -11,15 +11,27 @@ using UnityEngine;
 [RequireComponent(typeof(UnitBase))]
 public abstract class UnitActionBase : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     [SerializeField, Tooltip("このユニットのUnitBase Resetで自動入力")] 
-    protected UnitBase unitBase;
+    private UnitBase unitBase;
+    protected UnitBase UnitBase
+    {
+        get
+        {
+            if(unitBase == null)
+            {
+                unitBase = GetComponent<UnitBase>();
+            }
+            return unitBase;
+        }
+    }
 
     void Reset()
     {
         // UnitBaseの自動アタッチ
         unitBase = GetComponent<UnitBase>();
     }
+
 
     /// <summary>
     /// 行動が割り込まれた際の処理 行動終了ならばtrueを返す

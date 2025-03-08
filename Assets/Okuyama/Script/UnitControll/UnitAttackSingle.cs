@@ -16,7 +16,7 @@ public class UnitAttackSingle : UnitAttackBase
     protected override bool CanStartAttack()
     {
         //ターゲット候補
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
+        List<UnitBase> targetList = UnitBase.BattleManager.getEnemyUnitList(UnitBase.Owner);
         
         //各候補について確認
         foreach (var target in targetList)
@@ -35,7 +35,7 @@ public class UnitAttackSingle : UnitAttackBase
     protected override void Attack()
     {
         //ターゲット候補
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
+        List<UnitBase> targetList = UnitBase.BattleManager.getEnemyUnitList(UnitBase.Owner);
 
         UnitBase nearestTarget = null;
         float distance = float.MaxValue;
@@ -60,7 +60,7 @@ public class UnitAttackSingle : UnitAttackBase
         //見つかったやつに攻撃
         if (nearestTarget != null)
         {
-            damageInfo.damage = unitBase.AttackPower;
+            damageInfo.damage = UnitBase.AttackPower;
             nearestTarget.Damage(damageInfo);
         }
     }
@@ -72,7 +72,7 @@ public class UnitAttackSingle : UnitAttackBase
         //攻撃範囲の描画
         Gizmos.color = Color.red;
 
-        Vector3 Center = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Center = new Vector3(transform.position.x + range * UnitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
         Vector3 Size = new Vector3(range, 1, 1);
         Gizmos.DrawWireCube(Center, Size);
     }

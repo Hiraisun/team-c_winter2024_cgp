@@ -18,7 +18,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected override bool CanStartAttack()
     {
         //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
+        List<UnitBase> targetList = UnitBase.BattleManager.getEnemyUnitList(UnitBase.Owner);
         
         //各候補について確認
         foreach (var target in targetList)
@@ -37,14 +37,14 @@ public class UnitAttackAllEnemy : UnitAttackBase
     protected override void Attack()
     {
         //ターゲット候補を問い合わせ
-        List<UnitBase> targetList = unitBase.BattleManager.getEnemyUnitList(unitBase.Owner);
+        List<UnitBase> targetList = UnitBase.BattleManager.getEnemyUnitList(UnitBase.Owner);
         
         //各候補について
         foreach (var target in targetList)
         {
             if(IsInRange(target, range)) //射程内なら
             {
-                damageInfo.damage = unitBase.AttackPower;
+                damageInfo.damage = UnitBase.AttackPower;
                 target.Damage(damageInfo); //ダメージ
             }
         }
@@ -55,13 +55,13 @@ public class UnitAttackAllEnemy : UnitAttackBase
     {
         //攻撃開始範囲の描画
         Gizmos.color = Color.yellow;
-        Vector3 Center = new Vector3(transform.position.x + attackStartRange * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Center = new Vector3(transform.position.x + attackStartRange * UnitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
         Vector3 Size = new Vector3(attackStartRange, 1, 1);
         Gizmos.DrawWireCube(Center, Size);
 
         //攻撃範囲の描画
         Gizmos.color = Color.red;
-        Vector3 Center2 = new Vector3(transform.position.x + range * unitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
+        Vector3 Center2 = new Vector3(transform.position.x + range * UnitBase.direction * -0.5f, transform.position.y + 0.52f, 0);
         Vector3 Size2 = new Vector3(range, 1, 1);
         Gizmos.DrawWireCube(Center2, Size2);
     }

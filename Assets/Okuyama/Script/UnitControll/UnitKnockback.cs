@@ -24,7 +24,7 @@ public class UnitKnockback : UnitActionBase
 
     void Start()
     {
-        unitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
+        UnitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
     }
 
 
@@ -37,7 +37,7 @@ public class UnitKnockback : UnitActionBase
         if(recievedKnockbackDamage >= knockbackThreshold)
         {
             recievedKnockbackDamage = 0;
-            if(unitBase.InterruptAction()) // 行動割込み成功
+            if(UnitBase.InterruptAction()) // 行動割込み成功
             {
                 // ノックバック処理
                 // 割り込み時手動キャンセル, オブジェクト破棄時自動キャンセル
@@ -51,15 +51,15 @@ public class UnitKnockback : UnitActionBase
     {
         ct.ThrowIfCancellationRequested(); //キャンセルチェック
 
-        unitBase.StartAction(this); //アクション開始を宣言
+        UnitBase.StartAction(this); //アクション開始を宣言
 
         Sequence sequence = DOTween.Sequence()
-            .Append(transform.DOMoveX(knockbackDistance * unitBase.direction, 0.5f).SetRelative());
+            .Append(transform.DOMoveX(knockbackDistance * UnitBase.direction, 0.5f).SetRelative());
 
         // ノックバック行動をawait
         await sequence.ToUniTask(cancellationToken: ct);
 
-        unitBase.FinishAction(this); //アクション終了を宣言
+        UnitBase.FinishAction(this); //アクション終了を宣言
     }
 
 

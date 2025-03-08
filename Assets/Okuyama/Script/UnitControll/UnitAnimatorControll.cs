@@ -11,9 +11,9 @@ public class UnitAnimatorControll : UnitActionBase
 
     void Start()
     {
-        unitBase.Events.AddOnSummonCompleteListener(OnSummonComplete);
-        unitBase.Events.AddOnDeathListener(OnDeath);
-        unitBase.Events.AddOnAttackStartListener(OnAttackStart);
+        UnitBase.Events.AddOnSummonCompleteListener(OnSummonComplete);
+        UnitBase.Events.AddOnDeathListener(OnDeath);
+        UnitBase.Events.AddOnAttackStartListener(OnAttackStart);
     }
 
     // 召喚完了時の処理

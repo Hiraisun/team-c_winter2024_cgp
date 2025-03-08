@@ -96,14 +96,13 @@ public partial class UnitBase : MonoBehaviour
         //NPC時の見た目反転
         if(ModelObject != null) ModelObject.localScale = new Vector3(direction, 1, 1);
 
-        Summon().Forget();
     }
-    // 召喚状態で待つ
-    private async UniTask Summon(){
+    // 召喚開始して待つ
+    public async UniTask Summon(){
         unitState = UnitState.SUMMON; // 各アクションの初期化処理を待つ
         await Events.InvokeSummon();
 
-        // 初期化完了、行動開始
+        // 召喚完了、行動開始
         unitState = UnitState.MAIN;
         battleManager.RegisterUnit(this); //battleManagerにユニットを登録
         Events.InvokeSummonComplete();
