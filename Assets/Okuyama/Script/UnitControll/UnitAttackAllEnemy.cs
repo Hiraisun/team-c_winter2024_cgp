@@ -44,6 +44,7 @@ public class UnitAttackAllEnemy : UnitAttackBase
         {
             if(IsInRange(target, range)) //射程内なら
             {
+                damageInfo.damage = unitBase.AttackPower;
                 target.Damage(damageInfo); //ダメージ
             }
         }

@@ -73,12 +73,6 @@ public class UnitBase : MonoBehaviour
     private event Func<UniTask> OnDeath;
     public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
 
-    // HP
-    [SerializeField, Tooltip("最大HP")]
-    private float maxHP = 100;
-    public float MaxHP { get { return maxHP; } }
-    public float HP { get; private set; }
-
     // 向き : 移動などで乗算するためのパラメータ 
     // (PLAYERは1, ENEMYは-1)
     public float direction{
@@ -86,6 +80,18 @@ public class UnitBase : MonoBehaviour
             return owner == OwnerType.PLAYER ? 1 : -1;
         }
     }
+
+    // HP
+    [SerializeField, Tooltip("最大HP")]
+    private float maxHP = 100;
+    public float MaxHP { get { return maxHP; } }
+    public float HP { get; private set; }
+
+    [SerializeField, Tooltip("攻撃力")]
+    private float attackPower = 30;
+    public float AttackPower { get { return attackPower; } }
+
+    
 
     void OnValidate()
     {

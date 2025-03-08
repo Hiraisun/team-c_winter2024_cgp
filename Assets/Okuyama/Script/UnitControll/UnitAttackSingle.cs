@@ -60,6 +60,7 @@ public class UnitAttackSingle : UnitAttackBase
         //見つかったやつに攻撃
         if (nearestTarget != null)
         {
+            damageInfo.damage = unitBase.AttackPower;
             nearestTarget.Damage(damageInfo);
         }
     }
