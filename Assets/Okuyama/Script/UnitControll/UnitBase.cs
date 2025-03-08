@@ -26,7 +26,7 @@ public enum UnitState
 /// 各種耐性など、受け身な情報はここに実装？
 /// </summary>
 [DisallowMultipleComponent] //複数アタッチ禁止
-public class UnitBase : MonoBehaviour
+public partial class UnitBase : MonoBehaviour
 {
     [SerializeField, Tooltip("反転用オブジェクト")]
     private Transform flipObject;
@@ -69,60 +69,7 @@ public class UnitBase : MonoBehaviour
     public float AttackPower { get { return attackPower; } }
 
     
-    /// <summary>
-    /// イベント管理用のクラス
-    /// </summary>
-    public class UnitEvents
-    {
-        // 初期化時
-        private event Func<UniTask> OnSummon;
-        public void AddOnSummonListener(Func<UniTask> listener) => OnSummon += listener;
-        public async UniTask InvokeSummon()
-        {
-            if (OnSummon != null)
-            {
-                await UniTask.WhenAll(OnSummon.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
-            }
-        }
-
-        // 初期化完了時
-        private Action OnSummonComplete;
-        public void AddOnSummonCompleteListener(Action listener) => OnSummonComplete += listener;
-        public void InvokeSummonComplete() => OnSummonComplete?.Invoke();
-
-        // 攻撃開始時 攻撃コンポーネントが発火する
-        private Action OnAttackStart;
-        public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
-        public void InvokeAttackStart() => OnAttackStart?.Invoke();
-
-        // 与ダメージ時
-        private Action<UnitBase> OnDamageDealt;
-        public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;
-        public void InvokeDamageDealt(UnitBase target) => OnDamageDealt?.Invoke(target);
-        
-        // 被ダメージ時
-        private Action<DamageInfo> OnDamageReceived;
-        public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
-        public void InvokeDamageReceived(DamageInfo damageInfo) => OnDamageReceived?.Invoke(damageInfo);
-
-        // 死亡時
-        private event Func<UniTask> OnDeath;
-        public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
-        public async UniTask InvokeDeath()
-        {
-            if (OnDeath != null)
-            {
-                await UniTask.WhenAll(OnDeath.GetInvocationList().Cast<Func<UniTask>>().Select(d => d.Invoke()));
-            }
-        }
-    }
-    public UnitEvents Events { get; private set; } = new UnitEvents();
-
-
-
-
     
-
     void OnValidate()
     {
         // エディタ上でもNPC時の見た目反転
