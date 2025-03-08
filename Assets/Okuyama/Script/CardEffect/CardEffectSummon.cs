@@ -11,7 +11,7 @@ public class CardEffectSummon : CardEffectBase
     [SerializeField, Tooltip("召喚するユニット")]
     GameObject unitPrefab;
 
-    protected override void Effect(OwnerType owner)
+    protected override void CardEffect(OwnerType owner)
     {
         battleManager.SummonUnit(unitPrefab, owner);
     }

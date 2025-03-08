@@ -9,7 +9,7 @@ public abstract class CardEffectBase : ScriptableObject
 {
     protected BattleManager battleManager;
 
-    [SerializeField, Tooltip("発動コスト (未実装, 定義のみ)")] 
+    [SerializeField, Tooltip("発動コスト")] 
     private float manaCost = 0;
     public float ManaCost { get { return manaCost; } }
     
@@ -26,12 +26,12 @@ public abstract class CardEffectBase : ScriptableObject
         }
 
         //効果処理
-        Effect(owner);
+        CardEffect(owner);
     }
 
 
     /// <summary>
     /// 効果処理
     /// </summary>
-    protected abstract void Effect(OwnerType owner);
+    protected abstract void CardEffect(OwnerType owner);
 }

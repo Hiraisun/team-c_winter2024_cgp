@@ -19,7 +19,7 @@ public class CardEffectSummonMultiple : CardEffectBase
     [SerializeField, Tooltip("間隔(秒)")] 
     float interval; 
 
-    protected override void Effect(OwnerType owner)
+    protected override void CardEffect(OwnerType owner)
     {
         TriggerEffect(owner).Forget(); // 効果中の演出つけるならawaitする
     }

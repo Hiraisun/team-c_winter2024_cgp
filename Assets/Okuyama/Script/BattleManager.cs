@@ -20,9 +20,15 @@ public class BattleManager : MonoBehaviour
     [SerializeField, Tooltip("召喚X座標, プレイヤーとNPCで左右対称")] 
     private float spawnPosX;
 
+    [SerializeField]
+    private UI_BuffIndicator buffIndicator;
+
     // (攻撃などの対象となる)ユニットのリスト
     private List<UnitBase> playerUnitList = new();
     private List<UnitBase> npcUnitList = new();
+
+    // 待機中のバフ
+    private Dictionary<OwnerType, CardEffectBuffBase> reserveBuffs = new();
 
     void Awake()
     {
@@ -33,22 +39,43 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// バフを予約する
+    /// </summary>
+    public void ReserveBuff(CardEffectBuffBase buff, OwnerType owner)
+    {
+        reserveBuffs[owner] = buff;
+
+        // プレイヤーの場合、UIにバフを表示
+        if(owner == OwnerType.PLAYER)
+        {
+            buffIndicator.Activate(buff.BuffColor);
+        }
+    }
+
 
     /// <summary>
     /// ユニットを召喚する
     /// </summary>
-    public void SummonUnit(GameObject unitPrefab, OwnerType type)
+    public void SummonUnit(GameObject unitPrefab, OwnerType owner)
     {
         float y = Random.Range(laneMinY, laneMaxY);
-        float x = type == OwnerType.PLAYER ? spawnPosX : -spawnPosX;
+        float x = owner == OwnerType.PLAYER ? spawnPosX : -spawnPosX;
         float z = laneMaxY - y; // 出現Y座標と表示順を対応
         
         //召喚
         GameObject unitObj = Instantiate(unitPrefab, new Vector3(x, y, z), Quaternion.identity, transform);
         UnitBase unit = unitObj.GetComponent<UnitBase>();
 
+        //バフ適用
+        if(reserveBuffs.ContainsKey(owner))
+        {
+            reserveBuffs[owner].Buff(unitObj, unit);
+            reserveBuffs.Remove(owner);
+        }
+
         //ユニット初期化
-        unit.Initialize(this, type);
+        unit.Initialize(this, owner);
     }
 
     /// <summary>
@@ -114,6 +141,7 @@ public class BattleManager : MonoBehaviour
         return null;
     }
 
+#if UNITY_EDITOR
     //調整用
     void OnDrawGizmosSelected()
     {
@@ -128,6 +156,6 @@ public class BattleManager : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawLine(new Vector3(-spawnPosX, laneMaxY, 0), new Vector3(-spawnPosX, laneMinY, 0));
     }
-
+#endif
 }
 
