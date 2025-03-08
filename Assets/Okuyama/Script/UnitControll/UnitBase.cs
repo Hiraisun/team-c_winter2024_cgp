@@ -231,23 +231,19 @@ public class UnitBase : MonoBehaviour
         }
     }
 
-    // 外部からイベント発火---------------------------------
-    /// <summary>
-    /// 攻撃開始イベントを発火する
-    /// </summary>
-    public void InvokeOnAttackStart()
-    {
-        Events.InvokeAttackStart();
-    }
-    /// <summary>
-    /// 与ダメージイベントを発火する
-    /// </summary>
-    public void InvokeOnDamageDealt(UnitBase target)
-    {
-        Events.InvokeDamageDealt(target);
-    }
 
-
+    /// <summary>
+    /// 攻撃力の倍率増加
+    /// </summary>
+    public void AttackMultiple(float ratio)
+    {
+        if(ratio < 0)
+        {
+            Debug.LogWarning("AttackPowerMultiple: ratioが負の値です");
+            return;
+        }
+        attackPower *= ratio;
+    }
 
 #if UNITY_EDITOR
     // デバッグ用

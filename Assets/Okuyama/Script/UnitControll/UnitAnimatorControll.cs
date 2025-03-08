@@ -18,7 +18,6 @@ public class UnitAnimatorControll : UnitActionBase
     // 攻撃開始時の処理
     private void OnAttackStart()
     {
-        Debug.Log("攻撃開始");
         // アニメーションの再生
         if (animator != null) animator.SetTrigger("AttackStart"); //攻撃開始アニメーション
     }
