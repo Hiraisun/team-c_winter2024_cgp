@@ -14,8 +14,6 @@ public class Card : MonoBehaviour
     // ID
     public int CardNum { get; private set; }
 
-    // カードの効果説明
-    public string EffectDiscription { get; private set; }
 
     public enum CardState{
         InDeck,
@@ -30,8 +28,19 @@ public class Card : MonoBehaviour
     // 手札にあるかどうか ( Hand_Unselected または Hand_Selected かどうか)
     public bool IsCardInHand { get => state == CardState.Hand_Unselected || state == CardState.Hand_Selected; }
 
-    [SerializeField, Header("シンボルを表示するSpriteRenderer")]
-    private SpriteRenderer[] sr;
+    [SerializeField, Header("シンボルを表示するGameObject")]
+    private GameObject[] symbolObjs;
+
+    // SpriteRendererの配列
+    private SpriteRenderer[] symbolSpriteRenderers
+        => symbolObjs.Select(obj => obj.GetComponent<SpriteRenderer>()).ToArray();
+
+    // シンボルのコンポーネント
+    private CardSymbol[] cardSymbolCmps
+        => symbolObjs.Select(obj => obj.GetComponent<CardSymbol>()).ToArray();
+
+    public CardSymbol[] CardSymbolCmps { get => cardSymbolCmps; }
+
 
     // カードがクリックされたときのイベント
     private event Action<Card> OnCardClicked;
@@ -42,6 +51,8 @@ public class Card : MonoBehaviour
 
     // シンボルリスト
     private List<int> symbols;
+
+    public List<int> Symbols { get => symbols; }
     // シンボルのHashSet
     public HashSet<int> SymbolsHashSet { get; private set; }
 
@@ -73,10 +84,10 @@ public class Card : MonoBehaviour
         cardManager.AddCardUsedListener(HandleCardUsed);
 
         // シンボルスプライトの初期化
-        for (int i = 0; i < sr.Length; i++)
+        for (int i = 0; i < symbolSpriteRenderers.Length; i++)
         {
             int symbolIndex = symbols[i];
-            sr[i].sprite = cardManager.AllSymbolData[symbolIndex].symbolSprite;
+            symbolSpriteRenderers[i].sprite = cardManager.AllSymbolData[symbolIndex].symbolSprite;
         }
 
         // TODO: 効果説明の初期化
@@ -236,15 +247,15 @@ public class Card : MonoBehaviour
         int highlightSymbolIndex = symbols.IndexOf(highlightSymbol);
 
         if (highlightSymbolIndex == -1) return;
-        sr[highlightSymbolIndex].DOKill();
-        sr[highlightSymbolIndex].DOColor(Color.green, 0.5f);
+        symbolSpriteRenderers[highlightSymbolIndex].DOKill();
+        symbolSpriteRenderers[highlightSymbolIndex].DOColor(Color.green, 0.5f);
     }
     /// <summary>
     /// シンボルハイライト演出を終了
     /// </summary>
     private void FinishSymbolHighlight()
     {
-        foreach(SpriteRenderer _sr in sr)
+        foreach(SpriteRenderer _sr in symbolSpriteRenderers)
         {
             _sr.DOKill();
             _sr.DOColor(Color.white, 0.5f);
@@ -265,11 +276,6 @@ public class Card : MonoBehaviour
     //public void SetCardNum(int value) => CardNum = value;
     //public void SetCardInHand(bool value) => IsCardInHand = value;
     //public void SetCardDescription(string value) => EffectDiscription = value;
-
-    private void DisplayDescription()
-    {
-
-    }
 
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()

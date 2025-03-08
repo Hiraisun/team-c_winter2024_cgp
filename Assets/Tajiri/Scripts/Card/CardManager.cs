@@ -15,10 +15,13 @@ public class CardManager : MonoBehaviour
     private GameObject[] cardObjs;
 
     // 全Cardインスタンスの配列
-    private Card[] cardCmps;
+    public Card[] cardCmps { get; private set; }
 
     [SerializeField]
     private PlayerResourceManager playerResourceManager;
+
+    [SerializeField]
+    private CardSymbolUI cardSymbolUI;
 
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
@@ -74,16 +77,16 @@ public class CardManager : MonoBehaviour
     private event Action OnCardUseFailed;
     public void AddCardUseFailedListener(Action listener) => OnCardUseFailed += listener;
 
-
     // 選択中のカード
     private Card selectedCard = null;
 
-    // 初期化処理
+    // 初期化処理(CardとCardSymbolUIも初期化)
     private void Awake()
     {
         InitializeArrays();
         Deck = CardAlgorithms.GenerateDobbleCardsList(SYMBOL_PER_CARD);
         GenerateCardsObj();
+        cardSymbolUI?.Initialize(this);
     }
 
     // メモリ確保
