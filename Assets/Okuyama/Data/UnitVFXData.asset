@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: UnitVFXData
   m_EditorClassIdentifier: Assembly-CSharp::UnitVFXData
-  AttackBuffPrefab: {fileID: 0}
+  AttackBuffPrefab: {fileID: 7050358829438187802, guid: bbd74ef29116a32469d9f6998dc5784a, type: 3}

@@ -7,17 +7,14 @@ using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+// どのユニットでも使うようなVFX関係
 public partial class UnitBase{
-
-
-    [SerializeField]
-    private UnitVFXData unitVFXData;
 
     public void PlayAttackBuffVFX()
     {
-        Instantiate(unitVFXData.AttackBuffPrefab, transform.position, Quaternion.identity);
+        Debug.Log("攻撃バフエフェクト再生");
+        Instantiate(unitVFXData.AttackBuffPrefab, ModelCenterPos, Quaternion.identity, ModelObject.transform);
     }
-
 }
 
 

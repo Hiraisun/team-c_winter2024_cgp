@@ -164,14 +164,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipObject: {fileID: 3476582607833053083}
+  ModelObject: {fileID: 3476582607833053083}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
   modelPos: {x: 1, y: 0}
   modelSize: {x: 2, y: 2.12}
   maxHP: 300
   attackPower: 30
-  unitVFXData: {fileID: 0}
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0

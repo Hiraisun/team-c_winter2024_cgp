@@ -169,9 +169,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipObject: {fileID: 0}
+  ModelObject: {fileID: 0}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
+  modelPos: {x: 0, y: 0}
+  modelSize: {x: 0, y: 0}
   maxHP: 100
   attackPower: 30
 --- !u!114 &223059204
@@ -202,8 +205,6 @@ MonoBehaviour:
   unitBase: {fileID: 223059203}
   hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
   hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
-  position: {x: 0.77, y: 1.95, z: 0}
-  width: 1.54
   height: 0.05
 --- !u!1 &229567584
 GameObject:
@@ -277,7 +278,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.6784314, g: 0.5803922, b: 0.48235297, a: 1}
   m_FlipX: 0
@@ -464,8 +465,6 @@ MonoBehaviour:
   unitBase: {fileID: 650402621}
   hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
   hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
-  position: {x: 0.77, y: 1.95, z: 0}
-  width: 1.54
   height: 0.05
 --- !u!114 &650402620
 MonoBehaviour:
@@ -492,9 +491,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipObject: {fileID: 0}
+  ModelObject: {fileID: 0}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 1
   lane: 0
+  modelPos: {x: 0, y: 0}
+  modelSize: {x: 0, y: 0}
   maxHP: 100
   attackPower: 30
 --- !u!4 &650402622
@@ -633,7 +635,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: fd00b29c3d9553d4c8e0ab3b572af409, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

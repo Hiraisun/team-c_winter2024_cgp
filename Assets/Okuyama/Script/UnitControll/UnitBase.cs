@@ -28,8 +28,11 @@ public enum UnitState
 [DisallowMultipleComponent] //複数アタッチ禁止
 public partial class UnitBase : MonoBehaviour
 {
-    [SerializeField, Tooltip("反転用オブジェクト")]
-    private Transform flipObject;
+    [SerializeField, Tooltip("Modelオブジェクト、反転などに使用")]
+    private Transform ModelObject;
+
+    [SerializeField]
+    private UnitVFXData unitVFXData;
 
     [Header("ユニット基本情報")]
     private BattleManager battleManager;
@@ -50,6 +53,8 @@ public partial class UnitBase : MonoBehaviour
     [SerializeField, Tooltip("モデルのサイズ")]
     private Vector2 modelSize;
     public Vector2 ModelSize { get { return modelSize; } }
+
+    public Vector3 ModelCenterPos { get { return transform.position + new Vector3(modelPos.x * direction, modelPos.y, 0); } }
 
     private bool isBusy = false; // 何らかのアクション中か
     public bool IsBusy { get { return isBusy; } }
@@ -77,12 +82,6 @@ public partial class UnitBase : MonoBehaviour
     public float AttackPower { get { return attackPower; } }
 
     
-    
-    void OnValidate()
-    {
-        // エディタ上でもNPC時の見た目反転
-        if(flipObject != null) flipObject.localScale = new Vector3(direction, 1, 1);
-    }
 
     /// <summary>
     /// 初期化
@@ -95,7 +94,7 @@ public partial class UnitBase : MonoBehaviour
         HP = MaxHP;
 
         //NPC時の見た目反転
-        if(flipObject != null) flipObject.localScale = new Vector3(direction, 1, 1);
+        if(ModelObject != null) ModelObject.localScale = new Vector3(direction, 1, 1);
 
         Summon().Forget();
     }
@@ -197,9 +196,28 @@ public partial class UnitBase : MonoBehaviour
             return;
         }
         attackPower *= ratio;
+        PlayAttackBuffVFX();
     }
 
 #if UNITY_EDITOR
+    void OnValidate()
+    {
+        // エディタ上でもNPC時の見た目反転
+        if (ModelObject != null) ModelObject.localScale = new Vector3(direction, 1, 1);
+
+        // assetから自動登録
+        var assets = AssetDatabase.FindAssets("UnitVFXData");
+        if (assets.Length > 0)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(assets[0]);
+            unitVFXData = AssetDatabase.LoadAssetAtPath<UnitVFXData>(path);
+        }
+        else
+        {
+            Debug.LogWarning("UnitBase: UnitVFXDataが見つかりませんでした");
+        }
+    }
+
     // デバッグ用
     void OnDrawGizmosSelected()
     {

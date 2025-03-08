@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4057485809883581087
+--- !u!1 &265592753105909647
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2811068385775271838}
+  - component: {fileID: 3472623612748147675}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -16,18 +16,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2811068385775271838
+--- !u!4 &3472623612748147675
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4057485809883581087}
+  m_GameObject: {fileID: 265592753105909647}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8628443140772570464}
   m_Father: {fileID: 5241466414610463414}
@@ -42,9 +42,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8628443140772570464}
   - component: {fileID: 1777672256106575568}
-  - component: {fileID: 5850544880172349102}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,11 +58,11 @@ Transform:
   m_GameObject: {fileID: 4247460257993352679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.503, y: 0.95, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: -1.0356222}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2811068385775271838}
+  m_Father: {fileID: 3472623612748147675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1777672256106575568
 SpriteRenderer:
@@ -106,38 +105,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 193a298648dc8e34486f63d395885044, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Color: {r: 0.075834274, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.41, y: 7.7}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5850544880172349102
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4247460257993352679}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e6bf83c795b6791409f4e04a061ca133, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5595941037245212814
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,12 +128,9 @@ GameObject:
   - component: {fileID: 6495303854027191389}
   - component: {fileID: 4678205637200721549}
   - component: {fileID: 3980213837861586902}
-  - component: {fileID: 5461352129063476164}
   - component: {fileID: 5467265619203972228}
-  - component: {fileID: -3386973150505627879}
-  - component: {fileID: 7025258377715636047}
   m_Layer: 0
-  m_Name: Unit_Sword
+  m_Name: Unit_Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2811068385775271838}
+  - {fileID: 3472623612748147675}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6495303854027191389
@@ -189,14 +164,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19d9211085f22764d9a97944a197c854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipObject: {fileID: 2811068385775271838}
+  ModelObject: {fileID: 3472623612748147675}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
   modelPos: {x: 0.5, y: 0}
-  modelSize: {x: 1, y: 1.31}
-  maxHP: 100
+  modelSize: {x: 1, y: 1.09}
+  maxHP: 20
   attackPower: 30
-  unitVFXData: {fileID: 0}
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,27 +201,12 @@ MonoBehaviour:
   unitBase: {fileID: 6495303854027191389}
   damageInfo:
     attacker: {fileID: 0}
-    damage: 30
-    knockbackDamage: 34
-  attackDelay: 1.5
-  attackMotionDuration: 2.5
+    damage: 20
+    knockbackDamage: 100
+  attackDelay: 0.3
+  attackMotionDuration: 2
   attackableLaneList: 00000000
-  range: 0.85
---- !u!114 &5461352129063476164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5595941037245212814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 144fbe3aa9058c34ab1307b9d4a6ca8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitBase: {fileID: 6495303854027191389}
-  knockbackThreshold: 100
-  knockbackDistance: 1
+  range: 2.12
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,30 +223,3 @@ MonoBehaviour:
   hpBarPrefabAllay: {fileID: 7666798588338027378, guid: 575253c2f357ea542a72803cd74ea674, type: 3}
   hpBarParentEnemy: {fileID: 7666798588338027378, guid: cad412943d088bc4cb731bc0d49d29c5, type: 3}
   height: 0.05
---- !u!114 &-3386973150505627879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5595941037245212814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd296a3aa14be7744bce2cd4127213ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitBase: {fileID: 6495303854027191389}
-  animator: {fileID: 5850544880172349102}
---- !u!114 &7025258377715636047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5595941037245212814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51ced60b75f68c84e9c7e87e753c1343, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitBase: {fileID: 6495303854027191389}

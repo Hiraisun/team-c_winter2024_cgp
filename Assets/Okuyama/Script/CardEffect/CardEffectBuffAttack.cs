@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BuffAttack", menuName = "CardEffects/BuffAttack")]
@@ -11,10 +12,11 @@ public class CardEffectBuffAttack : CardEffectBuffBase
 
     public override void Buff(GameObject unitObject, UnitBase unitBase)
     {
-        // 召喚完了時に攻撃バフ
-        unitBase.Events.AddOnSummonCompleteListener(() =>
+        // 召喚時に攻撃バフ
+        unitBase.Events.AddOnSummonListener(() =>
         {
             unitBase.AttackMultiple(buffRate);
+            return UniTask.CompletedTask;
         });
     }
 }
