@@ -121,7 +121,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 指定した派閥に敵対するユニットリストを取得
     /// </summary>
-    public List<UnitBase> getEnemyUnitList(OwnerType type)
+    public List<UnitBase> GetEnemyUnitList(OwnerType type)
     {
         if(type == OwnerType.PLAYER)
         {
@@ -137,7 +137,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     /// 指定した派閥と同じ所属のユニットリストを取得
     /// </summary>
-    public List<UnitBase> getAllyUnitList(OwnerType type)
+    public List<UnitBase> GetAllyUnitList(OwnerType type)
     {
         if(type == OwnerType.PLAYER)
         {

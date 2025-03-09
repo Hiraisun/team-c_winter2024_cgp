@@ -13,7 +13,7 @@ public partial class UnitBase{
     public void PlayAttackBuffVFX()
     {
         Debug.Log("攻撃バフエフェクト再生");
-        Instantiate(unitVFXData.AttackBuffPrefab, ModelCenterPos, Quaternion.identity, ModelObject.transform);
+        Instantiate(unitVFXData.AttackBuffPrefab, ModelGlobalCenterPos, Quaternion.identity, ModelObject.transform);
     }
 }
 

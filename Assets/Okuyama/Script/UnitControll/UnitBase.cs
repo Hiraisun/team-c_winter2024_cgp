@@ -54,7 +54,8 @@ public partial class UnitBase : MonoBehaviour
     private Vector2 modelSize;
     public Vector2 ModelSize { get { return modelSize; } }
 
-    public Vector3 ModelCenterPos { get { return transform.position + new Vector3(modelPos.x * direction, modelPos.y, 0); } }
+    // モデルのグローバル中心座標
+    public Vector3 ModelGlobalCenterPos { get { return transform.position + new Vector3(modelPos.x * direction, modelPos.y, 0); } }
 
     private bool isBusy = false; // 何らかのアクション中か
     public bool IsBusy { get { return isBusy; } }
@@ -143,7 +144,7 @@ public partial class UnitBase : MonoBehaviour
     /// <summary>
     /// このユニットを回復する
     /// </summary>
-    private void Heal(float healAmount)
+    public void Heal(float healAmount)
     {
         if(healAmount < 0)
         {
