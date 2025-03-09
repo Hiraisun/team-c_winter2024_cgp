@@ -33,7 +33,7 @@ public class Card : MonoBehaviour
 
     // SpriteRendererの配列
     private SpriteRenderer[] symbolSpriteRenderers
-        => symbolObjs.Select(obj => obj.GetComponent<SpriteRenderer>()).ToArray();
+        => symbolObjs.Select(obj => obj.GetComponentInChildren<SpriteRenderer>()).ToArray();
 
     // シンボルのコンポーネント
     private CardSymbol[] cardSymbolCmps

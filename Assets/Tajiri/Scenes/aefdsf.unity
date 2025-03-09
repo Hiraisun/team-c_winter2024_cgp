@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerResourceManager: {fileID: 300943714}
   cardSymbolUI: {fileID: 401299742}
-  cardPrefab: {fileID: 927187406246580337, guid: ffaea07618690754e8911953e5776a15, type: 3}
+  cardPrefab: {fileID: 927187406246580337, guid: 6610ce0de4e6ada4e95ba2532794e5a3, type: 3}
   SYMBOL_PER_CARD: 4
   MAX_HAND_CARDS: 8
   handPosConfig:

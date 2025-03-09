@@ -20,8 +20,8 @@ public class CardSymbol : MonoBehaviour
         => OnSymbolMouseExit += listener;
 
     // シンボル名を表示するTMP
-    private TextMeshProUGUI symbolNameText
-        => this.GetComponentInChildren<TextMeshProUGUI>();
+    private TextMeshPro symbolNameText
+        => this.GetComponentInChildren<TextMeshPro>();
 
     private string symbolName;          // シンボル名
 
@@ -57,11 +57,5 @@ public class CardSymbol : MonoBehaviour
     {
         OnSymbolMouseExit?.Invoke(this);
         //transform.DOScale(Vector2.one, 0.2f);
-    }
-
-    private void OnMouseDown()
-    {
-        Card card = this.GetComponentInParent<Card>();
-        if(card.IsCardInHand) OnSymbolClicked.Invoke(card);
     }
 }

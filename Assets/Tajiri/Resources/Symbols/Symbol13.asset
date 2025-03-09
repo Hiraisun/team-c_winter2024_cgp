@@ -15,4 +15,4 @@ MonoBehaviour:
   symbolName: "\u9B54\u6CD5\u4F7F\u3044"
   description: "\u9577\u3044\u8A60\u5531\u306E\u5F8C\u3001\u5F37\u529B\u306A\u7BC4\u56F2\u653B\u6483\u3092\u884C\u3046\u3002"
   cardAction: {fileID: 11400000, guid: 947b7e6fe069eed4a9ca09e1fd24839e, type: 2}
-  symbolSprite: {fileID: 21300000, guid: 9a36d945c83c7c248abe770660deddfc, type: 3}
+  symbolSprite: {fileID: 21300000, guid: db29a14ad5a6fdf419c50de15af93610, type: 3}
