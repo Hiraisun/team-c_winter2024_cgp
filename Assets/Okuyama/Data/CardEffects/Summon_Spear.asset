@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Summon_Spear
   m_EditorClassIdentifier: 
   manaCost: 3
-  unitPrefab: {fileID: 5595941037245212814, guid: 4cb61686d78a7fb40bdb0777cf1d57e6, type: 3}
+  unitPrefab: {fileID: 5595941037245212814, guid: c3385faea5c5ced4292addd433f91c98, type: 3}

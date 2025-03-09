@@ -78,6 +78,7 @@ public abstract class UnitAttackBase : UnitActionBase
         UnitBase.Reveal(); //隠密中止
         Attack(); // 攻撃判定処理
         await UniTask.WaitForSeconds(attackMotionDuration - attackDelay, cancellationToken: ct); //攻撃モーション終了まで待機
+        UnitBase.Events.InvokeAttackEnd();
         UnitBase.FinishAction(this);
     }
 
@@ -89,7 +90,7 @@ public abstract class UnitAttackBase : UnitActionBase
         cts.Cancel();
         cts.Dispose();
         UnitBase.FinishAction(this);
-        UnitBase.Events.InvokeAttackInterrupt();
+        UnitBase.Events.InvokeAttackEnd();
         return true;
     }
 

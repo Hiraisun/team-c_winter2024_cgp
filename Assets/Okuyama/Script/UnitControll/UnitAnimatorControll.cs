@@ -14,7 +14,7 @@ public class UnitAnimatorControll : UnitActionBase
     {
         UnitBase.Events.AddOnSummonCompleteListener(OnSummonComplete);
         UnitBase.Events.AddOnAttackStartListener(OnAttackStart);
-        UnitBase.Events.AddOnAttackInterruptListener(OnAttackInterrupt);
+        UnitBase.Events.AddOnAttackEndListener(OnAttackEnd);
         UnitBase.Events.AddOnDeathListener(OnDeath);
     }
 
@@ -33,10 +33,10 @@ public class UnitAnimatorControll : UnitActionBase
     }
 
     // 攻撃中断時の処理
-    private void OnAttackInterrupt()
+    private void OnAttackEnd()
     {
         // アニメーションの再生
-        if (animator != null) animator.SetTrigger("AttackInterrupt"); //攻撃中断アニメーション
+        if (animator != null) animator.SetTrigger("AttackEnd"); //攻撃中断アニメーション
     }
 
     // 死亡時の処理
@@ -62,6 +62,7 @@ public class UnitAnimatorControllEditor : Editor
         EditorGUILayout.HelpBox("Animatorのパラメータ名 ↓↓", MessageType.Info);
         EditorGUILayout.LabelField("召喚完了時Trigger : SummonComplete");
         EditorGUILayout.LabelField("攻撃開始時Trigger : AttackStart");
+        EditorGUILayout.LabelField("攻撃終了時Trigger : AttackEnd");
         EditorGUILayout.LabelField("死亡時Trigger     : Death (Loopしないよう注意)");
     }
 }

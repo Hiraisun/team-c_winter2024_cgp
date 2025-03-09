@@ -230,8 +230,8 @@ MonoBehaviour:
     damage: 30
     damageType: 0
     knockbackDamage: 100
-  attackDelay: 1.5
-  attackMotionDuration: 2.5
+  attackDelay: 0.7
+  attackMotionDuration: 2.7
   attackableLaneList: 00000000
   range: 1.92
 --- !u!114 &5461352129063476164

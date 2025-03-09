@@ -196,8 +196,8 @@ MonoBehaviour:
   lane: 0
   modelPos: {x: 0.5, y: 0}
   modelSize: {x: 1, y: 2.04}
-  maxHP: 100
-  attackPower: 30
+  maxHP: 10
+  attackPower: 5
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   knockbackThreshold: 100
-  knockbackDistance: 0.5
+  knockbackDistance: 0.7
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0
