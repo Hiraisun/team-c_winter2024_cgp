@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Summon_Wizard
   m_EditorClassIdentifier: 
   manaCost: 3
-  unitPrefab: {fileID: 5595941037245212814, guid: 296550f433f898148bcf6707d083a83b, type: 3}
+  unitPrefab: {fileID: 5595941037245212814, guid: 48c0b22c416fd4240b3c9446bb4d6f61, type: 3}

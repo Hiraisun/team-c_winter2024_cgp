@@ -35,12 +35,13 @@ public class BattleManager : MonoBehaviour
     private Action<OwnerType> OnSummonComplete;
     public void AddOnSummonCompleteListener(Action<OwnerType> listener) => OnSummonComplete += listener;
 
-    void Awake()
+    void Start()
     {
         // シーン開始時、既に存在するユニットの初期化
         foreach (var unit in FindObjectsOfType<UnitBase>())
         {
             unit.Initialize(this, unit.Owner);
+            unit.Summon().Forget();
         }
     }
 

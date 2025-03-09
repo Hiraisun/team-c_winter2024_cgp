@@ -174,8 +174,8 @@ MonoBehaviour:
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
-  modelPos: {x: 0, y: 0}
-  modelSize: {x: 0, y: 0}
+  modelPos: {x: 0.75, y: 0}
+  modelSize: {x: 1.5, y: 2}
   maxHP: 100
   attackPower: 30
 --- !u!114 &223059204
@@ -678,8 +678,8 @@ MonoBehaviour:
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 1
   lane: 0
-  modelPos: {x: 0, y: 0}
-  modelSize: {x: 0, y: 0}
+  modelPos: {x: 0.75, y: 0}
+  modelSize: {x: 1.5, y: 2}
   maxHP: 100
   attackPower: 30
 --- !u!4 &650402622
