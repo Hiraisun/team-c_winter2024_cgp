@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 2811068385775271838}
-  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
+  unitVFXData: {fileID: 0}
   owner: 0
   lane: 0
   modelPos: {x: 0.5, y: 0}
@@ -227,7 +227,8 @@ MonoBehaviour:
   damageInfo:
     attacker: {fileID: 0}
     damage: 30
-    knockbackDamage: 34
+    damageType: 0
+    knockbackDamage: 0
   attackDelay: 1.5
   attackMotionDuration: 2.5
   attackableLaneList: 00000000
@@ -246,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
   knockbackThreshold: 100
-  knockbackDistance: 1
+  knockbackDistance: 0.5
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0

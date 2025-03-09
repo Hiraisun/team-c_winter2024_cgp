@@ -11,8 +11,16 @@ public struct DamageInfo
 {
     [HideInInspector] public UnitBase attacker;
     [HideInInspector] public float damage;
+    public DamageType damageType;
+
     [SerializeField, Tooltip("与えるノックバック値 (耐性値に達するとノックバック)")]
     public float knockbackDamage;
+}
+public enum DamageType
+{
+    MELEE,  // 近接攻撃
+    RANGED, // 遠距離攻撃
+    THORN   // とげ
 }
 
 /// <summary>
