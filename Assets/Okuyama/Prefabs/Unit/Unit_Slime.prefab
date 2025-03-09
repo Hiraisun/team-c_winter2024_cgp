@@ -58,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 4247460257993352679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.02, y: 1.05, z: -1.0356222}
-  m_LocalScale: {x: 0.79, y: 0.79, z: 0.79}
+  m_LocalPosition: {x: 0.351, y: 0.366, z: -1.0356222}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 0.14}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3476582607833053083}
@@ -105,8 +105,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 210266641defa2a48847395b332b5656, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: bdec25663af41064a80761098f418356, type: 3}
+  m_Color: {r: 0, g: 0.9374716, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -127,11 +127,12 @@ GameObject:
   - component: {fileID: 5241466414610463414}
   - component: {fileID: 6495303854027191389}
   - component: {fileID: 4678205637200721549}
-  - component: {fileID: 298814632363806939}
+  - component: {fileID: 6619055303104756603}
+  - component: {fileID: -5397324024449436286}
   - component: {fileID: 5467265619203972228}
   - component: {fileID: -744111713469395563}
   m_Layer: 0
-  m_Name: Unit_Golem
+  m_Name: Unit_Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,8 +173,8 @@ MonoBehaviour:
   lane: 0
   modelPos: {x: 1, y: 0}
   modelSize: {x: 2, y: 2.12}
-  maxHP: 30
-  attackPower: 1
+  maxHP: 3
+  attackPower: 3
 --- !u!114 &4678205637200721549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,8 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
-  speed: 0.3
---- !u!114 &298814632363806939
+  speed: 0.7
+--- !u!114 &6619055303104756603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +210,22 @@ MonoBehaviour:
   attackDelay: 1
   attackMotionDuration: 2
   attackableLaneList: 00000000
-  range: 0.35
+  range: 0.24
+--- !u!114 &-5397324024449436286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5595941037245212814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144fbe3aa9058c34ab1307b9d4a6ca8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitBase: {fileID: 6495303854027191389}
+  knockbackThreshold: 100
+  knockbackDistance: 1
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0

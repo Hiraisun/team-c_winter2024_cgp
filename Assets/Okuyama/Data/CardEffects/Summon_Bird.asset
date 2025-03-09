@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Summon_Bird
   m_EditorClassIdentifier: 
   manaCost: 3
-  unitPrefab: {fileID: 5595941037245212814, guid: 296550f433f898148bcf6707d083a83b, type: 3}
+  unitPrefab: {fileID: 5595941037245212814, guid: 3b62a1e500d15034ca782c73ff427716, type: 3}

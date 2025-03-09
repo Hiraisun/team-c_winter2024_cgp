@@ -58,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 4247460257993352679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.02, y: 1.05, z: -1.0356222}
-  m_LocalScale: {x: 0.79, y: 0.79, z: 0.79}
+  m_LocalPosition: {x: 0.524, y: 2.634, z: -1.0356222}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3476582607833053083}
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 210266641defa2a48847395b332b5656, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f77b2e105e7d034e9ad719b0fe1e8e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 5467265619203972228}
   - component: {fileID: -744111713469395563}
   m_Layer: 0
-  m_Name: Unit_Golem
+  m_Name: Unit_Bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,10 +169,10 @@ MonoBehaviour:
   ModelSpriteRenderer: {fileID: 1777672256106575568}
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
-  lane: 0
-  modelPos: {x: 1, y: 0}
-  modelSize: {x: 2, y: 2.12}
-  maxHP: 30
+  lane: 1
+  modelPos: {x: 0.5, y: 2.1}
+  modelSize: {x: 1, y: 1.26}
+  maxHP: 4
   attackPower: 1
 --- !u!114 &4678205637200721549
 MonoBehaviour:
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitBase: {fileID: 6495303854027191389}
-  speed: 0.3
+  speed: 0.5
 --- !u!114 &298814632363806939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,10 +206,10 @@ MonoBehaviour:
     damage: 0
     damageType: 0
     knockbackDamage: 0
-  attackDelay: 1
-  attackMotionDuration: 2
-  attackableLaneList: 00000000
-  range: 0.35
+  attackDelay: 0.2
+  attackMotionDuration: 0.5
+  attackableLaneList: 0000000001000000
+  range: 1
 --- !u!114 &5467265619203972228
 MonoBehaviour:
   m_ObjectHideFlags: 0
