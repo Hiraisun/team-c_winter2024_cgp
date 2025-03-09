@@ -226,6 +226,21 @@ public partial class UnitBase : MonoBehaviour
     }
 
     /// <summary>
+    /// HPの倍率増加
+    /// </summary>
+    public void HPMultiple(float ratio)
+    {
+        if(ratio < 0)
+        {
+            Debug.LogWarning("HPMultiple: ratioが負の値です");
+            return;
+        }
+        maxHP *= ratio;
+        HP *= ratio;
+        //PlayHPBuffVFX(); TODO:演出
+    }
+
+    /// <summary>
     /// 隠密状態になる
     /// </summary>
     public void Hide()
