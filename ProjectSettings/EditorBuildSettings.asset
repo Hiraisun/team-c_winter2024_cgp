@@ -5,22 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Okuyama/Scenes/DebugSceneSelect.unity
     guid: 32358b4bd6f22b84d815b74212e81341
   - enabled: 1
-    path: Assets/Okuyama/Scenes/Test1.unity
-    guid: ab02ebfa2fb741f43b0c32d5f6a82c7d
-  - enabled: 1
-    path: Assets/Okuyama/Scenes/Test2.unity
-    guid: 6645581b904c4b14a8c88c4e9eb2ab10
-  - enabled: 1
-    path: Assets/Okuyama/Scenes/Test3.unity
-    guid: 5d94db35770958247b6aa723745e1f6c
-  - enabled: 1
-    path: Assets/Okuyama/Scenes/Test4.unity
-    guid: 7b199448045bb2b4c9bdec6557400af4
-  - enabled: 0
     path: Assets/MainGame.unity
-    guid: f1d3ab07f789d274cb52d29bb8716fa4
+    guid: 769d32e19d209a644a10205cbdbdcdda
   m_configObjects: {}
