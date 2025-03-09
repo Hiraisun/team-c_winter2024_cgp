@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +13,9 @@ public class UnitAnimatorControll : UnitActionBase
     void Start()
     {
         UnitBase.Events.AddOnSummonCompleteListener(OnSummonComplete);
-        UnitBase.Events.AddOnDeathListener(OnDeath);
         UnitBase.Events.AddOnAttackStartListener(OnAttackStart);
+        UnitBase.Events.AddOnAttackInterruptListener(OnAttackInterrupt);
+        UnitBase.Events.AddOnDeathListener(OnDeath);
     }
 
     // 召喚完了時の処理
@@ -28,6 +30,13 @@ public class UnitAnimatorControll : UnitActionBase
     {
         // アニメーションの再生
         if (animator != null) animator.SetTrigger("AttackStart"); //攻撃開始アニメーション
+    }
+
+    // 攻撃中断時の処理
+    private void OnAttackInterrupt()
+    {
+        // アニメーションの再生
+        if (animator != null) animator.SetTrigger("AttackInterrupt"); //攻撃中断アニメーション
     }
 
     // 死亡時の処理

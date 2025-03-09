@@ -89,6 +89,7 @@ public abstract class UnitAttackBase : UnitActionBase
         cts.Cancel();
         cts.Dispose();
         UnitBase.FinishAction(this);
+        UnitBase.Events.InvokeAttackInterrupt();
         return true;
     }
 

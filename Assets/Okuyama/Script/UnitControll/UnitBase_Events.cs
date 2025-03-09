@@ -35,6 +35,11 @@ public partial class UnitBase{
         public void AddOnAttackStartListener(Action listener) => OnAttackStart += listener;
         public void InvokeAttackStart() => OnAttackStart?.Invoke();
 
+        // 攻撃行動が中断されたとき
+        private Action OnAttackInterrupt;
+        public void AddOnAttackInterruptListener(Action listener) => OnAttackInterrupt += listener;
+        public void InvokeAttackInterrupt() => OnAttackInterrupt?.Invoke();
+
         // 与ダメージ時
         private Action<UnitBase> OnDamageDealt;
         public void AddOnDamageDealtListener(Action<UnitBase> listener) => OnDamageDealt += listener;
