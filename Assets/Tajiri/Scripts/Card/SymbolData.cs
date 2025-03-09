@@ -6,7 +6,7 @@ public class SymbolData : ScriptableObject
     [Header("シンボル名")]
     public string symbolName;
 
-    [Header("シンボルに対応するアクションの説明")]
+    [Header("シンボルに対応するアクションの説明"), TextArea(3, 10)]
     public string description;
 
     [Header("シンボルに対応するアクション")]
