@@ -33,6 +33,7 @@ public partial class UnitBase : MonoBehaviour
     private Transform ModelObject;
     [SerializeField, Tooltip("ModelのSpriteRenderer")]
     private SpriteRenderer ModelSpriteRenderer;
+    private MaterialPropertyBlock propertyBlock;
 
     [SerializeField]
     private UnitVFXData unitVFXData;
@@ -89,7 +90,10 @@ public partial class UnitBase : MonoBehaviour
     private float attackPower = 30;
     public float AttackPower { get { return attackPower; } }
 
-    
+    void Awake()
+    {
+        propertyBlock = new MaterialPropertyBlock();
+    }
 
     /// <summary>
     /// 初期化
@@ -247,10 +251,7 @@ public partial class UnitBase : MonoBehaviour
     {
         if(!isHidden){
             isHidden = true;
-            //ModelSpriteRenderer.DOFade(0.5f, 0.5f); //TODO:他に色変える演出使うときは注意
-            // アニメーションと競合してる
-            
-            // TODO:煙みたいな演出?
+            StartHideVFX();
         }
     }
     /// <summary>
@@ -260,7 +261,7 @@ public partial class UnitBase : MonoBehaviour
     {
         if(isHidden){
             isHidden = false;
-            //ModelSpriteRenderer.color = Color.white;
+            EndHideVFX();
         }
     }
 

@@ -10,10 +10,25 @@ using UnityEngine;
 // どのユニットでも使うようなVFX関係
 public partial class UnitBase{
 
-    public void PlayAttackBuffVFX()
+    // 攻撃アップ
+    private void PlayAttackBuffVFX()
     {
-        Debug.Log("攻撃バフエフェクト再生");
         Instantiate(unitVFXData.AttackBuffPrefab, ModelGlobalCenterPos, Quaternion.identity, ModelObject.transform);
+    }
+
+    // 隠密
+    private void StartHideVFX()
+    {
+        ModelSpriteRenderer.GetPropertyBlock(propertyBlock);
+        propertyBlock.SetFloat("_HideOpacity", 0.5f);
+        ModelSpriteRenderer.SetPropertyBlock(propertyBlock);
+        // TODO:煙みたいな演出?
+    }
+    private void EndHideVFX()
+    {
+        ModelSpriteRenderer.GetPropertyBlock(propertyBlock);
+        propertyBlock.SetFloat("_HideOpacity", 1f);
+        ModelSpriteRenderer.SetPropertyBlock(propertyBlock);
     }
 }
 
