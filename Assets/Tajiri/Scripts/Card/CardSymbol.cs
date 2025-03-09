@@ -29,6 +29,9 @@ public class CardSymbol : MonoBehaviour
 
     public string SymbolDescription { get => symbolDescription; }
 
+    private event Action<Card> OnSymbolClicked;
+    public void AddCardClickedListener(Action<Card> listener) => OnSymbolClicked += listener;
+
     /// <summary>
     /// シンボルのデータを取得
     /// </summary>
@@ -54,5 +57,11 @@ public class CardSymbol : MonoBehaviour
     {
         OnSymbolMouseExit?.Invoke(this);
         //transform.DOScale(Vector2.one, 0.2f);
+    }
+
+    private void OnMouseDown()
+    {
+        Card card = this.GetComponentInParent<Card>();
+        if(card.IsCardInHand) OnSymbolClicked.Invoke(card);
     }
 }
