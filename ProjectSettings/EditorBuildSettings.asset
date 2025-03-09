@@ -5,10 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Okuyama/Scenes/DebugSceneSelect.unity
-    guid: 32358b4bd6f22b84d815b74212e81341
   - enabled: 1
     path: Assets/MainGame.unity
-    guid: 769d32e19d209a644a10205cbdbdcdda
+    guid: 4df4069cbc5a5b1468a28c4bffb5921c
   m_configObjects: {}
