@@ -20,14 +20,17 @@ public class CardSymbol : MonoBehaviour
         => OnSymbolMouseExit += listener;
 
     // シンボル名を表示するTMP
-    private TextMeshProUGUI symbolNameText
-        => this.GetComponentInChildren<TextMeshProUGUI>();
+    private TextMeshPro symbolNameText
+        => this.GetComponentInChildren<TextMeshPro>();
 
     private string symbolName;          // シンボル名
 
     private string symbolDescription;   // シンボルの説明
 
     public string SymbolDescription { get => symbolDescription; }
+
+    private event Action<Card> OnSymbolClicked;
+    public void AddCardClickedListener(Action<Card> listener) => OnSymbolClicked += listener;
 
     /// <summary>
     /// シンボルのデータを取得

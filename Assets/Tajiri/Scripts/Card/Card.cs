@@ -33,7 +33,7 @@ public class Card : MonoBehaviour
 
     // SpriteRendererの配列
     private SpriteRenderer[] symbolSpriteRenderers
-        => symbolObjs.Select(obj => obj.GetComponent<SpriteRenderer>()).ToArray();
+        => symbolObjs.Select(obj => obj.GetComponentInChildren<SpriteRenderer>()).ToArray();
 
     // シンボルのコンポーネント
     private CardSymbol[] cardSymbolCmps
@@ -281,16 +281,6 @@ public class Card : MonoBehaviour
     private void OnMouseDown()
     {
         if (IsCardInHand) OnCardClicked?.Invoke(this);
-    }
-
-    // マウスホバー時の拡大縮小
-    private void OnMouseEnter()
-    {
-        if (IsCardInHand) transform.DOScale(Vector2.one * 1.1f, 0.2f);
-    }
-    private void OnMouseExit()
-    {
-        if (IsCardInHand) transform.DOScale(Vector2.one, 0.2f);
     }
 }
 
