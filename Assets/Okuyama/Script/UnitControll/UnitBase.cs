@@ -141,6 +141,25 @@ public partial class UnitBase : MonoBehaviour
     }
 
     /// <summary>
+    /// このユニットを回復する
+    /// </summary>
+    private void Heal(float healAmount)
+    {
+        if(healAmount < 0)
+        {
+            Debug.LogWarning("Heal: 負の回復量を与えた");
+            return;
+        }
+        
+        // 体力減ってたら回復処理
+        if(HP < maxHP){
+            HP += healAmount;
+            if(HP > maxHP) HP = maxHP;
+            Events.InvokeHeal(healAmount);
+        }
+    }
+
+    /// <summary>
     /// 占有アクション実行開始通知
     /// 他の行動に割り込まれない行動を実行する場合はこれを呼ぶ。
     /// !! 占有する場合はInterruptActionを必ず実装すること !!

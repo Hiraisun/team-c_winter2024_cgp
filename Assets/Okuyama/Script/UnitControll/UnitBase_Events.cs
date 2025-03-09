@@ -45,6 +45,11 @@ public partial class UnitBase{
         public void AddOnDamageReceivedListener(Action<DamageInfo> listener) => OnDamageReceived += listener;
         public void InvokeDamageReceived(DamageInfo damageInfo) => OnDamageReceived?.Invoke(damageInfo);
 
+        // 回復時
+        private Action<float> OnHeal;
+        public void AddOnHealListener(Action<float> listener) => OnHeal += listener;
+        public void InvokeHeal(float amount) => OnHeal?.Invoke(amount);
+
         // 死亡時
         private event Func<UniTask> OnDeath;
         public void AddOnDeathListener(Func<UniTask> listener) => OnDeath += listener;
@@ -58,5 +63,5 @@ public partial class UnitBase{
     }
     public UnitEvents Events { get; private set; } = new UnitEvents();
 
-    
+
 }

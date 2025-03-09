@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -45,11 +47,18 @@ public class UnitHpBar : UnitActionBase
 
         // ダメージイベントに登録
         UnitBase.Events.AddOnDamageReceivedListener(OnDamageRecieved);
+        UnitBase.Events.AddOnHealListener(OnHeal);
     }
 
     private void OnDamageRecieved(DamageInfo damageInfo)
     {
         // 被ダメージ時更新
+        hpBar.UpdateHpBar(UnitBase.HP);
+    }
+
+    private void OnHeal(float obj)
+    {
+        // 回復時更新
         hpBar.UpdateHpBar(UnitBase.HP);
     }
 
