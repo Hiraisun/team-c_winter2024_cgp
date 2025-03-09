@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 3472623612748147675}
+  ModelSpriteRenderer: {fileID: 1777672256106575568}
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
@@ -202,6 +203,7 @@ MonoBehaviour:
   damageInfo:
     attacker: {fileID: 0}
     damage: 20
+    damageType: 0
     knockbackDamage: 100
   attackDelay: 0.3
   attackMotionDuration: 2

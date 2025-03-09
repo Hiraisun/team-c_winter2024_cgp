@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 0}
+  ModelSpriteRenderer: {fileID: 0}
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
@@ -411,6 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allCardEffects:
+  - {fileID: 11400000, guid: 326a67ffb4869214892bda0938fa974a, type: 2}
   - {fileID: 11400000, guid: 71230f4f4d480a34e9a276caf70fd48a, type: 2}
   - {fileID: 11400000, guid: f957829bf6a3d8d4186d582c07009720, type: 2}
   - {fileID: 11400000, guid: eb653597cbd24e8449acd2f3ce66f6ff, type: 2}
@@ -494,6 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 0}
+  ModelSpriteRenderer: {fileID: 0}
   unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 1
   lane: 0

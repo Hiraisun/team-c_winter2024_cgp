@@ -75,6 +75,7 @@ public abstract class UnitAttackBase : UnitActionBase
 
         UnitBase.StartAction(this); //アクション開始を宣言
         await UniTask.WaitForSeconds(attackDelay, cancellationToken: ct); //攻撃判定まで待機
+        UnitBase.Reveal(); //隠密中止
         Attack(); // 攻撃判定処理
         await UniTask.WaitForSeconds(attackMotionDuration - attackDelay, cancellationToken: ct); //攻撃モーション終了まで待機
         UnitBase.FinishAction(this);
@@ -108,6 +109,9 @@ public abstract class UnitAttackBase : UnitActionBase
     {
         //対象のレーンが攻撃可能レーンか確認
         if(!attackableLaneList.Contains(target.Lane)) return false;
+
+        //対象が隠密でないか確認
+        if(target.IsHidden) return false;
 
         //射程内にいるか
         float fromX = transform.position.x;                     //自分の位置

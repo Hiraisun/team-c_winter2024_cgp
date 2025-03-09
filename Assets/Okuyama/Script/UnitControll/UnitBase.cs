@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +31,8 @@ public partial class UnitBase : MonoBehaviour
 {
     [SerializeField, Tooltip("Modelオブジェクト、反転などに使用")]
     private Transform ModelObject;
+    [SerializeField, Tooltip("ModelのSpriteRenderer")]
+    private SpriteRenderer ModelSpriteRenderer;
 
     [SerializeField]
     private UnitVFXData unitVFXData;
@@ -64,6 +67,10 @@ public partial class UnitBase : MonoBehaviour
     // ユニット状態 
     private UnitState unitState = UnitState.SUMMON;
     public UnitState UnitState { get { return unitState; } }
+
+    // 隠密状態
+    private bool isHidden = false;
+    public bool IsHidden { get { return isHidden; } }
 
     // 向き : 移動などで乗算するためのパラメータ 
     // (PLAYERは1, ENEMYは-1)
@@ -216,6 +223,30 @@ public partial class UnitBase : MonoBehaviour
         }
         attackPower *= ratio;
         PlayAttackBuffVFX();
+    }
+
+    /// <summary>
+    /// 隠密状態になる
+    /// </summary>
+    public void Hide()
+    {
+        if(!isHidden){
+            isHidden = true;
+            //ModelSpriteRenderer.DOFade(0.5f, 0.5f); //TODO:他に色変える演出使うときは注意
+            // アニメーションと競合してる
+            
+            // TODO:煙みたいな演出?
+        }
+    }
+    /// <summary>
+    /// 隠密状態を解除する
+    /// </summary>
+    public void Reveal()
+    {
+        if(isHidden){
+            isHidden = false;
+            //ModelSpriteRenderer.color = Color.white;
+        }
     }
 
 #if UNITY_EDITOR
