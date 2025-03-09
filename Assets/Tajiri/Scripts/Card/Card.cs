@@ -282,16 +282,6 @@ public class Card : MonoBehaviour
     {
         if (IsCardInHand) OnCardClicked?.Invoke(this);
     }
-
-    // マウスホバー時の拡大縮小
-    private void OnMouseEnter()
-    {
-        if (IsCardInHand) transform.DOScale(Vector2.one * 1.1f, 0.2f);
-    }
-    private void OnMouseExit()
-    {
-        if (IsCardInHand) transform.DOScale(Vector2.one, 0.2f);
-    }
 }
 
 
