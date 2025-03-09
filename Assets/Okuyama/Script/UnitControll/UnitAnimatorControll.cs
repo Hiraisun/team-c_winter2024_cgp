@@ -43,6 +43,7 @@ public class UnitAnimatorControll : UnitActionBase
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(UnitAnimatorControll))]
 public class UnitAnimatorControllEditor : Editor
 {
@@ -55,3 +56,4 @@ public class UnitAnimatorControllEditor : Editor
         EditorGUILayout.LabelField("死亡時Trigger     : Death (Loopしないよう注意)");
     }
 }
+#endif

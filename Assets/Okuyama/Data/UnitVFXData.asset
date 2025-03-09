@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9e9b64ec8bce99c43904addc549d1f99, type: 3}
   m_Name: UnitVFXData
   m_EditorClassIdentifier: Assembly-CSharp::UnitVFXData
   AttackBuffPrefab: {fileID: 7050358829438187802, guid: bbd74ef29116a32469d9f6998dc5784a, type: 3}
