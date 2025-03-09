@@ -33,7 +33,7 @@ public partial class UnitBase : MonoBehaviour
     private Transform ModelObject;
     [SerializeField, Tooltip("ModelのSpriteRenderer")]
     private SpriteRenderer ModelSpriteRenderer;
-    private MaterialPropertyBlock propertyBlock;
+    private MaterialPropertyBlock materialPropertyBlock;
 
     [SerializeField]
     private UnitVFXData unitVFXData;
@@ -92,7 +92,7 @@ public partial class UnitBase : MonoBehaviour
 
     void Awake()
     {
-        propertyBlock = new MaterialPropertyBlock();
+        materialPropertyBlock = new MaterialPropertyBlock();
     }
 
     /// <summary>
@@ -107,6 +107,18 @@ public partial class UnitBase : MonoBehaviour
 
         //NPC時の見た目反転
         if(ModelObject != null) ModelObject.localScale = new Vector3(direction, 1, 1);
+
+        // アウトラインカラー
+        if(ModelSpriteRenderer != null){
+            ModelSpriteRenderer.GetPropertyBlock(materialPropertyBlock);
+            if(owner == OwnerType.PLAYER) {
+                materialPropertyBlock.SetColor("_OutLineColor", new Color(0.4f, 0.4f, 1));
+            }
+            else{
+                materialPropertyBlock.SetColor("_OutLineColor", new Color(1, 0.4f, 0.4f));
+            }
+            ModelSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
+        }
 
     }
     // 召喚開始して待つ

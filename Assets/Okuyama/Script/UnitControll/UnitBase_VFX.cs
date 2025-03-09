@@ -19,16 +19,16 @@ public partial class UnitBase{
     // 隠密
     private void StartHideVFX()
     {
-        ModelSpriteRenderer.GetPropertyBlock(propertyBlock);
-        propertyBlock.SetFloat("_HideOpacity", 0.5f);
-        ModelSpriteRenderer.SetPropertyBlock(propertyBlock);
+        ModelSpriteRenderer.GetPropertyBlock(materialPropertyBlock);
+        materialPropertyBlock.SetFloat("_HideOpacity", 0.5f);
+        ModelSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
         // TODO:煙みたいな演出?
     }
     private void EndHideVFX()
     {
-        ModelSpriteRenderer.GetPropertyBlock(propertyBlock);
-        propertyBlock.SetFloat("_HideOpacity", 1f);
-        ModelSpriteRenderer.SetPropertyBlock(propertyBlock);
+        ModelSpriteRenderer.GetPropertyBlock(materialPropertyBlock);
+        materialPropertyBlock.SetFloat("_HideOpacity", 1f);
+        ModelSpriteRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 }
 
