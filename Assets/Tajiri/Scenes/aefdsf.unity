@@ -442,7 +442,7 @@ MonoBehaviour:
   m_text: "Description \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4406d6c70f18ee44487a17b55b3d16e2, type: 2}
-  m_sharedMaterial: {fileID: -5543965116329434153, guid: 4406d6c70f18ee44487a17b55b3d16e2, type: 2}
+  m_sharedMaterial: {fileID: 4460453459696858312, guid: 4406d6c70f18ee44487a17b55b3d16e2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
