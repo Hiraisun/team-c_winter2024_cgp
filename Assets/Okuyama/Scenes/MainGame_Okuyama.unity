@@ -171,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 0}
   ModelSpriteRenderer: {fileID: 0}
-  unitVFXData: {fileID: 0}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 0
   lane: 0
   modelPos: {x: 0, y: 0}
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModelObject: {fileID: 0}
   ModelSpriteRenderer: {fileID: 0}
-  unitVFXData: {fileID: 0}
+  unitVFXData: {fileID: 11400000, guid: ab82902918612b449a98c6bc54937db3, type: 2}
   owner: 1
   lane: 0
   modelPos: {x: 0, y: 0}
