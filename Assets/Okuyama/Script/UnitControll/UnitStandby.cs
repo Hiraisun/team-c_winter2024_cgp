@@ -4,7 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class UnitActionStandby : UnitActionBase
+public class UnitStandby : UnitActionBase
 {
     private bool trigger;
 

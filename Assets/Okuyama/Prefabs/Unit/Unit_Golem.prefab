@@ -202,6 +202,7 @@ MonoBehaviour:
   damageInfo:
     attacker: {fileID: 0}
     damage: 20
+    damageType: 0
     knockbackDamage: 100
   attackDelay: 2
   attackMotionDuration: 3

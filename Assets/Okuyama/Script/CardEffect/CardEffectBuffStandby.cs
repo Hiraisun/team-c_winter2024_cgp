@@ -9,6 +9,6 @@ public class CardEffectBuffStandby : CardEffectBuffBase
     public override void Buff(GameObject unitObject, UnitBase unitBase)
     {
         // コンポーネント付与
-        unitObject.AddComponent<UnitActionStandby>();
+        unitObject.AddComponent<UnitStandby>();
     }
 }
