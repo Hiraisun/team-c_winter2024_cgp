@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81500dc1a85da8749bb9c20e9973923a, type: 3}
   m_Name: Symbol5
   m_EditorClassIdentifier: 
-  symbolName: "\u4E8B\u524D\u6E96\u5099"
-  description: "\u6B21\u306B\u53EC\u559A\u3059\u308B\u30E6\u30CB\u30C3\u30C8\u306B\u4EE5\u4E0B\u3092\u4ED8\u4E0E\uFF1A\n\u300C\u4E8B\u524D\u6E96\u5099\u300D\u3067\u306A\u3044\u30E6\u30CB\u30C3\u30C8\u304C\u53EC\u559A\u3055\u308C\u308B\u307E\u3067\u5F85\u6A5F"
+  symbolName: "\u4ED8\u4E0E: \u5F85\u6A5F"
+  description: "\u6B21\u306B\u53EC\u559A\u3059\u308B\u30E6\u30CB\u30C3\u30C8\u306B\u4EE5\u4E0B\u3092\u4ED8\u4E0E\uFF1A\n\u300C\u5F85\u6A5F\u300D\u3067\u306A\u3044\u30E6\u30CB\u30C3\u30C8\u304C\u53EC\u559A\u3055\u308C\u308B\u307E\u3067\u5F85\u6A5F"
   cardAction: {fileID: 11400000, guid: eb653597cbd24e8449acd2f3ce66f6ff, type: 2}
   symbolSprite: {fileID: 21300000, guid: a273520f86070bb40881c435ad4fe66e, type: 3}

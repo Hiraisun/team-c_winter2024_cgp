@@ -99,7 +99,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: test
+  m_text: "\u4ED8\u4E0E:\u3044\u3051\u306B\u3048"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4406d6c70f18ee44487a17b55b3d16e2, type: 2}
   m_sharedMaterial: {fileID: 4460453459696858312, guid: 4406d6c70f18ee44487a17b55b3d16e2, type: 2}
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3.87
-  m_fontSizeBase: 3.87
+  m_fontSize: 2.43
+  m_fontSizeBase: 2.43
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -0.06503487, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0

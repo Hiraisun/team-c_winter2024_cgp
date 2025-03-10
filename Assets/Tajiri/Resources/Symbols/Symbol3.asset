@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81500dc1a85da8749bb9c20e9973923a, type: 3}
   m_Name: Symbol3
   m_EditorClassIdentifier: 
-  symbolName: "\u96A0\u5BC6"
+  symbolName: "\u4ED8\u4E0E: \u96A0\u5BC6"
   description: "\u6B21\u306B\u53EC\u559A\u3059\u308B\u30E6\u30CB\u30C3\u30C8\u306B\u4EE5\u4E0B\u3092\u4ED8\u4E0E\uFF1A\n\u81EA\u8EAB\u304C\u653B\u6483\u3092\u884C\u3046\u307E\u3067\u3001\u653B\u6483\u5BFE\u8C61\u306B\u306A\u3089\u306A\u3044"
   cardAction: {fileID: 11400000, guid: 5b6366b539027164581604f7a82f8225, type: 2}
   symbolSprite: {fileID: 21300000, guid: c5f7cdaac91ff064bb771127a408d32f, type: 3}
