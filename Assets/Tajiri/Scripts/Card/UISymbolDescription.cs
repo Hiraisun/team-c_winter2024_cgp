@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using System.Threading;
@@ -9,7 +6,7 @@ using Cysharp.Threading.Tasks;
 /// <summary>
 /// 説明用ウィンドウの挙動を扱う
 /// </summary>
-public class CardSymbolUI : MonoBehaviour
+public class UISymbolDescription : MonoBehaviour
 {
     // 説明用ウィンドウ
     private GameObject descriptionWindow => this.gameObject;
@@ -50,12 +47,12 @@ public class CardSymbolUI : MonoBehaviour
     /// <summary>
     /// マウスのホバー(入)のハンドラ
     /// </summary>
-    private void OnMouseEnterListener(UISymbol symbol)
+    private void OnMouseEnterListener(string description)
     {
         cts?.Cancel();
         cts = new CancellationTokenSource();
 
-        descriptionText.text = symbol.SymbolDescription;
+        descriptionText.text = description;
 
         descriptionWindow.SetActive(true);
 
@@ -65,11 +62,11 @@ public class CardSymbolUI : MonoBehaviour
     /// <summary>
     /// マウスのホバー(出)のハンドラ
     /// </summary>
-    private void OnMouseExitListener(UISymbol symbol)
+    private void OnMouseExitListener()
     {
         cts?.Cancel();
 
-        // 待機場所に移動
+        // 非表示にする
         descriptionWindow.SetActive(false);
     }
 

@@ -21,7 +21,7 @@ public class CardManager : MonoBehaviour
     private PlayerResourceManager playerResourceManager;
 
     [SerializeField]
-    private CardSymbolUI cardSymbolUI;
+    private UISymbolDescription uISymbolDescription;
 
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
@@ -80,13 +80,13 @@ public class CardManager : MonoBehaviour
     // 選択中のカード
     private Card selectedCard = null;
 
-    // 初期化処理(CardとCardSymbolUIも初期化)
+    // 初期化処理
     private void Awake()
     {
         InitializeArrays();
         Deck = CardAlgorithms.GenerateDobbleCardsList(SYMBOL_PER_CARD);
         GenerateCardsObj();
-        cardSymbolUI?.Initialize(this);
+        uISymbolDescription.Initialize(this);
     }
 
     // メモリ確保
