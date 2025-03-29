@@ -37,7 +37,7 @@ public class CardSymbolUI : MonoBehaviour
         foreach(Card card in cardCmps)
         {
             int i = 0;
-            foreach(CardSymbol symbol in card.CardSymbolCmps)
+            foreach(UISymbol symbol in card.CardSymbolCmps)
             {
                 symbol.Initialize(card.Symbols[i], cardManager);
                 symbol.AddSymbolMouseEnterListener(OnMouseEnterListener);
@@ -50,13 +50,11 @@ public class CardSymbolUI : MonoBehaviour
     /// <summary>
     /// マウスのホバー(入)のハンドラ
     /// </summary>
-    /// <param name="symbol"></param>
-    private void OnMouseEnterListener(CardSymbol symbol)
+    private void OnMouseEnterListener(UISymbol symbol)
     {
         cts?.Cancel();
         cts = new CancellationTokenSource();
 
-        // �������̏�������
         descriptionText.text = symbol.SymbolDescription;
 
         descriptionWindow.SetActive(true);
@@ -67,8 +65,7 @@ public class CardSymbolUI : MonoBehaviour
     /// <summary>
     /// マウスのホバー(出)のハンドラ
     /// </summary>
-    /// <param name="symbol"></param>
-    private void OnMouseExitListener(CardSymbol symbol)
+    private void OnMouseExitListener(UISymbol symbol)
     {
         cts?.Cancel();
 

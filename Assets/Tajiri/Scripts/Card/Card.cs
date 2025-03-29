@@ -36,10 +36,10 @@ public class Card : MonoBehaviour
         => symbolObjs.Select(obj => obj.GetComponentInChildren<SpriteRenderer>()).ToArray();
 
     // シンボルのコンポーネント
-    private CardSymbol[] cardSymbolCmps
-        => symbolObjs.Select(obj => obj.GetComponent<CardSymbol>()).ToArray();
+    private UISymbol[] cardSymbolCmps
+        => symbolObjs.Select(obj => obj.GetComponent<UISymbol>()).ToArray();
 
-    public CardSymbol[] CardSymbolCmps { get => cardSymbolCmps; }
+    public UISymbol[] CardSymbolCmps { get => cardSymbolCmps; }
 
 
     // カードがクリックされたときのイベント

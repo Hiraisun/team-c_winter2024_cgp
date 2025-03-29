@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
-/// マウスのカーソルがホバーしている
+/// マウスのカーソルがホバーしているときの処理をつかさどるクラス
 /// </summary>
-public class CardCursorRaycast : MonoBehaviour
+public class UIAnimIconHover : MonoBehaviour
 {
     [SerializeField, Header("判定を受けるレイヤー")]
     private LayerMask targetLayer;
@@ -14,34 +12,28 @@ public class CardCursorRaycast : MonoBehaviour
     [SerializeField, Header("カードのフレームタグ")]
     private string cardFrameTag = "CardFrame";
 
-    [SerializeField]
-    private CardIconAnimation cardIconAnimation;
-
-    private event Action<GameObject> OnEnterObj;
-    public void AddOnEnterObj(Action<GameObject> listener) => OnEnterObj += listener;
-
-    private event Action<GameObject> OnExitObj;
-    public void AddOnExitObj(Action<GameObject> listener) => OnExitObj += listener;
-
+    // 前回にRayがHitしたオブジェクト
     private GameObject previousHitObj;
 
+    // マウスカーソルの位置
     private Vector2 mousePos;
-
-    private void Awake()
-    {
-        cardIconAnimation.Initialize(this);
-    }
 
     private void Update()
     {
         OnMouseEnterAndExit();
     }
 
+    /// <summary>
+    /// カーソルがオブジェクトに触れる際の処理
+    /// </summary>
     private void OnMouseEnterAndExit()
     {
+        // マウスカーソルの位置を更新
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 0f, targetLayer);
 
+        // Rayが貫通したオブジェクト
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 0f, targetLayer);
+        
         GameObject newHitObj = null;
 
         foreach (var hit in hits)
@@ -51,7 +43,7 @@ public class CardCursorRaycast : MonoBehaviour
                 newHitObj = hit.collider.gameObject;
                 if (newHitObj != previousHitObj)
                 {
-                    OnEnterObj?.Invoke(newHitObj);
+                    DOScaleOnMouseEnter(newHitObj);
                 }
                 break;
             }
@@ -59,10 +51,21 @@ public class CardCursorRaycast : MonoBehaviour
 
         if (previousHitObj != null && previousHitObj != newHitObj)
         {
-            OnExitObj?.Invoke(previousHitObj);
+            DOScaleOnMouseExit(previousHitObj);
         }
 
         previousHitObj = newHitObj;
     }
 
+    // 拡大
+    private void DOScaleOnMouseEnter(GameObject obj)
+    {
+        obj.transform.DOScale(Vector2.one * 1.1f, 0.2f);
+    }
+
+    // 縮小
+    private void DOScaleOnMouseExit(GameObject obj)
+    {
+        obj.transform.DOScale(Vector2.one , 0.2f);
+    }
 }
