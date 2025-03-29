@@ -30,6 +30,8 @@ public class UISymbol : MonoBehaviour
 
     private BoxCollider2D symbolCollider;   // シンボルの当たり判定
 
+    private bool isInsidePrev = false;
+
     /// <summary>
     /// シンボルのデータを取得
     /// </summary>
@@ -54,7 +56,7 @@ public class UISymbol : MonoBehaviour
 
     private void Update()
     {
-        
+        CursorDetector();
     }
 
     private void CursorDetector()
@@ -63,23 +65,18 @@ public class UISymbol : MonoBehaviour
 
         Vector3 mousePos = UICursor.Instance.CursorPos;
 
-        // 範囲内チェック
-        if (symbolBounds.Contains(mousePos))
+        bool isInsideCrr = symbolBounds.Contains(mousePos);
+
+        if (isInsideCrr && !isInsidePrev)
         {
-            
+            OnSymbolMouseEnter?.Invoke(this);
         }
-    }
+        
+        if (!isInsideCrr && isInsidePrev)
+        {
+            OnSymbolMouseExit?.Invoke(this);
+        }
 
-    // マウスホバーの処理
-    private void OnMouseEnter()
-    {
-        OnSymbolMouseEnter?.Invoke(this);
-        //transform.DOScale(Vector2.one * 1.1f, 0.2f);
-    }
-
-    private void OnMouseExit()
-    {
-        OnSymbolMouseExit?.Invoke(this);
-        //transform.DOScale(Vector2.one, 0.2f);
+        isInsidePrev = isInsideCrr;
     }
 }
