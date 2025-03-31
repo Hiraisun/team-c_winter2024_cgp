@@ -8,15 +8,8 @@ using Unity.VisualScripting;
 /// </summary>
 public class UISymbol : UIBase
 {
-    // マウスのホバー（入）イベント
-    private event Action<string> OnSymbolMouseEnter;
-    public void AddSymbolMouseEnterListener(Action<string> listener)
-        => OnSymbolMouseEnter += listener;
-
-    // マウスのホバー（出）イベント
-    private event Action OnSymbolMouseExit;
-    public void AddSymbolMouseExitListener(Action listener)
-        => OnSymbolMouseExit += listener;
+    // シンボルマネージャー
+    private UISymbolManager uISymbolManager;
 
     // シンボル名を表示するTMP
     private TextMeshPro symbolNameText;
@@ -28,8 +21,12 @@ public class UISymbol : UIBase
     /// <summary>
     /// シンボルのデータを取得
     /// </summary>
-    public void Initialize(int symbolIndex, CardManager cardManager)
+    public void Initialize(int symbolIndex, CardManager cardManager, UISymbolManager uISymbolManager)
     {
+        // UISymbolManagerを取得
+        this.uISymbolManager = uISymbolManager;
+
+        // シンボルの名称、説明文を取得
         this.symbolName = cardManager.AllSymbolData[symbolIndex].symbolName;
         this.symbolDescription = cardManager.AllSymbolData[symbolIndex].description;
 
@@ -38,13 +35,19 @@ public class UISymbol : UIBase
         this.symbolNameText.text = symbolName;
     }
 
+    /// <summary>
+    /// 説明用ウィンドウ表示開始
+    /// </summary>
     protected override void OnCursorEnter()
     {
-        OnSymbolMouseEnter?.Invoke(symbolDescription);
+        uISymbolManager.OnCursorEnter(symbolDescription);
     }
 
+    /// <summary>
+    /// 説明用ウィンドウ表示終了
+    /// </summary>
     protected override void OnCursorExit()
     {
-        OnSymbolMouseExit?.Invoke();
+        uISymbolManager.OnCursorExit();
     }
 }

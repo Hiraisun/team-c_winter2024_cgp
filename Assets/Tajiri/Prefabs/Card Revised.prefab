@@ -462,6 +462,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6882514351394923240, guid: 980040fe4c0f78c409e37535b626d297, type: 3}
+      propertyPath: m_LayerOverridePriority
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8860490553333298192, guid: 980040fe4c0f78c409e37535b626d297, type: 3}
       propertyPath: m_Name
       value: Symbol

@@ -21,7 +21,7 @@ public class CardManager : MonoBehaviour
     private PlayerResourceManager playerResourceManager;
 
     [SerializeField]
-    private UISymbolDescription uISymbolDescription;
+    private UISymbolManager uISymbolManager;
 
     [SerializeField, Header("カードのPrefab")]
     private GameObject cardPrefab;
@@ -86,7 +86,7 @@ public class CardManager : MonoBehaviour
         InitializeArrays();
         Deck = CardAlgorithms.GenerateDobbleCardsList(SYMBOL_PER_CARD);
         GenerateCardsObj();
-        uISymbolDescription.Initialize(this);
+        uISymbolManager.Initialize(this);
     }
 
     // メモリ確保
@@ -110,7 +110,6 @@ public class CardManager : MonoBehaviour
             // 参照取得処理
             cardCmps[i] = cardObjs[i].GetComponent<Card>();
             cardCmps[i].Initialize(i, this);       // 初期化
-            cardCmps[i].AddCardClickedListener(HandleCardClicked); // クリックイベントの登録
         }
     }
 
@@ -240,9 +239,9 @@ public class CardManager : MonoBehaviour
     /// !!! イベントハンドリング (クリック時の処理の振り分け) のみを行う !!!
     /// 気を抜くとここが肥大化する。分散しよう。
     /// 
-    /// ((そもそもイベントである必要がない説がある。))
+    /// ((そもそもイベントである必要がない説がある。)) <= かいぜんしました
     /// </summary>
-    private void HandleCardClicked(Card card)
+    public void OnCardClicked(Card card)
     {
         if (selectedCard == null) // 何も選択中じゃない
         {
@@ -317,6 +316,7 @@ public class CardManagerEditor : Editor
             t.DrawCard();
         }
 
+        // 位置調整用
         if (GUILayout.Button("再配置"))
         {
             //t.RearrangeHand();

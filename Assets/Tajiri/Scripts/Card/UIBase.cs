@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// オブジェクトにカーソルがホバーしているか検知する
+/// オブジェクトにカーソルがホバーしているか検知する。
 /// </summary>
 public class UIBase : MonoBehaviour
 {
-    private BoxCollider2D objCollider;   // シンボルの当たり判定
+    private SpriteRenderer objSpriteRenderer;   // シンボルの当たり判定
     private bool isInsidePrev = false;
 
     private void Awake()
     {
         try
         {
-            objCollider = this.gameObject.GetComponent<BoxCollider2D>();
+            objSpriteRenderer = this.gameObject.GetComponentInChildren<SpriteRenderer>();
         }
         catch
         {
@@ -24,24 +22,21 @@ public class UIBase : MonoBehaviour
 
     private void Update()
     {
-        Bounds bounds = objCollider.bounds;
+        // 境界情報を更新
+        Bounds bounds = objSpriteRenderer.bounds;
 
+        // カーソルの位置
         Vector2 mousePos = UICursor.Instance.CursorPos;
 
+        // 境界内にカーソルが存在すれば真
         bool isInsideCrr = mousePos.x >= bounds.min.x && mousePos.x <= bounds.max.x &&
                     mousePos.y >= bounds.min.y && mousePos.y <= bounds.max.y;
 
         // カーソルが入ったとき
-        if (isInsideCrr && !isInsidePrev)
-        {
-            OnCursorEnter();
-        }
+        if (isInsideCrr && !isInsidePrev) OnCursorEnter();
 
         // カーソルが出たとき
-        if (!isInsideCrr && isInsidePrev)
-        {
-            OnCursorExit();
-        }
+        if (!isInsideCrr && isInsidePrev) OnCursorExit();
 
         isInsidePrev = isInsideCrr;
     }

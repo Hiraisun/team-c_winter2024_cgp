@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// カードオブジェクトの挙動を扱う
+/// UI系はUICardクラスに移動させたい
 /// </summary>
 public class Card : MonoBehaviour
 {
@@ -40,11 +41,6 @@ public class Card : MonoBehaviour
         => symbolObjs.Select(obj => obj.GetComponent<UISymbol>()).ToArray();
 
     public UISymbol[] CardSymbolCmps { get => cardSymbolCmps; }
-
-
-    // カードがクリックされたときのイベント
-    private event Action<Card> OnCardClicked;
-    public void AddCardClickedListener(Action<Card> listener) => OnCardClicked += listener;
 
     // カードマネージャーの参照
     private CardManager cardManager;
@@ -272,15 +268,24 @@ public class Card : MonoBehaviour
         transform.DORotateQuaternion(rotation, duration);
     }
 
-    //カプセル化する意味がなくなる...
-    //public void SetCardNum(int value) => CardNum = value;
-    //public void SetCardInHand(bool value) => IsCardInHand = value;
-    //public void SetCardDescription(string value) => EffectDiscription = value;
-
     // このオブジェクトがクリックされたとき
     private void OnMouseDown()
     {
-        if (IsCardInHand) OnCardClicked?.Invoke(this);
+        cardManager.OnCardClicked(this);
+    }
+
+    // ホバー状態
+    private void OnMouseEnter()
+    {
+        // 拡大
+        this.transform.DOScale(Vector2.one * 1.1f, 0.2f);
+    }
+
+    // ホバー状態解除
+    private void OnMouseExit()
+    {
+        // 元のサイズに縮小
+        this.transform.DOScale(Vector2.one, 0.2f);
     }
 }
 
