@@ -28,7 +28,7 @@ public class UIBase : MonoBehaviour
         // カーソルの位置
         Vector2 mousePos = UICursor.Instance.CursorPos;
 
-        // 境界内にカーソルが存在すれば真
+        // 境界内(X, Yのみ)にカーソルが存在すれば真
         bool isInsideCrr = mousePos.x >= bounds.min.x && mousePos.x <= bounds.max.x &&
                     mousePos.y >= bounds.min.y && mousePos.y <= bounds.max.y;
 

@@ -2,12 +2,19 @@ using TMPro;
 using UnityEngine;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using System.Security;
 
 /// <summary>
 /// シンボルUIと説明用ウィンドウの管理を行う
 /// </summary>
 public class UISymbolManager : MonoBehaviour
 {
+    [SerializeField, Header("カーソルとウィンドウ間の距離")]
+    private Vector2 gap;
+
+    // y軸に対象なgap
+    private Vector2 inversionGap;
+
     // 説明用ウィンドウ
     private GameObject descriptionWindow => this.gameObject;
 
@@ -20,11 +27,15 @@ public class UISymbolManager : MonoBehaviour
     // ホバー中になっているシンボルの数
     private int hoverCount = 0;
 
+    // 画面の幅
+    private float screenWidth;
+
     /// <summary>
     /// 初期化する
     /// </summary>
     public void Initialize(CardManager cardManager)
     {
+        // 説明用文を表示するTMPを取得
         try 
         {
             this.descriptionText = descriptionWindow.GetComponentInChildren<TextMeshProUGUI>();
@@ -49,10 +60,15 @@ public class UISymbolManager : MonoBehaviour
             }
         }
 
+        // y軸に反転したgapを設定
+        inversionGap = new Vector2(-gap.x, gap.y);
+
+        // スクリーンの幅を設定
+        screenWidth = Screen.width;
+
+        // ウィンドウを非表示
         descriptionWindow.SetActive(false);
     } 
-
-    // OnCursorEnter → OnCursorExitの順で実行しないと表示されなくなります。
 
     /// <summary>
     /// マウスがホバー状態になったときに呼び出す
@@ -105,10 +121,27 @@ public class UISymbolManager : MonoBehaviour
         while (!token.IsCancellationRequested)
         {
             // 所定の位置にウィンドウを表示
-            descriptionWindow.transform.position = Input.mousePosition + new Vector3(200, 0 , 0);
+            descriptionWindow.transform.position = CalcWindowPos();
 
             // 毎フレーム更新
             await UniTask.Yield(PlayerLoopTiming.Update, token);
         }
+    }
+
+    private Vector2 CalcWindowPos()
+    {
+        // カーソルの位置
+        Vector2 mousePos = Input.mousePosition;
+
+        // ウィンドウの表示位置
+        Vector2 windowPos;
+
+        // スクリーンの左側にカーソルがあるとき
+        if (mousePos.x < screenWidth / 2) windowPos = mousePos + gap;
+
+        // スクリーンの右側にカーソルがあるとき
+        else windowPos = mousePos + inversionGap;
+
+        return windowPos;
     }
 }

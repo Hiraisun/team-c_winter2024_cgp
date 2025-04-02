@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee0e6b6d47d1664c978e2e5ed9ff471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gap: {x: 200, y: 0}
 --- !u!114 &401299743
 MonoBehaviour:
   m_ObjectHideFlags: 0
