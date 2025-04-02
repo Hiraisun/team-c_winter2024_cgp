@@ -17,6 +17,9 @@ public class UISymbolManager : MonoBehaviour
     // キャンセルトークン
     private CancellationTokenSource cts;
 
+    // ホバー中になっているシンボルの数
+    private int hoverCount = 0;
+
     /// <summary>
     /// 初期化する
     /// </summary>
@@ -45,25 +48,35 @@ public class UISymbolManager : MonoBehaviour
                 i++;
             }
         }
+
+        descriptionWindow.SetActive(false);
     } 
+
+    // OnCursorEnter → OnCursorExitの順で実行しないと表示されなくなります。
 
     /// <summary>
     /// マウスがホバー状態になったときに呼び出す
     /// </summary>
     public void OnCursorEnter(string description)
     {
-        // 前回の待機を解除
-        cts?.Cancel();
-        cts = new CancellationTokenSource();
+        // 最初にホバー状態になるとき
+        if (hoverCount == 0)
+        {
+            // 前回の待機を解除
+            cts?.Cancel();
+            cts = new CancellationTokenSource();
+
+            // ウィンドウを表示
+            descriptionWindow.SetActive(true);
+
+            // 解除まで待機
+            FollowCursor(cts.Token).Forget();
+        }
 
         // TMPを更新
         descriptionText.text = description;
 
-        // 説明用ウィンドウを表示
-        descriptionWindow.SetActive(true);
-
-        // 解除まで待機
-        FollowCursor(cts.Token).Forget();
+        hoverCount++;
     }
 
     /// <summary>
@@ -71,11 +84,17 @@ public class UISymbolManager : MonoBehaviour
     /// </summary>
     public void OnCursorExit()
     {
-        // 解除
-        cts?.Cancel();
+        hoverCount--;
 
-        // 説明用ウィンドウを非表示
-        descriptionWindow.SetActive(false);
+        // ホバー中のオブジェクトが０になるとき
+        if (hoverCount <= 0)
+        {
+            // ループを終了
+            cts?.Cancel();
+
+            // ウィンドウを非表示
+            descriptionWindow.SetActive(false);
+        }
     }
 
     /// <summary>

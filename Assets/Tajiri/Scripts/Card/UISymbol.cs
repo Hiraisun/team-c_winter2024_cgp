@@ -40,6 +40,7 @@ public class UISymbol : UIBase
     /// </summary>
     protected override void OnCursorEnter()
     {
+        Debug.Log(symbolName + " has been Entered.");
         uISymbolManager.OnCursorEnter(symbolDescription);
     }
 
@@ -48,6 +49,7 @@ public class UISymbol : UIBase
     /// </summary>
     protected override void OnCursorExit()
     {
+        Debug.Log(symbolName + " has been Exited.");
         uISymbolManager.OnCursorExit();
     }
 }

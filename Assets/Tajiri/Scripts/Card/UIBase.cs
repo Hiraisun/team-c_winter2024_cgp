@@ -16,7 +16,7 @@ public class UIBase : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("UISymbol : " + this.gameObject.name + "のBoxCollider2Dを取得できません。");
+            Debug.LogWarning("UISymbol : " + this.gameObject.name + "のSpriteRendererを取得できません。");
         }
     }
 

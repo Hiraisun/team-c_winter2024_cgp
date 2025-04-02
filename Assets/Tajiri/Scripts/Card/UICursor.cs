@@ -2,6 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// マウス座標を取得するシングルトンクラス
+/// 13個のシンボルが毎フレームマウス位置を取得してワールド座標に変換する処理はよくないかなと思ったので作りました。
 /// </summary>
 public class UICursor : MonoBehaviour
 {
