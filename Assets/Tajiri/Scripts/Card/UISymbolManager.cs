@@ -73,6 +73,9 @@ public class UISymbolManager : MonoBehaviour
     {
         // 解除
         cts?.Cancel();
+
+        // 説明用ウィンドウを非表示
+        descriptionWindow.SetActive(false);
     }
 
     /// <summary>
@@ -88,8 +91,5 @@ public class UISymbolManager : MonoBehaviour
             // 毎フレーム更新
             await UniTask.Yield(PlayerLoopTiming.Update, token);
         }
-
-        // 説明用ウィンドウを非表示
-        descriptionWindow.SetActive(false);
     }
 }
